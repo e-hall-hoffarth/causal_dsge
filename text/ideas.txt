@@ -1,0 +1,20 @@
+Ideas for bayesian network project:
+
+Find way to deal with dynamic nature of relationships in data.
+	Dynamic Bayesian Network
+	Include lags for any variables that fail a unit root test
+
+Find way (if possible) to deal with simultaneous nature of relationships between some variables. 
+
+Sample from bayesian network (rbn) and compare generated samples to input data in some meaningful way. Perhaps use to compute IRFs.
+
+Experiment more with score based hybrid learning methods.
+
+Reasonable use of blacklist/whitelist to get expected graphs.
+
+Use as.lm to express all endogenous (non-root) variables as a functions of the exogenous (root) variables. This should create something equivalent to a RE solution. Try to get CI for the parameter estimates so we can test whether it has indeed identified the correct solution.
+
+Identifiability assumptions: Under what conditions (on the underlying DSGE) will it be possible to identify the structural model correctly?
+
+Better performance using log variables? Why might that be the case if we take a linear approximation anyway?
+
