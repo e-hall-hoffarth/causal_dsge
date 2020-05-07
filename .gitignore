@@ -1,0 +1,15 @@
+/data/*_endo.csv
+/data/*_exo.csv
+/data/.RData
+/data/.Rhistory
+/dynare/*
+!/dynare/*.mod
+!/dynare/usmodel_data.mat
+!/dynare/usmodel_shock_decomp_mode.mat
+/text/latex/*
+!/text/latex/images
+!/text/latex/images/*
+!/text/latex/*.tex
+!/text/latex/*.bib
+/R/.RData
+/R/.Rhistory

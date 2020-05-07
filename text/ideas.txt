@@ -16,5 +16,7 @@ Use as.lm to express all endogenous (non-root) variables as a functions of the e
 
 Identifiability assumptions: Under what conditions (on the underlying DSGE) will it be possible to identify the structural model correctly?
 
+Relate restrictions assumed by DAGs to Choelesky decomposition in a generalised way.
+
 Better performance using log variables? Why might that be the case if we take a linear approximation anyway?
 

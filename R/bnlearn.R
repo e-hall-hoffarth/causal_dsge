@@ -23,6 +23,7 @@ tests <- c(
   'smc-mi-g',
   'mi-g-sh'
 )
+graph.par(list(nodes=list(fontsize=12)))
 
 ### Baseline RBC (iid shocks)
 data <- read.csv('rbc.csv')
@@ -53,6 +54,8 @@ wl <- names(data)
 
 data <- data[,colnames(data) %in% wl & !(colnames(data) %in% bl)]
 
+# Get short names
+names(data) <- sapply(names(data), function(x) substr(x, nchar(x), nchar(x)))
 
 # Split for holdout
 train <- data[1:floor(0.8*nrow(data)),]
@@ -65,12 +68,13 @@ test <- data[(floor(0.8*nrow(data))+1):nrow(data),]
 # }
 
 # Fit models using different structure learning methods
+graph.par(list(nodes=list(lty="solid", fontsize=14)))
 # Constraint Based
 pc_model <- pc.stable(data, cluster = cl)
 graphviz.plot(pc_model)
 root.nodes(pc_model)
 pc_fitted <- bn.fit(pc_model, train)
- 
+
 # Score Based
 hc_model <- hc(data)
 graphviz.plot(hc_model)
@@ -82,6 +86,8 @@ hybrid_model <- rsmax2(data)
 graphviz.plot(hybrid_model)
 root.nodes(hybrid_model)
 hybrid_fitted <- bn.fit(hybrid_model, train)
+
+dev.print(png, "../text/latex/images/rbc_dag.png", width=500, height=350)
 
 # Generate and IRF implied by the model
 # TODO: Convert this into a function
@@ -119,28 +125,69 @@ irf$t <- 1:irf_length
 irf = melt(irf, id=c("t"))
 ggplot(irf) + 
   geom_point(aes(x = t, y = value, color=variable), size = 1)
+ggsave("../text/latex/images/rbc_irf.png")
+
+# V struct example
+e <- empty.graph(c('x', 'y', 'z'))
+collider_arcs <- matrix(c('x', 'y', 'z', 'y'),
+                        ncol=2, byrow=T,
+                        dimnames = list(NULL, c('from', 'to')))
+chain_arcs <- matrix(c('x', 'y', 'y', 'z'),
+                     ncol=2, byrow=T,
+                     dimnames = list(NULL, c('from', 'to')))
+fork_arcs <- matrix(c('y', 'x', 'y', 'z'),
+                    ncol=2, byrow=T,
+                    dimnames = list(NULL, c('from', 'to')))
+collider <- e 
+chain <- e
+fork <- e
+
+arcs(collider) <- collider_arcs
+arcs(chain) <- chain_arcs
+arcs(fork) <- fork_arcs
+
+graph.par(list(nodes=list(lty="solid", fontsize=8)))
+graphviz.plot(collider)
+dev.print(png, "../text/latex/images/collider.png", width=300, height=200)
+graphviz.plot(chain)
+dev.print(png, "../text/latex/images/chain.png", width=300, height=200)
+graphviz.plot(fork)
+dev.print(png, "../text/latex/images/fork.png", width=300, height=200)
 
 
-### Very simple confounded example
-# Setup
-n <- 10000
-z <- rnorm(n)
-w <- rnorm(n)
-u <- rnorm(n, 0, 10)
-v <- rnorm(n, 0, 1)
-x <- 2*z + 2*w + u
-y <- 2*x + w + v
-iv_data <- data.frame(z, w, u, v, x, y)
-names(iv_data) <- c("z", "w", "u", "v", "x", "y")
-# iv_data <- iv_data[,!(names(iv_data) == "w")]
-iv_train <- iv_data[1:floor(0.8*nrow(iv_data)),]
-iv_test <- iv_data[(floor(0.8*nrow(iv_data))+1):nrow(iv_data),]
+# Traffic example
+e <- empty.graph(c('rush hour','bad weather','accident','traffic jam','sirens'))
+# Figure 2: Empty Graph
+graph.par(list(nodes=list(lty="solid", fontsize=14)))
+graphviz.plot(e)
+dev.print(png, "../text/latex/images/trafficjam_unfit.png", width=500, height=350)
 
-# Structure Learning
-iv_model <-pc.stable(iv_train, cluster = cl, alpha=0.05)
-graphviz.plot(iv_model)
-root.nodes(iv_model)
+traffic_arcs <- matrix(c('rush hour', 'traffic jam', 
+                         'bad weather', 'traffic jam',
+                         'accident', 'traffic jam',
+                         'bad weather', 'accident',
+                         'accident', 'sirens'),
+                       ncol=2, byrow=T,
+                       dimnames = list(NULL, c('from', 'to')))
+traffic <- e
+arcs(traffic) <- traffic_arcs
+# Figure 1: Example BN
+graph.par(list(nodes=list(lty="solid", fontsize=14)))
+graphviz.plot(traffic)
+dev.print(png, "../text/latex/images/trafficjam.png", width=500, height=350)
 
-# Parameter Learning
-iv_model <- bn.fit(iv_model, iv_train)
-iv_model
+e <- empty.graph(c('rush hour','bad weather','do(accident = 1)','traffic jam','sirens'))
+do_arcs <- matrix(c('rush hour', 'traffic jam', 
+                    'bad weather', 'traffic jam',
+                    'do(accident = 1)', 'traffic jam',
+                    'do(accident = 1)', 'sirens'),
+                   ncol=2, byrow=T,
+                   dimnames = list(NULL, c('from', 'to')))
+do <- e
+arcs(do) <- do_arcs
+# Figure 5 (right side): Intervention
+graph.par(list(nodes=list(lty="solid", fontsize=14)))
+graphviz.plot(do)
+dev.print(png, "../text/latex/images/trafficjam_intervention.png", width=500, height=350)
+
+
