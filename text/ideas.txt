@@ -20,3 +20,6 @@ Relate restrictions assumed by DAGs to Choelesky decomposition in a generalised 
 
 Better performance using log variables? Why might that be the case if we take a linear approximation anyway?
 
+Write liturature review, in particular relating to other work in economics.
+
+Consider higher-order v-strucs to see if more could be learned from them.
