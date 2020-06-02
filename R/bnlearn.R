@@ -190,4 +190,37 @@ graph.par(list(nodes=list(lty="solid", fontsize=14)))
 graphviz.plot(do)
 dev.print(png, "../text/latex/images/trafficjam_intervention.png", width=500, height=350)
 
+# Figure 4: Potential Outcomes
+e <- empty.graph(c('w','x','y(1)','y(0)','y'))
+arcs <- matrix(c('w', 'x',
+                 'w', 'y(1)',
+                 'w', 'y(0)',
+                 'x', 'y',
+                 'y(1)', 'y',
+                 'y(0)', 'y'),
+               ncol=2, byrow=T,
+               dimnames = list(NULL, c('from', 'to')))
+g <- e
+arcs(g) <- arcs
+graphviz.plot(g)
+dev.print(png, "../text/latex/images/potential_outcomes_dag.png", width=500, height=350)
 
+### Chain graph example
+sigma_s = 1
+sigma_d = 1
+alpha_x = 1 
+alpha_y = 1
+beta_xs = 1
+beta_xd = 1 
+beta_ys = 1
+beta_yd = 1
+
+z_s <- rnorm(10000, 0, sigma_s)
+z_d <- rnorm(10000, 0, sigma_d)
+c <- alpha_x + beta_xs * z_s + beta_xd * z_d
+y <- alpha_y + beta_ys * z_s + beta_yd * z_d
+data <- data.frame(z_s, z_d, c, y)
+
+model <- pc.stable(data)
+graphviz.plot(model)
+bn.fit(model, data)
