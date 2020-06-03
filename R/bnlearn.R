@@ -205,22 +205,30 @@ arcs(g) <- arcs
 graphviz.plot(g)
 dev.print(png, "../text/latex/images/potential_outcomes_dag.png", width=500, height=350)
 
-### Chain graph example
-sigma_s = 1
-sigma_d = 1
-alpha_x = 1 
-alpha_y = 1
-beta_xs = 1
-beta_xd = 1 
-beta_ys = 1
-beta_yd = 1
+# Figure 6: Simultaneity
+# Undirected
+e <- empty.graph(c('x(d)','x(s)','q','p'))
+arcs <- matrix(c('x(d)', 'q',
+                 'x(s)', 'p',
+                 'q', 'p',
+                 'p', 'q'),
+               ncol=2, byrow=T,
+               dimnames = list(NULL, c('from', 'to')))
+g <- e
+arcs(g) <- arcs
+graph.par(list(nodes=list(fontsize=12)))
+graphviz.plot(g, layout = "circo")
+dev.print(png, "../text/latex/images/simultaneous.png", width=500, height=350)
 
-z_s <- rnorm(10000, 0, sigma_s)
-z_d <- rnorm(10000, 0, sigma_d)
-c <- alpha_x + beta_xs * z_s + beta_xd * z_d
-y <- alpha_y + beta_ys * z_s + beta_yd * z_d
-data <- data.frame(z_s, z_d, c, y)
-
-model <- pc.stable(data)
-graphviz.plot(model)
-bn.fit(model, data)
+# Directed
+arcs <- matrix(c('x(d)', 'q',
+                 'x(s)', 'p',
+                 'x(d)', 'p',
+                 'x(s)', 'q'),
+               ncol=2, byrow=T,
+               dimnames = list(NULL, c('from', 'to')))
+g <- e
+arcs(g) <- arcs
+graph.par(list(nodes=list(fontsize=12)))
+graphviz.plot(g, layout = "dot")
+dev.print(png, "../text/latex/images/directed.png", width=500, height=350)
