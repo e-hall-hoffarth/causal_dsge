@@ -26,8 +26,8 @@ tests <- c(
 graph.par(list(nodes=list(fontsize=12)))
 
 ### Baseline RBC (iid shocks)
+# data <- read.csv('rbc.csv')
 data <- read.csv('rbc.csv')
-# data <- read.csv('gali.csv')
 # data <- read.csv('sw.csv')
 data <- as.data.frame(sapply(data, as.numeric))
 
@@ -38,12 +38,22 @@ bl <- c('y', 'k', 'c', 'l', 'w', 'i', 'X', 'eps_g', 'eps_z')
 wl <- names(data)
 
 # Gali
-# bl <- c('X', 'log_w', 'log_n', 'log_z', 'log_y', 'log_p', 'log_a', 
-#         'log_m_nominal', 's', 'x_aux_1', 'x_aux_2', 'money_growth_ann', 
-#         'i_ann', 'pi_ann', 'r_real_ann', 'realinterest', 'pi_star',
-#         'eps_z', 'eps_a', 'eps_m')
-# data$"z-1" <- c(NA, data$z[1:nrow(data)-1])
+# bl <- c(# 'x_aux_1', 'x_aux_2', 'pi_star', 's',
+#         'X', 'w', 'n', 'z', 'y', 'c','p', 'a', 'm', 'm_nominal', 
+#         # 'X', 'log_w', 'log_n', 'log_z', 'log_y', 'c','log_p', 'log_a', 'log_m_nominal', 
+#         'money_growth', 'i', 'pi', 'r', 'realinterest')
+#         # 'money_growth_ann', 'i_ann', 'pi_ann', 'r_real_ann', 'realinterest')
+        
+# data$"log_p-1" <- c(NA, data$log_p[1:nrow(data)-1])
+# data$"log_a-1" <- c(NA, data$log_a[1:nrow(data)-1])
+# data$"log_z-1" <- c(NA, data$log_z[1:nrow(data)-1])
+# data$"s-1" <- c(NA, data$s[1:nrow(data)-1])
+# data$"mg_ann-1" <- c(NA, data$money_growth_ann[1:nrow(data)-1])
+
+# data$"p-1" <- c(NA, data$p[1:nrow(data)-1])
 # data$"a-1" <- c(NA, data$a[1:nrow(data)-1])
+# data$"z-1" <- c(NA, data$z[1:nrow(data)-1])
+# data$"s-1" <- c(NA, data$s[1:nrow(data)-1])
 # data$"mg-1" <- c(NA, data$money_growth[1:nrow(data)-1])
 # data <- data[2:nrow(data),]
 # wl <- names(data)
@@ -232,3 +242,47 @@ arcs(g) <- arcs
 graph.par(list(nodes=list(fontsize=12)))
 graphviz.plot(g, layout = "dot")
 dev.print(png, "../text/latex/images/directed.png", width=500, height=350)
+
+# Figure 4: 
+# Front-door criterion
+e <- empty.graph(c('x','y','z', 'u'))
+arcs <- matrix(c('x', 'z',
+                 'z', 'y',
+                 'u', 'x',
+                 'u', 'y'),
+               ncol=2, byrow=T,
+               dimnames = list(NULL, c('from', 'to')))
+g <- e
+arcs(g) <- arcs
+graph.par(list(nodes=list(fontsize=12)))
+graphviz.plot(g, layout = "circo")
+dev.print(png, "../text/latex/images/frontdoor.png", width=500, height=350)
+
+# Instrumental variables
+arcs <- matrix(c('z', 'x',
+                 'x', 'y',
+                 'u', 'x',
+                 'u', 'y'),
+               ncol=2, byrow=T,
+               dimnames = list(NULL, c('from', 'to')))
+g <- e
+arcs(g) <- arcs
+graph.par(list(nodes=list(fontsize=12)))
+graphviz.plot(g, layout = "neato")
+dev.print(png, "../text/latex/images/iv.png", width=500, height=350)
+
+
+# Supply-Demand Example:
+e <- empty.graph(c('x(d)','x(s)','d','s', 'p', 'q'))
+arcs <- matrix(c('x(d)', 'd',
+                 'x(s)', 's',
+                 's', 'p',
+                 's', 'q',
+                 'd', 'p',
+                 'd', 'q'),
+               ncol=2, byrow=T,
+               dimnames = list(NULL, c('from', 'to')))
+g <- e
+arcs(g) <- arcs
+graph.par(list(nodes=list(fontsize=12)))
+graphviz.plot(g, layout = "circo")
