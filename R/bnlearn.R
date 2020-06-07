@@ -25,41 +25,46 @@ tests <- c(
 )
 graph.par(list(nodes=list(fontsize=12)))
 
-### Baseline RBC (iid shocks)
-# data <- read.csv('rbc.csv')
-data <- read.csv('rbc.csv')
-# data <- read.csv('sw.csv')
-data <- as.data.frame(sapply(data, as.numeric))
-
+### Load and Transform Data
 # RBC
-bl <- c('y', 'k', 'c', 'l', 'w', 'i', 'X', 'eps_g', 'eps_z')
+# data <- read.csv('rbc.csv')
+# data <- as.data.frame(sapply(data, as.numeric))
+# bl <- c('y', 'k', 'c', 'l', 'w', 'i', 'X', 'eps_g', 'eps_z')
 # data$"log_k-1" <- c(NA, data$log_k[1:nrow(data)-1])
-# data <- data[2:nrow(data),]
-wl <- names(data)
-
-# Gali
-# bl <- c(# 'x_aux_1', 'x_aux_2', 'pi_star', 's',
-#         'X', 'w', 'n', 'z', 'y', 'c','p', 'a', 'm', 'm_nominal', 
-#         # 'X', 'log_w', 'log_n', 'log_z', 'log_y', 'c','log_p', 'log_a', 'log_m_nominal', 
-#         'money_growth', 'i', 'pi', 'r', 'realinterest')
-#         # 'money_growth_ann', 'i_ann', 'pi_ann', 'r_real_ann', 'realinterest')
-        
-# data$"log_p-1" <- c(NA, data$log_p[1:nrow(data)-1])
-# data$"log_a-1" <- c(NA, data$log_a[1:nrow(data)-1])
-# data$"log_z-1" <- c(NA, data$log_z[1:nrow(data)-1])
-# data$"s-1" <- c(NA, data$s[1:nrow(data)-1])
-# data$"mg_ann-1" <- c(NA, data$money_growth_ann[1:nrow(data)-1])
-
-# data$"p-1" <- c(NA, data$p[1:nrow(data)-1])
-# data$"a-1" <- c(NA, data$a[1:nrow(data)-1])
-# data$"z-1" <- c(NA, data$z[1:nrow(data)-1])
-# data$"s-1" <- c(NA, data$s[1:nrow(data)-1])
-# data$"mg-1" <- c(NA, data$money_growth[1:nrow(data)-1])
 # data <- data[2:nrow(data),]
 # wl <- names(data)
 
+# Gali
+data <- read.csv('gali.csv')
+data <- as.data.frame(sapply(data, as.numeric))
+bl <- c('X', 'pi', 'r_real_ann', 'pi_ann', 'i_ann', 'm_growth_ann', 'r_nat_ann', 'a', 'nu', 'z')
+# data$"nu-1" <- c(NA, data$nu[1:nrow(data)-1])
+# data$"a-1" <- c(NA, data$a[1:nrow(data)-1])
+# data$"z-1" <- c(NA, data$z[1:nrow(data)-1])
+# data$"p-1" <- c(NA, data$p[1:nrow(data)-1])
+# data$"y-1" <- c(NA, data$y[1:nrow(data)-1])
+# data$"i-1" <- c(NA, data$i[1:nrow(data)-1])
+# data$"m_real-1" <- c(NA, data$m_real[1:nrow(data)-1])
+# data <- data[2:nrow(data),]
+wl <- names(data)
+
 # Smets and Wouters
+# data <- read.csv('sw.csv')
+# data <- as.data.frame(sapply(data, as.numeric))
 # bl <- c('X')
+# wl <- names(data)
+
+# Ireland (2004)
+# data <- read.csv('ireland.csv')
+# data <- as.data.frame(sapply(data, as.numeric))
+# bl <- c('X', 'z', 'gobs', 'robs', 'piobs', 'r_annual', 'pi_annual')
+# data$"a-1" <- c(NA, data$a[1:nrow(data)-1])
+# data$"e-1" <- c(NA, data$e[1:nrow(data)-1])
+# data$"x-1" <- c(NA, data$x[1:nrow(data)-1])
+# data$"pihat-1" <- c(NA, data$pihat[1:nrow(data)-1])
+# data$"yhat-1" <- c(NA, data$yhat[1:nrow(data)-1])
+# data$"rhat-1" <- c(NA, data$rhat[1:nrow(data)-1])
+# data <- data[2:nrow(data),]
 # wl <- names(data)
 
 data <- data[,colnames(data) %in% wl & !(colnames(data) %in% bl)]
@@ -71,13 +76,14 @@ names(data) <- sapply(names(data), function(x) substr(x, nchar(x), nchar(x)))
 train <- data[1:floor(0.8*nrow(data)),]
 test <- data[(floor(0.8*nrow(data))+1):nrow(data),]
 
+# Try all conditional independence tests for structure learning
 # for(test in tests){
 #   pc_model <- pc.stable(data, cluster = cl, test=test)
 #   print(test)
 #   print(root.nodes(pc_model))
 # }
 
-# Fit models using different structure learning methods
+### Fit models using different structure learning methods
 graph.par(list(nodes=list(lty="solid", fontsize=14)))
 # Constraint Based
 pc_model <- pc.stable(data, cluster = cl)
@@ -92,7 +98,7 @@ root.nodes(hc_model)
 hc_fitted <- bn.fit(hc_model, train)
 
 # Hybrid
-hybrid_model <- rsmax2(data)
+hybrid_model <- rsmax2(data, restrict = 'pc.stable')
 graphviz.plot(hybrid_model)
 root.nodes(hybrid_model)
 hybrid_fitted <- bn.fit(hybrid_model, train)
