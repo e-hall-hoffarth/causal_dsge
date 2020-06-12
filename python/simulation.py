@@ -7,9 +7,12 @@
 from pynare import pynare
 import numpy as np
 import pandas as pd
-import sys
+import sys, os
 
-sim = pynare(sys.argv[1])
+try:
+    sim = pynare(sys.argv[1])
+except Exception as e:
+    os._exit(1)
 
 endo_names = sim.workspace['M_']['endo_names']
 exo_names = sim.workspace['M_']['exo_names']
@@ -20,3 +23,4 @@ exo = sim.oo_.exo_simul
 data = pd.DataFrame(np.append(endo, exo, axis=1), columns=names)
 
 data.to_csv(sys.argv[2])
+os._exit(0)

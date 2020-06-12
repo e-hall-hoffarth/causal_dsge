@@ -120,6 +120,7 @@ betta  = 0.99;
 eta  =3.77; %footnote 11, p. 115
 alppha=1/4;
 epsilon=9;
+sig = 10;
 
 %----------------------------------------------------------------
 % First Order Conditions
@@ -206,12 +207,12 @@ end;
 
 shocks;
     @#if money_growth_rule==0
-        var eps_nu = 0.25^2; //1 standard deviation shock of 25 basis points, i.e. 1 percentage point annualized
+        var eps_nu = sig^2; //1 standard deviation shock of 25 basis points, i.e. 1 percentage point annualized
     @#else   
-        var eps_m = 0.25^2; //1 standard deviation shock of 25 basis points, i.e. 1 percentage point annualized
+        var eps_m = sig^2; //1 standard deviation shock of 25 basis points, i.e. 1 percentage point annualized
     @#endif
-    var eps_z = 1^2;
-    var eps_a = 1^2;
+    var eps_z = sig^2;
+    var eps_a = sig^2;
 end;
 
 %----------------------------------------------------------------
@@ -226,9 +227,9 @@ check;
 % 3.4, p. 76 (money supply rule)
 %----------------------------------------------------------------
 @#if money_growth_rule==0
-    stoch_simul(order = 1,irf=0,periods=200);
+    stoch_simul(order = 1,irf=0,periods=10000);
 @#else
-    stoch_simul(order = 1,irf=0,periods=200);
+    stoch_simul(order = 1,irf=0,periods=10000);
 @#endif
 
 
@@ -245,7 +246,7 @@ check;
 % var eps_z  = 0.5^2; //unit shock to technology
 % end;
 
-% stoch_simul(order = 1,irf=15,irf_plot_threshold=0);
+% stoch_simul(order = 1,irf=0,periods=10000);
 
 
 %----------------------------------------------------------------
@@ -261,4 +262,4 @@ check;
 % var eps_a  = 1^2; //unit shock to technology
 % end;
 
-% stoch_simul(order = 1,irf=0,periods=200);
+% stoch_simul(order = 1,irf=0,periods=10000);

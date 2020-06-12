@@ -6,6 +6,8 @@ library(combinat)
 library(Rgraphviz)
 library(ggplot2)
 library(reshape2)
+library(corrplot)
+library(caret)
 assignInNamespace("supported.clusters", 
                   c("cluster", "MPIcluster",  
                     "PVMcluster", "SOCKcluster"), 
@@ -35,9 +37,12 @@ graph.par(list(nodes=list(fontsize=12)))
 # wl <- names(data)
 
 # Gali
-data <- read.csv('gali.csv')
-data <- as.data.frame(sapply(data, as.numeric))
-bl <- c('X', 'pi', 'r_real_ann', 'pi_ann', 'i_ann', 'm_growth_ann', 'r_nat_ann', 'a', 'nu', 'z')
+# data <- read.csv('gali.csv')
+# data <- as.data.frame(sapply(data, as.numeric))
+# bl <- c('X', 'pi_ann', 'r_nat_ann', 'r_real_ann', 'c', 'm_growth_ann',
+#         'y_gap', 'i_ann', 'mu_hat', 'yhat', 'r_real', 'w_real', 'mu',
+#         'pi', 'y_nat', 'r_nat', 'p',
+#         'eps_nu', 'eps_z', 'eps_a')
 # data$"nu-1" <- c(NA, data$nu[1:nrow(data)-1])
 # data$"a-1" <- c(NA, data$a[1:nrow(data)-1])
 # data$"z-1" <- c(NA, data$z[1:nrow(data)-1])
@@ -46,12 +51,6 @@ bl <- c('X', 'pi', 'r_real_ann', 'pi_ann', 'i_ann', 'm_growth_ann', 'r_nat_ann',
 # data$"i-1" <- c(NA, data$i[1:nrow(data)-1])
 # data$"m_real-1" <- c(NA, data$m_real[1:nrow(data)-1])
 # data <- data[2:nrow(data),]
-wl <- names(data)
-
-# Smets and Wouters
-# data <- read.csv('sw.csv')
-# data <- as.data.frame(sapply(data, as.numeric))
-# bl <- c('X')
 # wl <- names(data)
 
 # Ireland (2004)
@@ -69,8 +68,11 @@ wl <- names(data)
 
 data <- data[,colnames(data) %in% wl & !(colnames(data) %in% bl)]
 
-# Get short names
-names(data) <- sapply(names(data), function(x) substr(x, nchar(x), nchar(x)))
+# Find and eliminate colinear variables
+# indexes_to_drop should be empty
+corrplot(cor(data))
+names(data[,findCorrelation(cor(data), cutoff = 0.999)])
+names(data[,findCorrelation(cor(data), cutoff = 0.95)])
 
 # Split for holdout
 train <- data[1:floor(0.8*nrow(data)),]
@@ -90,7 +92,7 @@ pc_model <- pc.stable(data, cluster = cl)
 graphviz.plot(pc_model)
 root.nodes(pc_model)
 pc_fitted <- bn.fit(pc_model, train)
-
+  
 # Score Based
 hc_model <- hc(data)
 graphviz.plot(hc_model)
@@ -292,3 +294,8 @@ g <- e
 arcs(g) <- arcs
 graph.par(list(nodes=list(fontsize=12)))
 graphviz.plot(g, layout = "circo")
+
+
+
+
+
