@@ -38,16 +38,16 @@ var y           ${y}$ (long_name='output')
     k           ${k}$ (long_name='capital')
     l           ${l}$ (long_name='hours')
     z           ${z}$ (long_name='TFP')
-    ghat        ${\hat g}$ (long_name='government spending')
+    g           ${g}$ (long_name='government spending')
     r           ${r}$ (long_name='annualized interest rate')
     w           ${w}$ (long_name='real wage')
     i           ${i}$ (long_name='investment') 
-    log_y       ${\log(y)}$ (long_name='log output')
-    log_k       ${\log(k)}$ (long_name='log capital stock')
-    log_c       ${\log(c)}$ (long_name='log consumption')
-    log_l       ${\log(l)}$ (long_name='log labor')
-    log_w       ${\log(w)}$ (long_name='log real wage')
-    log_i       ${\log(i)}$ (long_name='log investment')
+//    log_y       ${\log(y)}$ (long_name='log output')
+//    log_k       ${\log(k)}$ (long_name='log capital stock')
+//    log_c       ${\log(c)}$ (long_name='log consumption')
+//    log_l       ${\log(l)}$ (long_name='log labor')
+//    log_w       ${\log(w)}$ (long_name='log real wage')
+//    log_i       ${\log(i)}$ (long_name='log investment')
     ;
 
 varexo eps_z ${\varepsilon_z}$ (long_name='TFP shock')
@@ -75,18 +75,16 @@ parameters
 //****************************************************************************
 
 // sigma=1;                // risk aversion
-sigma=20;
+sigma=1;
 alpha= 0.33;            // capital share
 i_y=0.25;               // investment-output ration
 k_y=10.4;               // capital-output ratio
 x=0.0055;               // technology growth (per capita output growth)
 n=0.0027;               // population growth
-// rhoz=0.97;              //technology autocorrelation base on linearly detrended Solow residual
-// rhog=0.989;
-rhoz=0;
-rhog=0;
+rhoz=0.97;              //technology autocorrelation base on linearly detrended Solow residual
+rhog=0.989;
+// rhog=0.97;
 gshare=0.2038;          //government spending share
-
 
 //****************************************************************************
 //enter the model equations (model-block)
@@ -101,7 +99,7 @@ psi*c^sigma*1/(1-l)=w;
 [name='Law of motion capital'] 
 gammax*k=(1-delta)*k(-1)+i;
 [name='resource constraint']
-y=i+c+g_ss*exp(ghat);
+y=i+c+g_ss*exp(g);
 [name='production function']
 y=exp(z)*k(-1)^alpha*l^(1-alpha);
 [name='real wage/firm FOC labor']
@@ -111,19 +109,19 @@ r=4*alpha*y/k(-1);
 [name='exogenous TFP process']
 z=rhoz*z(-1)+eps_z;
 [name='government spending process']
-ghat=rhog*ghat(-1)+eps_g;
-[name='Definition log output']
-log_y = log(y);
-[name='Definition log capital']
-log_k = log(k);
-[name='Definition log consumption']
-log_c = log(c);
-[name='Definition log hours']
-log_l = log(l);
-[name='Definition log wage']
-log_w = log(w);
-[name='Definition log investment']
-log_i = log(i);
+g=rhog*g(-1)+eps_g;
+// [name='Definition log output']
+// log_y = log(y);
+// [name='Definition log capital']
+// log_k = log(k);
+// [name='Definition log consumption']
+// log_c = log(c);
+// [name='Definition log hours']
+// log_l = log(l);
+// [name='Definition log wage']
+// log_w = log(w);
+// [name='Definition log investment']
+// log_i = log(i);
 end;
 
 //****************************************************************************
@@ -147,14 +145,14 @@ steady_state_model;
     psi=(1-alpha)*(k/l)^alpha*(1-l)/c^sigma;
     w = (1-alpha)*y/l;
     r = 4*alpha*y/k;
-    log_y = log(y);
-    log_k = log(k);
-    log_c = log(c);
-    log_l = log(l);
-    log_w = log(w);
-    log_i = log(i);
+//    log_y = log(y);
+//    log_k = log(k);
+//    log_c = log(c);
+//    log_l = log(l);
+//    log_w = log(w);
+//    log_i = log(i);
     z = 0; 
-    ghat =0;
+    g = 0;
 end;
 
 //****************************************************************************
@@ -162,10 +160,8 @@ end;
 //****************************************************************************
 
 shocks;
-//    var eps_z=0.66^2;
-//    var eps_g=1.04^2;
-    var eps_z=1;
-    var eps_g=1;
+    var eps_z=0.66^2;
+    var eps_g=1.04^2;
 end;
 
 //****************************************************************************
@@ -189,4 +185,4 @@ check;
 // compute policy function at first order, do IRFs and compute moments with HP-filter
 //****************************************************************************
 
-stoch_simul(order=1,irf=0,periods=200);
+stoch_simul(order=1,irf=0,periods=100000);
