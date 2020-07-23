@@ -252,51 +252,51 @@ estimation(optim=('MaxIter',200),datafile=usmodel_data,mode_file=usmodel_shock_d
 
 // shock_decomposition y;
 
-stoch_simul(noprint,nofunctions,nomoments,nocorr,irf=250,irf_shocks=(ea));
+stoch_simul(irf=50,irf_shocks=(eqs));
 
 figure
 
 subplot(3,3,1)
-plot([0:options_.irf],[0 oo_.irfs.r_ea])
+plot([0:options_.irf],[0 oo_.irfs.r_eqs])
 axis tight
 title('r')
 
 subplot(3,3,2)
-plot([0:options_.irf],[0 oo_.irfs.inve_ea])
+plot([0:options_.irf],[0 oo_.irfs.inve_eqs])
 axis tight
 title('i')
 
 subplot(3,3,3)
-plot([0:options_.irf],[0 oo_.irfs.pk_ea])
+plot([0:options_.irf],[0 oo_.irfs.pk_eqs])
 axis tight
 title('q')
 
 subplot(3,3,4)
-plot([0:options_.irf],[0 oo_.irfs.kp_ea])
+plot([0:options_.irf],[0 oo_.irfs.k_eqs])
 axis tight
 title('k')
 
 subplot(3,3,5)
-plot([0:options_.irf],[0 oo_.irfs.pinf_ea])
+plot([0:options_.irf],[0 oo_.irfs.pinf_eqs])
 axis tight
 title('pi')
 
 subplot(3,3,6)
-plot([0:options_.irf],[0 oo_.irfs.w_ea])
+plot([0:options_.irf],[0 oo_.irfs.w_eqs])
 axis tight
 title('w')
 
 subplot(3,3,7)
-plot([0:options_.irf],[0 oo_.irfs.c_ea])
+plot([0:options_.irf],[0 oo_.irfs.c_eqs])
 axis tight
 title('c')
 
 subplot(3,3,8)
-plot([0:options_.irf],[0 oo_.irfs.y_ea])
+plot([0:options_.irf],[0 oo_.irfs.y_eqs])
 axis tight
 title('y')
 
 subplot(3,3,9)
-plot([0:options_.irf],[0 oo_.irfs.lab_ea])
+plot([0:options_.irf],[0 oo_.irfs.lab_eqs])
 axis tight
 title('l')

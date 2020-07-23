@@ -81,9 +81,10 @@ i_y=0.25;               // investment-output ration
 k_y=10.4;               // capital-output ratio
 x=0.0055;               // technology growth (per capita output growth)
 n=0.0027;               // population growth
-rhoz=0.97;              //technology autocorrelation base on linearly detrended Solow residual
-rhog=0.989;
-// rhog=0.97;
+// rhoz=0.97;              //technology autocorrelation base on linearly detrended Solow residual
+// rhog=0.989;
+rhoz=0.5;
+rhog=0.5;
 gshare=0.2038;          //government spending share
 
 //****************************************************************************
@@ -185,4 +186,4 @@ check;
 // compute policy function at first order, do IRFs and compute moments with HP-filter
 //****************************************************************************
 
-stoch_simul(order=1,irf=0,periods=100000);
+stoch_simul(order=1,irf=0,periods=1000000);
