@@ -1,0 +1,65 @@
+\headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\headcommand {\beamer@framepages {1}{1}}
+\headcommand {\slideentry {0}{0}{2}{2/2}{}{0}}
+\headcommand {\beamer@framepages {2}{2}}
+\headcommand {\beamer@sectionpages {1}{2}}
+\headcommand {\beamer@subsectionpages {1}{2}}
+\headcommand {\sectionentry {1}{Background}{3}{Background}{0}}
+\headcommand {\beamer@subsectionpages {3}{2}}
+\headcommand {\beamer@subsectionentry {0}{1}{1}{3}{DAGs}}
+\headcommand {\beamer@subsubsectionentry {0}{1}{1}{1}{3}{Representation}}
+\headcommand {\slideentry {1}{1}{1}{3/3}{DAGs}{0}}
+\headcommand {\beamer@framepages {3}{3}}
+\headcommand {\beamer@subsubsectionentry {0}{1}{1}{2}{4}{Structure learning}}
+\headcommand {\slideentry {1}{1}{2}{4/4}{DAGs}{0}}
+\headcommand {\beamer@framepages {4}{4}}
+\headcommand {\slideentry {1}{1}{3}{5/5}{DAGs}{0}}
+\headcommand {\beamer@framepages {5}{5}}
+\headcommand {\beamer@subsectionpages {3}{5}}
+\headcommand {\beamer@subsectionentry {0}{1}{2}{6}{DSGE}}
+\headcommand {\slideentry {1}{2}{1}{6/6}{DSGE}{0}}
+\headcommand {\beamer@framepages {6}{6}}
+\headcommand {\slideentry {1}{2}{2}{7/7}{DSGE}{0}}
+\headcommand {\beamer@framepages {7}{7}}
+\headcommand {\beamer@sectionpages {3}{7}}
+\headcommand {\beamer@subsectionpages {6}{7}}
+\headcommand {\sectionentry {2}{Application}{8}{Application}{0}}
+\headcommand {\beamer@subsectionpages {8}{7}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{8}{RBC}}
+\headcommand {\slideentry {2}{1}{1}{8/8}{RBC}{0}}
+\headcommand {\beamer@framepages {8}{8}}
+\headcommand {\slideentry {2}{1}{2}{9/9}{RBC}{0}}
+\headcommand {\beamer@framepages {9}{9}}
+\headcommand {\slideentry {2}{1}{3}{10/10}{RBC}{0}}
+\headcommand {\beamer@framepages {10}{10}}
+\headcommand {\beamer@subsectionpages {8}{10}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{11}{Real data}}
+\headcommand {\slideentry {2}{2}{1}{11/11}{Real data}{0}}
+\headcommand {\beamer@framepages {11}{11}}
+\headcommand {\slideentry {2}{2}{2}{12/12}{Real data}{0}}
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\beamer@sectionpages {8}{12}}
+\headcommand {\beamer@subsectionpages {11}{12}}
+\headcommand {\sectionentry {3}{Papers to Write}{13}{Papers to Write}{0}}
+\headcommand {\beamer@subsectionpages {13}{12}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{13}{DSGE-specific strucuture learning}}
+\headcommand {\slideentry {3}{1}{1}{13/13}{DSGE-specific strucuture learning}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\beamer@subsectionpages {13}{13}}
+\headcommand {\beamer@subsectionentry {0}{3}{2}{14}{Real data}}
+\headcommand {\slideentry {3}{2}{1}{14/14}{Real data}{0}}
+\headcommand {\beamer@framepages {14}{14}}
+\headcommand {\beamer@subsectionpages {14}{14}}
+\headcommand {\beamer@subsectionentry {0}{3}{3}{15}{Choose your own states}}
+\headcommand {\slideentry {3}{3}{1}{15/15}{Choose your own states}{0}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\beamer@sectionpages {13}{15}}
+\headcommand {\beamer@subsectionpages {15}{15}}
+\headcommand {\sectionentry {4}{Conclusion}{16}{Conclusion}{0}}
+\headcommand {\slideentry {4}{0}{1}{16/16}{}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\beamer@partpages {1}{16}}
+\headcommand {\beamer@subsectionpages {16}{16}}
+\headcommand {\beamer@sectionpages {16}{16}}
+\headcommand {\beamer@documentpages {16}}
+\headcommand {\gdef \inserttotalframenumber {16}}
