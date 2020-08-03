@@ -18,3 +18,8 @@
 !/text/latex/proposal/*.bib
 /R/.RData
 /R/.Rhistory
+/text/latex/presentation/*
+!/text/latex/presentation/images
+!/text/latex/presentation/images/*
+!/text/latex/presentation/*.tex
+!/text/latex/proposal/*.bib
