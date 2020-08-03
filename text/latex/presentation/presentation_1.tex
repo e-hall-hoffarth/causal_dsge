@@ -366,6 +366,17 @@ University of Oxford \\ % Your institution for the title page
     \end{itemize}
 \end{frame}
 
+\subsection{Lasso}
+\begin{frame}
+    \frametitle{Lasso}
+    \begin{itemize}
+        \item Assuming a DSGE solution the estimated VAR should be sparse (the only relevant regressors are the states). Therefore, it makes sense to use penalised regression to identify these states, which can then be fed into a DAG.
+        \item This approach seems to work very well even on simulated data.
+        \item Does not differentiate between exogenous and endogenous states (because it is a VAR instead of an ADL). That is left to the researcher to decide.
+        \item Potentially not a very original research contribution.
+    \end{itemize}
+\end{frame}
+
 \section{Conclusion}
 \begin{frame}
     \frametitle{Conclusion}

@@ -53,13 +53,17 @@
 \headcommand {\beamer@subsectionentry {0}{3}{3}{15}{Choose your own states}}
 \headcommand {\slideentry {3}{3}{1}{15/15}{Choose your own states}{0}}
 \headcommand {\beamer@framepages {15}{15}}
-\headcommand {\beamer@sectionpages {13}{15}}
 \headcommand {\beamer@subsectionpages {15}{15}}
-\headcommand {\sectionentry {4}{Conclusion}{16}{Conclusion}{0}}
-\headcommand {\slideentry {4}{0}{1}{16/16}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{3}{4}{16}{Lasso}}
+\headcommand {\slideentry {3}{4}{1}{16/16}{Lasso}{0}}
 \headcommand {\beamer@framepages {16}{16}}
-\headcommand {\beamer@partpages {1}{16}}
+\headcommand {\beamer@sectionpages {13}{16}}
 \headcommand {\beamer@subsectionpages {16}{16}}
-\headcommand {\beamer@sectionpages {16}{16}}
-\headcommand {\beamer@documentpages {16}}
-\headcommand {\gdef \inserttotalframenumber {16}}
+\headcommand {\sectionentry {4}{Conclusion}{17}{Conclusion}{0}}
+\headcommand {\slideentry {4}{0}{1}{17/17}{}{0}}
+\headcommand {\beamer@framepages {17}{17}}
+\headcommand {\beamer@partpages {1}{17}}
+\headcommand {\beamer@subsectionpages {17}{17}}
+\headcommand {\beamer@sectionpages {17}{17}}
+\headcommand {\beamer@documentpages {17}}
+\headcommand {\gdef \inserttotalframenumber {17}}
