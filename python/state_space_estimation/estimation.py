@@ -23,7 +23,7 @@ class estimation():
     def potential_states(self, n_states=None):
         x = self.data.columns.values[:int(len(self.data.columns.values)/2)]
         limit = len(x)-1 if n_states is None else n_states
-        exo_states = chain.from_iterable(combinations(x, r) for r in range(limit))
+        exo_states = chain.from_iterable(combinations(x, r) for r in range(limit+1))
         for exo in exo_states:
             y = [z for z in x if z not in exo]
             endo_states = combinations(y, limit-len(exo))
@@ -44,7 +44,7 @@ class estimation():
         if 'constraint' in tests:
             ct = constraint_tests(roles, names, self.data) 
             m = len(ct)
-            valid = all([test['pval'] > (alpha/2)/m for test in ct]) and len(ct) > 0
+            valid = (len(ct) > 0) and all([test['pval'] > (alpha/2)/m for test in ct]) 
             if valid and verbose:
                 print('Valid states found: {}'.format(np.append(roles.exo_states, roles.endo_states)))
             results['valid'] = valid
@@ -62,32 +62,23 @@ class estimation():
         return results
 
 
-    def choose_states(self, alpha=0.05, tests=['score', 'constraint'], max_states=None, verbose=False):
-        self.results = pd.DataFrame(columns=['valid', 'mean_pval', 'max_pval', 'min_pval'])
+    def choose_states(self, n_states, alpha=0.05, tests=['score', 'constraint'], max_states=None, verbose=False):
+        results = pd.DataFrame()
         variables = self.data.columns.values[:int(len(self.data.columns.values)/2)]
-        if max_states is None:
-            max_states = len(variables) - 1
-        for i in range(1, max_states):
-            print("Testing models with {} state(s)".format(i))
-            ps = tqdm(self.potential_states(n_states=i),
-                    total=(nCr(len(variables),i) * (2 ** (i) - 1)))
-            for states in ps:
-                result = self.evaluate_states(states, tests, alpha=alpha, verbose=verbose)
-                self.results = self.results.append(result, ignore_index=True)
-            if 'constraint' in tests and self.results[self.results['valid']].shape[0] > 0:
-                break
+        ps = tqdm(self.potential_states(n_states=n_states),
+                total=(nCr(len(variables), n_states) * (2 ** (n_states))))
+        for states in ps:
+            result = self.evaluate_states(states, tests, alpha=alpha, verbose=verbose)
+            results = results.append(result, ignore_index=True)
+            if 'valid' in results.columns:
+                results['valid'] = results['valid'].astype(bool)
+        return results
 
             
-    def choose_states_parallel(self, alpha=0.05, tests=['score', 'constraint'], max_states=None, verbose=False):
-        self.results = pd.DataFrame(columns=['valid', 'mean_pval', 'max_pval', 'min_pval'])
-        variables = self.data.columns.values[:int(len(self.data.columns.values)/2)]
-        if max_states is None:
-            max_states = len(variables) - 1
-        for i in range(1, max_states):
-            print("Testing models with {} state(s)".format(i))
-            result = Parallel(n_jobs=cpu_count())(delayed(self.evaluate_states)(states, tests, alpha, verbose) 
-                                                    for states in tqdm(self.potential_states(n_states=i),
-                                                    total=(nCr(len(variables),i) * (2 ** (i) - 1))))
-            self.results = self.results.append(result, ignore_index=True)
-            if 'constraint' in tests and self.results[self.results['valid']].shape[0] > 0:
-                break
+    def choose_states_parallel(self, n_states, alpha=0.05, tests=['score', 'constraint'], verbose=False):
+        variables = self.data.columns.values[:np.int64(len(self.data.columns.values)/2)]
+        states = self.potential_states(n_states=n_states)
+        results = Parallel(n_jobs=cpu_count())(delayed(self.evaluate_states)(state, tests, alpha, verbose) 
+                                            for state in tqdm(states, 
+                                                                total=(nCr(len(variables), n_states) * (2 ** (n_states)))))
+        return pd.DataFrame(results)

@@ -46,7 +46,7 @@ def constraint_tests(roles, names, data):
                       'pcorr': pcorr,
                       'pval': pval})
     
-    # Test that controls and endo_states are indendent of lagged exo_states
+    # Test that controls and endo_states are independent of lagged exo_states
     # and lagged controls conditional on current exo_states and lagged
     # endo_states
     for y in np.append(roles.controls_idx, roles.endo_states_idx):
