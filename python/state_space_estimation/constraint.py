@@ -4,6 +4,19 @@ from sklearn.linear_model import LinearRegression
 from scipy import stats
 
 def partial_correlation(y, x, z=None, tol=1e-2):
+    '''
+    Arguments:
+        y: array-like
+        x: array-like
+        z: array-like or None
+        tol: float
+    Performs:
+        Calculate the partial correlation between y and x conditional on z,
+        by first regressing y and x on z, and then the correlation between
+        the residuals.
+    Returns: 
+        tuple(partial correlation, p-value): (float, float)
+    '''
     if z is None or z.shape[1] == 0:
         pcorr = stats.pearsonr(y, x)
     else:
@@ -26,6 +39,20 @@ def partial_correlation(y, x, z=None, tol=1e-2):
 
 
 def constraint_tests(roles, names, data):
+    '''
+    Inputs:
+        roles: state_space_estimation.roles
+        names: array-like 
+        data: pd.DataFrame
+    Performs:
+        Conduct constraint-based (partial correlation) tests on data
+        given the state-space model specified by roles and return all
+        tests in a dictionary
+    Returns:
+        tests: dict
+    '''
+    # TODO: We can calculate partial correlations from a single covariance matrix 
+    #       instead which will greatly speed up this code
     data = data.values
     tests = []
     # Test that controls and endogenous states are conditionally independent
