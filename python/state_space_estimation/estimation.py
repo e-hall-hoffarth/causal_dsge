@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import math
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 from itertools import chain, combinations, product
 from joblib import Parallel, delayed
 from multiprocessing import cpu_count
