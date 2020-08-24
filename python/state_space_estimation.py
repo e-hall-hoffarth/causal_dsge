@@ -26,18 +26,24 @@ parser.add_argument('source', help='''one of:
 "real": use data from data/real_data.csv''')
 parser.add_argument('-n', '--sample_size', required=False, help='max sample size')
 parser.add_argument('-m', '--min_states', required=False, help='consider only models with > min_states')
+parser.add_argument('-s', '--save', required=False, help='If argument is present output will be saved in data')
 
 args = parser.parse_args()
 source = args.source
 if args.sample_size:
     n = int(args.sample_size)
 else:
-    n = 1000
+    n = False
 
 if args.min_states:
     min_states = int(args.min_states)
 else:
     min_states = 0
+
+if args.save:
+    save = True
+else:
+    save = False
 
 if source == 'rbc':
     data = pd.read_csv('../data/rbc_100k.csv')
@@ -50,7 +56,6 @@ if source == 'rbc':
     data = pd.concat([data, shift], axis=1)
     data = data.iloc[1:,:]
 
-    data = data.iloc[:n,:]
     data = data.apply(lambda x: x - x.mean(), axis=0)
 
 elif source == 'nk':
@@ -68,8 +73,7 @@ elif source == 'nk':
     shift.columns = [str(col) + '_1' for col in shift.columns]
     data = pd.concat([data, shift], axis=1)
     data = data.iloc[1:,:]
-
-    data = data.iloc[:n,:]
+    
     data = data.apply(lambda x: x - x.mean(), axis=0)
 
 elif source == 'sw':
@@ -88,15 +92,16 @@ elif source == 'sw':
     data = pd.concat([data, shift], axis=1)
     data = data.iloc[1:,:]
 
-    data = data.iloc[:n,:]
     data = data.apply(lambda x: x - x.mean(), axis=0)
 
 elif source == 'real':
     data = pd.read_csv('../data/real_data.csv', index_col='DATE')
-    data = data.iloc[:n,:]
 
 else:
     raise ValueError("Source data not supported")
+
+if n:
+    data = data.sample(n)
 
 est = estimation(data)
 for i in range(min_states, int(len(data.columns.values)/2) - 1):
@@ -104,7 +109,8 @@ for i in range(min_states, int(len(data.columns.values)/2) - 1):
     results = est.choose_states_parallel(i)
     if results[results['valid']].shape[0] > 0:
         print('Found valid model with {} states'.format(i))
-        results[results['valid']].to_csv('../data/{}_{}_results.csv'.format(source, n))
+        if save:
+            results[results['valid']].to_csv('../data/{}_{}_results.csv'.format(source, n))
         for result in results[results['valid']].iterrows():
             print('exo_states: {} || endo_states: {} || controls: {}'.format(
                 result[1]['exo_states'], result[1]['endo_states'], result[1]['controls']
