@@ -24,21 +24,34 @@ parser.add_argument('source', help='''one of:
 "nk": use data from data/gali.csv
 "sw": use data from data/sw.csv
 "real": use data from data/real_data.csv''')
-parser.add_argument('-n', '--sample_size', required=False, help='max sample size')
+parser.add_argument('-a', '--alpha', required=False, help='Nominal significance level of constraint tests (default 0.05)')
 parser.add_argument('-m', '--min_states', required=False, help='consider only models with > min_states')
+parser.add_argument('-n', '--sample_size', required=False, help='max sample size')
+parser.add_argument('-r', '--random_state', required=False, help='random state for subsampling')
 parser.add_argument('-s', '--save', required=False, help='If argument is present output will be saved in data')
 
 args = parser.parse_args()
 source = args.source
-if args.sample_size:
-    n = int(args.sample_size)
+
+if args.alpha:
+    alpha = np.float64(args.alpha)
 else:
-    n = False
+    alpha = 0.05
 
 if args.min_states:
     min_states = int(args.min_states)
 else:
     min_states = 0
+
+if args.sample_size:
+    n = int(args.sample_size)
+else:
+    n = False
+
+if args.random_state:
+    random_state = int(args.random_state)
+else:
+    random_state = None
 
 if args.save:
     save = True
@@ -73,7 +86,7 @@ elif source == 'nk':
     shift.columns = [str(col) + '_1' for col in shift.columns]
     data = pd.concat([data, shift], axis=1)
     data = data.iloc[1:,:]
-    
+
     data = data.apply(lambda x: x - x.mean(), axis=0)
 
 elif source == 'sw':
@@ -101,12 +114,12 @@ else:
     raise ValueError("Source data not supported")
 
 if n:
-    data = data.sample(n)
+    data = data.sample(n, random_state=random_state)
 
 est = estimation(data)
 for i in range(min_states, int(len(data.columns.values)/2) - 1):
     print('Evaluating models with {} states'.format(i))
-    results = est.choose_states_parallel(i)
+    results = est.choose_states_parallel(i, alpha=alpha)
     if results[results['valid']].shape[0] > 0:
         print('Found valid model with {} states'.format(i))
         if save:
