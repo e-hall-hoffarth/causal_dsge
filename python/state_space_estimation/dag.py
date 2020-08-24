@@ -1,4 +1,3 @@
-import igraph as ig
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,7 +7,9 @@ import math
 class dag():
     def __init__(self, m):
         '''
-        m is a pandas DataFrame containing an adjacency matrix
+        Inputs:
+            m: pd.DataFrame
+                Contains an adjacency matrix
         '''
         self.m = m
         self.nodes = self.m.columns.values
@@ -20,7 +21,12 @@ class dag():
             
     def parents(self, n):
         '''
-        n is a node in the graph
+        Inputs:
+            n: String
+                A node in the graph
+        Returns:
+            np.array(String)
+                Contains the parents of node n
         '''
         if n not in self.nodes:
             raise ValueError('n is not in graph')
@@ -29,7 +35,12 @@ class dag():
     
     def children(self, n):
         '''
-        n is a node in the graph
+        Inputs:
+            n: String
+                A node in the graph
+        Returns:
+            np.Array(String)
+                Contains the children of node n
         '''
         if n not in self.nodes:
             raise ValueError('n is not in graph')
@@ -37,14 +48,32 @@ class dag():
     
     
     def directed(self):
-        G = ig.Graph.Weighted_Adjacency(self.m.values.tolist())
-        return G.is_dag()
+        '''
+        Returns:
+            Bool
+                True if the DAG is fully directed, False otherwise
+        '''
+        def path(n, visited):
+            next_layer = self.children(n)
+            if len(next_layer) == 0:
+                return True
+            elif len([x for x in next_layer if x in visited]) > 0:
+                return False
+            else:
+                visited = np.append(visited, next_layer)
+                return all([path(m, visited) for m in next_layer])
+
+        return all([path(n, np.array([])) for n in self.nodes])
         
     
     def depth(self, n):
         '''
-        n is a node in the graph
-        return the length of the shortest path to a root node
+        Inputs:
+            n: String
+                A node in the DAG
+        Returns:
+            int
+                The length of the shortest path to a root node from n
         '''
         if not self.isdag:
             raise ValueError('Cannot compute depth, graph is undirected')
@@ -55,28 +84,66 @@ class dag():
     
     
     def root_nodes(self):
+        '''
+        Returns:
+            np.array(String)
+                The root nodes of the DAG
+        '''
         return np.array([n for n in self.nodes if len(self.parents(n)) == 0])
         
         
     def isolated_nodes(self):
+        '''
+        Returns:
+            np.array(String)
+                The nodes in the DAG with no children and no parents
+        '''
         return np.array([n for n in self.nodes if (len(self.parents(n)) == 0) & (len(self.children(n)) == 0)])
     
     
     def connected_roots(self):
+        '''
+        Returns:
+            np.array(String)
+                The root nodes of the graph that have children
+        '''
         return np.array([n for n in self.nodes if (len(self.parents(n)) == 0) & (len(self.children(n)) > 0)])
     
     
     def structure(self):
+        '''
+        Returns:
+            np.ndarray
+                The structure of the DAG where 1 indicates an edge and 0 the lack thereof
+        '''
         M = self.m.copy()
         M[M != 0] = 1
         return M
     
     
     def shd(self, d):
+        '''
+        Inputs:
+            d: np.ndarray
+                An adjacency matrix
+        Returns:
+            int
+                The structural hamming distancee between this DAG and d.
+                This is the number of edges in this DAG that need to be 
+                changed to arrive a d.
+        '''
         return len(np.nonzero(self.m.values[np.nonzero(d)])) + len(np.nonzero(d[np.nonzero(self.m.values)]))
     
 
     def impute(self, values):
+        '''
+        Inputs:
+            values: np.array() (len(self.nodes),)
+        Performs:
+            Impute the missing elements of values implied by this DAG.
+        Returns:
+            values: np.array() (len(self.nodes),)
+        '''
         na_nodes = values[values.isna()]
         depth = 0
         try:
@@ -93,6 +160,21 @@ class dag():
 
 
     def calculate_irf(self, x_0, T=250, verbose=False):
+        '''
+        Inputs:
+            x_0: np.array() (len(self.nodes),)
+                Starting values for the IRF
+            T: int
+                Number of periods to compute IRF for
+            verbose: Bool
+                If True print progress
+        Performs:
+            Given starting state x_0 containing 1 or more shocks
+            use this DAG to compute the implied future path of 
+            the variables in the DAG for T periods
+        Returns:
+            pd.DataFrame (T, len(self.nodes))
+        '''
         if verbose:
             print('Simulating irf...')
         for lag in self.lags:
@@ -113,6 +195,17 @@ class dag():
 
 
     def plot_irf(self, irf, layout=None, figsize=(20,10)):
+        '''
+        Inputs:
+            irf: pd.DataFrame (T, len(self.nodes))
+                An irf to plot (from self.calculate_irf)
+            layout: tuple (2)
+                The arrangement of subplots
+            figsize: tuple (2)
+                The dimensions of the output pot
+        Returns:
+            matplotlib.plt
+        '''
         if layout is None:
             side = math.ceil(math.sqrt(len(irf.columns)))
             layout = (side, side)
@@ -126,6 +219,13 @@ class dag():
     
     
     def plot_structure(self):
+        '''
+        Performs:
+            Return a plot of the structure of this DAG
+        Returns: 
+            igraph.Graph.Adjacency
+        '''
+        import igraph as ig
         M = self.m.values
         g = ig.Graph.Adjacency((M != 0.0).tolist())
         g.es['weight'] = M[M.nonzero()]
