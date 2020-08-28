@@ -67,7 +67,7 @@ def loglik(roles, data):
 
     else: # No states in model
         for control in t_controls:
-            ll += llik(data[:,control], np.zeros((n,1)))
+            ll += llik(data[:,control].reshape(-1, 1), np.zeros((n,1)))
         
     return ll
         

@@ -68,7 +68,7 @@ class roles():
         result = pd.DataFrame(np.zeros((d, d)), columns=data_names, index=data_names)
         
         for (exo_state, lag_exo_state) in zip(self.exo_states_idx, self.lag_exo_states_idx):
-            model = LinearRegression(fit_intercept=False)
+            model = LinearRegression(fit_intercept=False, normalize=False)
             model.fit(data[:,[lag_exo_state]], data[:,[exo_state]])
             result.iloc[lag_exo_state, exo_state] = model.coef_[0]
             
@@ -76,7 +76,7 @@ class roles():
             outcome_name = self.names[endo]
             regressors = np.append(self.lag_endo_states_idx, self.exo_states_idx)
             regressor_names = self.names[regressors]
-            model = LinearRegression(fit_intercept=False)
+            model = LinearRegression(fit_intercept=False, normalize=False)
             model.fit(data[:,regressors], data[:,endo])
             coefs = {}
             for i in range(len(regressors)):

@@ -118,12 +118,15 @@ def constraint_tests(roles, names, data):
         for (x, y) in combinations(roles.exo_states_idx, 2):
             X = data[:,x]
             Y = data[:,y]
-            p = partial_correlation(X, Y)
+            z = roles.exo_states_idx
+            
+            Z = data[:,z]
+            p = partial_correlation(X, Y, Z)
             pcorr = p[0]
             pval = p[1]
             tests.append({'x': names[x],
                           'y': names[y],
-                          'z': [],
+                          'z': [z],
                           'pcorr': pcorr,
                           'pval': pval})
 
