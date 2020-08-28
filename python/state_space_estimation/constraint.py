@@ -3,7 +3,7 @@ from itertools import combinations
 from sklearn.linear_model import LinearRegression
 from scipy import stats
 
-def partial_correlation(y, x, z=None, tol=1e-2):
+def partial_correlation(y, x, z=None, tol=1e-5):
     '''
     Arguments:
         y: array-like
