@@ -42,12 +42,6 @@ var y           ${y}$ (long_name='output')
     r           ${r}$ (long_name='annualized interest rate')
     w           ${w}$ (long_name='real wage')
     i           ${i}$ (long_name='investment') 
-//    log_y       ${\log(y)}$ (long_name='log output')
-//    log_k       ${\log(k)}$ (long_name='log capital stock')
-//    log_c       ${\log(c)}$ (long_name='log consumption')
-//    log_l       ${\log(l)}$ (long_name='log labor')
-//    log_w       ${\log(w)}$ (long_name='log real wage')
-//    log_i       ${\log(i)}$ (long_name='log investment')
     ;
 
 varexo eps_z ${\varepsilon_z}$ (long_name='TFP shock')
@@ -74,18 +68,15 @@ parameters
 //Set parameter values
 //****************************************************************************
 
-// sigma=1;                // risk aversion
-sigma=1;
+sigma=1;                // risk aversion
 alpha= 0.33;            // capital share
 i_y=0.25;               // investment-output ration
 k_y=10.4;               // capital-output ratio
 x=0.0055;               // technology growth (per capita output growth)
 n=0.0027;               // population growth
-// rhoz=0.97;              //technology autocorrelation base on linearly detrended Solow residual
-// rhog=0.989;
-rhoz=0.5;
-rhog=0.5;
-gshare=0.2038;          //government spending share
+rhoz=0.97;              // technology autocorrelation base on linearly detrended Solow residual
+rhog=0.989;
+gshare=0.2038;          // government spending share
 
 //****************************************************************************
 //enter the model equations (model-block)
@@ -111,18 +102,6 @@ r=4*alpha*y/k(-1);
 z=rhoz*z(-1)+eps_z;
 [name='government spending process']
 g=rhog*g(-1)+eps_g;
-// [name='Definition log output']
-// log_y = log(y);
-// [name='Definition log capital']
-// log_k = log(k);
-// [name='Definition log consumption']
-// log_c = log(c);
-// [name='Definition log hours']
-// log_l = log(l);
-// [name='Definition log wage']
-// log_w = log(w);
-// [name='Definition log investment']
-// log_i = log(i);
 end;
 
 //****************************************************************************
@@ -140,18 +119,11 @@ steady_state_model;
     k = ((1/beta*(1+n)*(1+x)-(1-delta))/alpha)^(1/(alpha-1))*l; 
     i = (x+n+delta+n*x)*k;
     y=k^alpha*l^(1-alpha);
-    g=gshare*y;
-    g_ss=g;
+    g_ss = gshare*y;
     c = (1-gshare)*k^(alpha)*l^(1-alpha)-i;
     psi=(1-alpha)*(k/l)^alpha*(1-l)/c^sigma;
     w = (1-alpha)*y/l;
     r = 4*alpha*y/k;
-//    log_y = log(y);
-//    log_k = log(k);
-//    log_c = log(c);
-//    log_l = log(l);
-//    log_w = log(w);
-//    log_i = log(i);
     z = 0; 
     g = 0;
 end;
@@ -186,4 +158,4 @@ check;
 // compute policy function at first order, do IRFs and compute moments with HP-filter
 //****************************************************************************
 
-stoch_simul(order=1,irf=0,periods=1000000);
+stoch_simul(order=1,irf=0,periods=100001);

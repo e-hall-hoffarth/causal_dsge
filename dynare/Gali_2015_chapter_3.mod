@@ -49,19 +49,13 @@ var pi          ${\pi}$                 (long_name='inflation')
     i           ${i}$                   (long_name='nominal interrst rate')
     n           ${n}$                   (long_name='hours worked')
     m_real      ${m-p}$                 (long_name='real money stock')
-    m_growth_ann ${\Delta m}$           (long_name='money growth annualized')
     m_nominal   ${m}$                   (long_name='nominal money stock')
     @#if money_growth_rule==0
         nu      ${\nu}$                 (long_name='AR(1) monetary policy shock process')    
     @#else
         money_growth  ${\Delta m_q}$    (long_name='money growth')
-        money_growth_ann  ${\Delta m^{ann}}$    (long_name='money growth analized')
    @#endif
     a           ${a}$                   (long_name='AR(1) technology shock process')
-    r_real_ann  ${r^{r,ann}}$           (long_name='annualized real interest rate')
-    i_ann       ${i^{ann}}$             (long_name='annualized nominal interest rate')
-    r_nat_ann   ${r^{nat,ann}}$         (long_name='annualized natural interest rate')
-    pi_ann      ${\pi^{ann}}$           (long_name='annualized inflation rate')
     z           ${z}$                   (long_name='AR(1) preference shock process')
     p           ${p}$                   (long_name='price level')
     w           ${w}$                   (long_name='nominal wage')
@@ -113,10 +107,9 @@ theta=3/4;
 rho_z  = 0.5;
 rho_a  = 0.9;
 betta  = 0.99;
-eta  = 3.77; %footnote 11, p. 115
+eta  =3.77; %footnote 11, p. 115
 alppha=1/4;
 epsilon=9;
-sig = 1;
 
 %----------------------------------------------------------------
 % First Order Conditions
@@ -154,8 +147,6 @@ a=rho_a*a(-1)+eps_a;
 y=a+(1-alppha)*n;
 [name='Preference shock, p. 54']
 z     = rho_z*z(-1) - eps_z;
-[name='Money growth (derived from eq. (4))']
-m_growth_ann=4*(y-y(-1)-eta*(i-i(-1))+pi);
 @#if money_growth_rule==1
     [name='Real money demand, eq. (4)']
     m_real=y-eta*i;
@@ -164,19 +155,10 @@ m_growth_ann=4*(y-y(-1)-eta*(i-i(-1))+pi);
     [name='exogenous process for money supply growth rate, eq. (35)']
     money_growth=rho_m*money_growth(-1)+eps_m;
     [name='definition annualized nominal money growth'] 
-    money_growth_ann=4*money_growth;
 @#else
     [name='Real money demand (eq. 4)']
     m_real=y-eta*i;
 @#endif
-[name='Annualized nominal interest rate']
-i_ann=4*i;
-[name='Annualized real interest rate']
-r_real_ann=4*r_real;
-[name='Annualized natural interest rate']
-r_nat_ann=4*r_nat;
-[name='Annualized inflation']
-pi_ann=4*pi;
 [name='Output deviation from steady state']
 yhat=y-steady_state(y);
 [name='Definition price level']
@@ -191,24 +173,22 @@ w_real=w-p;
 m_nominal=m_real+p;
 [name='average price markup, eq. (18)']
 mu=-(siggma+(varphi+alppha)/(1-alppha))*y+(1+varphi)/(1-alppha)*a;
-[name='average price markuo, eq. (20)']
+[name='average price markup, eq. (20)']
 mu_hat=-(siggma+(varphi+alppha)/(1-alppha))*y_gap;
 end;
-
 
 %----------------------------------------------------------------
 %  define shock variances
 %---------------------------------------------------------------
 
-
 shocks;
     @#if money_growth_rule==0
-        var eps_nu = sig^2; //1 standard deviation shock of 25 basis points, i.e. 1 percentage point annualized
+        var eps_nu = 0.25^2; //1 standard deviation shock of 25 basis points, i.e. 1 percentage point annualized
     @#else   
-        var eps_m = sig^2; //1 standard deviation shock of 25 basis points, i.e. 1 percentage point annualized
+        var eps_m = 0.25^2; //1 standard deviation shock of 25 basis points, i.e. 1 percentage point annualized
     @#endif
-    var eps_z = sig^2;
-    var eps_a = sig^2;
+var eps_a = 1;
+var eps_z = 1;
 end;
 
 %----------------------------------------------------------------
@@ -222,116 +202,4 @@ check;
 % generate IRFs for monetary policy shock, replicates Figures 3.1, p. 69 (interest rate rule)
 % 3.4, p. 76 (money supply rule)
 %----------------------------------------------------------------
-@#if money_growth_rule==0
-    stoch_simul(order = 1, periods=100000, irf=0, irf_shocks=(eps_z)) pi p y c w w_real r_real i n m_real m_nominal mu nu a z;
-@#else
-    stoch_simul(order = 1,irf=25, irf_shocks=(eps_z));
-@#endif
-
-% figure
-% 
-% subplot(4,4,1)
-% plot([0:options_.irf],[0 oo_.irfs.pi_eps_z], 'r')
-% axis tight
-% title('pi')
-%
-% subplot(4,4,2)
-% plot([0:options_.irf],[0 oo_.irfs.p_eps_z], 'r')
-% axis tight
-% title('p')
-%
-% subplot(4,4,3)
-% plot([0:options_.irf],[0 oo_.irfs.y_eps_z], 'r')
-% axis tight
-% title('y')
-%
-% subplot(4,4,4)
-% plot([0:options_.irf],[0 oo_.irfs.c_eps_z], 'r')
-% axis tight
-% title('c')
-%
-% subplot(4,4,5)
-% plot([0:options_.irf],[0 oo_.irfs.w_eps_z], 'r')
-% axis tight
-% title('w')
-%
-% subplot(4,4,6)
-% plot([0:options_.irf],[0 oo_.irfs.w_real_eps_z], 'r')
-% axis tight
-% title('w\_real')
-%
-% subplot(4,4,7)
-% plot([0:options_.irf],[0 oo_.irfs.r_real_eps_z], 'r')
-% axis tight
-% title('r\_real')
-%
-% subplot(4,4,8)
-% plot([0:options_.irf],[0 oo_.irfs.i_eps_z], 'r')
-% axis tight
-% title('i')
-% 
-% subplot(4,4,9)
-% plot([0:options_.irf],[0 oo_.irfs.n_eps_z], 'r')
-% axis tight
-% title('n')
-% 
-% subplot(4,4,10)
-% plot([0:options_.irf],[0 oo_.irfs.m_real_eps_z], 'r')
-% axis tight
-% title('m\_real')
-%
-% subplot(4,4,11)
-% plot([0:options_.irf],[0 oo_.irfs.m_nominal_eps_z], 'r')
-% axis tight
-% title('m\_nominal')
-% 
-% subplot(4,4,12)
-% plot([0:options_.irf],[0 oo_.irfs.mu_eps_z], 'r')
-% axis tight
-% title('mu')
-% 
-% subplot(4,4,13)
-% plot([0:options_.irf],[0 oo_.irfs.nu_eps_z], 'r')
-% axis tight
-% title('nu')
-% 
-% subplot(4,4,14)
-% plot([0:options_.irf],[0 oo_.irfs.a_eps_z], 'r')
-% axis tight
-% title('a')
-% 
-% subplot(4,4,15)
-% plot([0:options_.irf],[0 oo_.irfs.z_eps_z], 'r')
-% axis tight
-% title('z')
-
-%----------------------------------------------------------------
-% generate IRFs for discount rate shock, replicates Figures 3.2, p. 70 (interest rate rule)
-% 3.5, p. 78 (money supply rule)
-%----------------------------------------------------------------
-% shocks;
-%     @#if money_growth_rule==0
-%         var eps_nu = 0;   //shut off monetary policy shock
-%     @#else   
-%         var eps_m = 0;   //shut off monetary policy shock
-%     @#endif
-% var eps_z  = 0.5^2; //unit shock to technology
-% end;
-
-% stoch_simul(order = 1,irf=0,periods=10000);
-
-
-%----------------------------------------------------------------
-% generate IRFs, replicates Figures 3.3, p. 73 (interest rate rule)
-% 3.6, p. 81 (money supply rule)
-%----------------------------------------------------------------
-% shocks;
-%     @#if money_growth_rule==0
-%         var eps_z = 0;   //shut off monetary policy shock
-%     @#else   
-%         var eps_z = 0;   //shut off monetary policy shock
-%     @#endif
-% var eps_a  = 1^2; //unit shock to technology
-% end;
-
-% stoch_simul(order = 1,irf=250); 
+stoch_simul(order=1,irf=0,periods=100001);
