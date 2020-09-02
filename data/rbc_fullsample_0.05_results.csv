@@ -1,0 +1,2 @@
+,exo_states,endo_states,controls,valid,mean_pval,max_pval,min_pval,loglik,bic,aic,mse,nstates,nexo,nendo
+520,"['z', 'g']",['k'],"['y', 'c', 'l', 'r', 'w', 'i']",True,0.9743177984426914,1.0,0.20026344478253486,6050693.985691646,-12100374.833942374,-12101211.971383292,1.5138362845765498,3,2,1
