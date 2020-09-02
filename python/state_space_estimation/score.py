@@ -67,7 +67,7 @@ def loglik(roles, data):
 
     else: # No states in model
         for control in t_controls:
-            ll += llik(data[:,control], np.zeros((n,1)))
+            ll += llik(data[:,control].reshape(-1, 1), np.zeros((n,1)))
         
     return ll
         
@@ -119,7 +119,6 @@ def mse(roles, data):
     '''
     mse = 0
     t_controls = np.append(roles.controls_idx, roles.endo_states_idx)
-    n = data.shape[0]
     if len(roles.exo_states) > 0:
         for lag_exo_state, exo_state in zip(roles.exo_states_idx, roles.lag_exo_states_idx):
             X = data[:,lag_exo_state].reshape(-1,1)

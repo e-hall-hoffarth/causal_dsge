@@ -3,7 +3,7 @@ from itertools import combinations
 from sklearn.linear_model import LinearRegression
 from scipy import stats
 
-def partial_correlation(y, x, z=None, tol=1e-2):
+def partial_correlation(y, x, z=None, tol=1e-5):
     '''
     Arguments:
         y: array-like
@@ -118,12 +118,16 @@ def constraint_tests(roles, names, data):
         for (x, y) in combinations(roles.exo_states_idx, 2):
             X = data[:,x]
             Y = data[:,y]
-            p = partial_correlation(X, Y)
+            z = roles.lag_exo_states_idx
+            
+            Z = data[:,z]
+            
+            p = partial_correlation(X, Y, Z)
             pcorr = p[0]
             pval = p[1]
             tests.append({'x': names[x],
                           'y': names[y],
-                          'z': [],
+                          'z': [z],
                           'pcorr': pcorr,
                           'pval': pval})
 
