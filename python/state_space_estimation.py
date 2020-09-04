@@ -1,12 +1,8 @@
-from state_space_estimation.dag import dag
-from state_space_estimation.roles import roles
 from state_space_estimation.estimation import estimation
 import pandas as pd
 import numpy as np
 import gc
-import sys
 import argparse as ap
-from sklearn.linear_model import LinearRegression
 
 desc = '''
 Execute the state space estimation algorithm on the indicated data source
@@ -30,6 +26,7 @@ parser.add_argument('-n', '--sample_size', required=False, help='max sample size
 parser.add_argument('-r', '--random_state', required=False, help='random state for subsampling')
 parser.add_argument('-c', '--repeat', required=False, help='how many times to repeat test')
 parser.add_argument('-s', '--save', required=False, help='If argument is present output will be saved in data')
+parser.add_argument("--debug", action='store_true', default=False, help="enable a debug mode")
 
 args = parser.parse_args()
 source = args.source
@@ -82,19 +79,25 @@ elif source == 'sw':
 elif source == 'real':
     data = pd.read_csv('../data/real_data.csv', index_col='DATE')
 
+elif source == 'integration_test':
+    raise NotImplementedError("Lets have a really small dataset for integration testing")
+
 else:
     raise ValueError("Source data not supported")
 
 
-def test(data, alpha):
+def test(data, alpha, debug=False):
     est = estimation(data)
-    for i in range(min_states, int(len(data.columns.values)/2) - 1):
+    this_range = range(min_states, int(len(data.columns.values)/2) - 1)
+    print(f"Trying numbers of states over the range {list(this_range)}")
+    for i in this_range:
         print('Evaluating models with {} states'.format(i))
-        results = est.choose_states_parallel(i, alpha=alpha, return_tests=False)
+        results = est.choose_states_parallel(i, alpha=alpha, serial=debug, verbose=debug)
         if results[results['valid']].shape[0] > 0:
             return results[results['valid']].sort_values(by='bic', ascending=True)
         else:
             del results
+            # does python need explicit garbage collection?
             gc.collect()
 
 
@@ -107,7 +110,7 @@ if repeat:
             sample = data.sample(n, random_state=random_state, replace=True)
         else:
             sample = data
-        result = test(sample, alpha)
+        result = test(sample, alpha, debug=args.debug)
         true_valid = False
         true_index = -1
         total_valid = result.shape[0]
@@ -139,9 +142,9 @@ if repeat:
 else:
     if n:
         sample = data.sample(n, random_state=random_state, replace=True)
-        results = test(sample, alpha)
+        results = test(sample, alpha, debug=args.debug)
     else:
-        results = test(data, alpha)
+        results = test(data, alpha, debug=args.debug)
     print('Found valid model with {} states'.format(results['nstates'].iloc[0]))
     if save:
         results.to_csv('../data/{}_{}_{}_results.csv'.format(source, str(n), str(alpha)))
