@@ -31,7 +31,7 @@
 \renewcommand{\baselinestretch}{1.5} 
 \addbibresource{references.bib}
 
-\title{Semi-Parametric State-Space Model Selection for Macroeconomic Timeseries}
+\title{Causal Discovery of Macroeconomic DSGE Models}
 \author{Emmet Hall-Hoffarth}
 \date{\today}
 
@@ -39,7 +39,7 @@
 
 \maketitle
 
-\abstract{This paper presents a set of criteria and an algorithm for agnostic, data-driven selection among macroeconomic DSGE models inspired by structure learning methods for DAGs. The state-space representation of any DSGE model is also a DAG, and therefore concepts used for model selection amongst DAGs can also be used in the context of DSGE models. This implies a set of criteria based on conditional independence tests which can be used to evaluate whether a state-space model, and thereby a DSGE model is consistent with some observed data. I then introduce an algorithm which tests these criteria against the set of possible state-space models producing a subset of allowable models. When combined with likelihood maximisation this algorithm identifies a unique optimal model. The efficacy of this alogorithm is demonstrated for simualted data, and results for real data are also provided and discussed.}
+\abstract{This paper presents a set of criteria and an algorithm for agnostic, data-driven selection among macroeconomic DSGE models inspired by structure learning methods for DAGs. The state-space representation of any DSGE model is also a DAG, and therefore concepts used for model selection amongst DAGs can also be used in the context of DSGE models. This implies a set of criteria based on conditional independence tests which can be used to evaluate whether a state-space model, and thereby a DSGE model is consistent with some observed data. I then introduce an algorithm which tests these criteria against the set of possible state-space models producing a subset of allowable models. When combined with likelihood maximisation this algorithm identifies a unique optimal model. The efficacy of this alogorithm is demonstrated for simulated data, and results for real data are also provided and discussed.}
 
 \section{Introduction}
 
@@ -74,6 +74,10 @@ I will now briefly review some key results pertaining to DAGs that are utilised 
 Outside of the optional assumption of linearity and Gaussian errors that are made here for simplicity, \textit{faithfulness} is the only assumption necessary for the identification of a DAG for a true DGP. It is the assumption that the conditional independence relationships in the DGP are \textit{stable} to perturbations of parameters. Intuitively, if we wish to use conditional independence relationships to identify a model then we must assume the observed conditional independence relationships do not belie the underlying distribution. This assumption is only violated if some causal effects exactly cancel out, resulting in no observed correlation between casually connected variables. \citeauthor{pearl2009causality} (\citeyear{pearl2009causality}) provides the following example. Consider the following model: $z = \beta_{zx} x + \epsilon_x$, $ y = \beta_{yx} x + \beta_{yz} z + \epsilon_y$. If we impose the parameter restriction $\beta_{yx} = -\beta_{yz}\beta_{zx}$ then $x$ and $y$ are independent. However, this independence relationship is not robust to perturbations of the model parameters and is therefore not stable in the relevant sense. 
 
 A sufficient condition for faithfulness is that the DGP parameters are jointly continuous over the parameter space \parencite{steel2006homogeneity}, or equivalently, that the matrix of DGP parameters is of full rank. This is because under this condition, specific combinations of parameters which result in the cancellation of causal effects have has Lebesgue measure 0. If we believe that the true DGP of the macroeconomy is DSGE model, which itself is faithfully represented by a DAG, then this condition is unlikely to be met. DSGE models impose many cross-equation restrictions on parameters that effectively reduce the rank of the parameter matrix. Unfortunately this condition will not allow us to guarantee that DSGE models satisfy the faithfulness assumption. However, if when considering real macroeconomic data we put aside the assumption that the true DGP is a DSGE model, it does not seem \textit{a priori} unreasonable that the parameter relating, for example, capital and output, and the parameter relating consumption and technology vary independently in different populations. Regardless, this condition is merely sufficient, not necessary, and so it does not rule out that DSGE models can be faithfully represented by DAGs. 
+
+Given this interpretation of faithfulness many readers familiar with the timeseries econometrics literature may recognise a similarity to weak exogeneity \parencite{engle1983exogeneity}. These are indeed closely related concepts, however, they do not entirely overlap. In the context and language of DAGs the definition of a \textit{sequential cut} (necessary for weak exogeneity) given by \citeauthor{engle1983exogeneity} (\citeyear{engle1983exogeneity}) can be interpreted as the statement that the distribution of variables $\mathbf{x}_{t-1}$, $y_t$ and $z_t$ admit factorisation according to the parental markov condition in a DAG where $z_t$ is a parent of $y_t$, and $\mathbf{x}_{t-1}$ is a parent of both and that DAG is faithful (because the parameters are \textit{variation free}). However, unlike weak exogeneity which is defined relative to a parameter, faithfulness is defined relative to a set of conditional independence relationships.
+
+% TODO: Draw small DAG to represent sequential cuts.
 
 In another approach to failures of faithfulness, \citeauthor{steel2006homogeneity} (\citeyear{steel2006homogeneity}) notes that such failures or near-failures (that is near-zero statistical dependence despite clear causal pathways) are likely occur when parameters are both subject to \textit{selection} and \textit{homogeneity}. In this context, selection means that parameters are entirely determined by an economic agent. The suggestion is that if the path of a policy variable $z$ is specifically designed as a function of $x$ to counteract the causal effect of $x$ on some outcome $y$, then it is reasonable to believe that little or no correlation will be observed between $x$ and $y$ despite a clear causal pathway between them. If parameters are assumed to be come from some distribution with different draws for each population, then homogeneity is the statement that there is little exogenous variation in those parameter values, that is variation outside of the variation caused by selection. If \textit{both} selection and homogeneity occur, failure or near-failure of faithfulness is likely to occur. Within the context of macroeconomics, this seems likely to be the case when considering interest rates and the actions of central banks. Assuming the interest rate is set according to a Taylor (\citeyear{taylor1993discretion}) rule, the parameters of that rule are chosen with the specific intent and cancelling the causal effect of inflationary shocks on output and minimizing exogenous variation. 
 
@@ -268,7 +272,7 @@ Figure \ref{dsge_dag} implies the following four independence relationships amon
 
 The first condition (\ref{constraint_test:1}) is the statement that the model's time $t$ endogenous variables are explained entirely by and are therefore unconfounded conditional on $\mathbf{x}_{t-1}$ and $\mathbf{z}_t$ (the time $t$ states). In DAG parlance, a time $t$ endogenous variable is \textit{d-separated} from and therefore independent of any other time $t$ endogenous variable by the time $t$ states. Condition (\ref{constraint_test:3}) states that the time $t$ states that every lagged endogenous state is independent of every exogenous state conditional on the lagged exogenous states. This follows from the exogeneity of $\mathbf{z}$ which implies that the only parent of $z_t$ other than the shock is $z_{t-1}$. Condition (\ref{constraint_test:2}) holds because the time $t$ states d-separate the time $t$ endogenous variables from the lagged exogenous states. If we were to consider further lags, this conditional independence would apply not only to $z_{t-1}$, but also to all $t-2$ and earlier variables because of the Markov condition. Finally, Condition (\ref{constraint_test:4}) holds that all exogenous states are mutually independent conditional on past exogenous shocks. This is a stronger assumption than the other three, and depends crucially on the assumption that the shocks $\mathbf{\epsilon}_t$ are mutually uncorrelated, and thus structural in nature.
 
-These constraint tests already provide a powerful selection criteria for empirical DSGE models I will call DAG-consistency:
+These constraint tests already provide a powerful selection criteria for empirical DSGE models I will call DAG-validity:
 
 \begin{definition}
   For a set of variables $\mathbf{w}$ a log-linearised DSGE model $M$ is \textit{valid} with respect to a distribution $f(\mathbf{w})$ if the exogenous states ($\mathbf{z}$), endogenous states ($\mathbf{x}$) and controls ($\mathbf{y}$) of $M$ as defined in equations (\ref{ss_solution:x}) - (\ref{ss_solution:z}) satisfy conditions (\ref{constraint_test:1}) and (\ref{constraint_test:3}).
@@ -467,14 +471,10 @@ This model was chosen as it is one of the simplest DSGE models and provides a go
     $y$ & output & control \\
     $i$ & nominal interest & control \\
     $pi$ & inflation & control \\
-    $y\_gap$ & output gap & control \\
     $r\_nat$ & natural interest rate & control \\
     $r\_real$ & real interest rate & control \\
     $n$ & hours worked & control \\
     $m\_real$ & real money balances & control \\
-    $m\_nominal$ & nominal money balances & control \\
-    $w$ & nominal wages & control \\ 
-    $c$ & consumption & control \\
     $w\_real$ & real wages & control \\
     $mu$ & mark-up & control \\ \cline{2-2}
     \hline
@@ -483,7 +483,8 @@ This model was chosen as it is one of the simplest DSGE models and provides a go
   \label{nk_data}
 \end{table}
 
-New Keynesian models are extremely popular in modern macroeconomics and are thus a worthy test for this methodology. In particular, I use a model from \citeauthor{gali2015monetary} (\citeyear{gali2015monetary}) as provided by \citeauthor{pfeifer2020} (\citeyear{pfeifer2020}). The variables in this model are summarised in table \ref{nk_data}  \footnote{Some control variables which were just linear functions of another variable were dropped, for example, annualised rates.}. This model has a total of six states: three exogenous (policy rate, technology and, preferences) for which there is one i.i.d. shock each, and one endogenous (price level).
+New Keynesian models are extremely popular in modern macroeconomics and are thus a worthy test for this methodology. In particular, I use a model from \citeauthor{gali2015monetary} (\citeyear{gali2015monetary}) as provided by \citeauthor{pfeifer2020} (\citeyear{pfeifer2020}). The variables in this model are summarised in table \ref{nk_data}  \footnote{Some control variables which were perfectly correlated with another variable were dropped, for example, annualised rates.}. This model has a total of four states: three exogenous (policy rate, technology and, preferences) for which there is one i.i.d. shock each, and one endogenous (price level).
+
 \subsection{US Data}
 
 \begin{table}
@@ -552,11 +553,77 @@ Using a the entire sample for the RBC model the algorithm successfully identifie
 
 Table \ref{rbcwins} shows the results for the 1000 small sample tests. These results are promising for a number of reasons. Firstly, we see that with a sample size of 100, the algorithm still manages to select the correct states nearly $90\%$ of the time, and the correct states were only rejected in only 3 iterations or $0.3\%$. Therefore, it seems that the true probability of rejecting the correct model is much lower than the $5\%$ upper bound. On the other hand, the conditional independence tests seem to have a good deal of power to reject incorrect models. Out of the 835 candidates tested in each iteration, only 8 were ever valid in any iteration, despite the fact that the true model was almost never rejected. Furthermore, sorting by the score function ($bic$) also seems to have had the intended effect. Models 3 through 7 were all valid for a high number of iterations but managed to be picked by the algorithm only 3 times combined because the scoring favoured the true model. 
 
-There was only one model other than the true model that was selected a substantive number of times which is the model with exogenous states $c$ and $l$, and endogenous state $k$. This model had the highest score every time it was valid. It seems likely that this model score so highly because these $c$ and $l$ have very high autoregressive coefficients ($0.994$ and $0.972$ respectively), and as a result they get a high likelihood score when treated as exogenous states compared with $g$ and $z$, while themselves being highly correlated with $g$ and $z$ such that the prediction while treating $g$ and $z$ as controls also gets a relatively high likelihood score. The conclusion here is that the algorithm may run into difficulties in small samples if there is a high degree of multicollinearity between variables. However, this problem is benign because if variables are highly collinear then they effectively measure the same thing and so little is lost by dropping one of them. This is why this was done for the New Keynesian model.
+There was only one model other than the true model that was selected a substantive number of times which is the model with exogenous states $c$ and $l$, and endogenous state $k$. This model had the highest score every time it was valid. It seems likely that this model scores so highly because these $c$ and $l$ have very high autoregressive coefficients ($0.994$ and $0.972$ respectively), and as a result they get a high likelihood score when treated as exogenous states compared with $g$ and $z$, while themselves being highly correlated with $g$ and $z$ such that the prediction while treating $g$ and $z$ as controls also gets a relatively high likelihood score. The conclusion here is that the algorithm may run into difficulties in small samples if there is a high degree of multicollinearity between variables. However, this problem is benign because if variables are highly collinear then they effectively measure the same thing and so little is lost by dropping one of them. This is why this was done for the New Keynesian model.
 
 \subsection{Baseline New Keynesian}
 
+\begin{table}
+  \centering
+  \begin{tabular}{|c|c|c|l|l|}
+    \bfseries Index & \bfseries Exogenous States & \bfseries Endogenous States & \bfseries Wins & \bfseries Valid
+    \csvreader[head to column names]{./files/nk_wins.csv}{}
+    {\\\index & \exostates & \endostates & \wins & \valid}
+  \end{tabular}
+  \caption{Small-sample results for NK model}
+  \label{rbcwins}
+\end{table}
+
+In total 54 models are valid in at least one iteration for the NK data, however, only those that won in at least one iteration are shown here. Again we see that the true model wins far more than any other candidate, although perhaps less convincingly than with the RBC model. The constraint tests seem to have performed very well here. The true model was only rejected in 1 trial, and the only other model that was rejected less also has the correct states, only slightly misallocated between exogenous and endogenous. Every winning model correctly identifies the price level as an exogenous state except this one. Score based sorting also performs well for this model. No model wins a higher proportion of the time it is valid than the true model (which was the case for the RBC data).
+
 \subsection{US Data}
+
+\begin{table}
+  \centering
+  \begin{tabular}{|c|c|c|l|l|}
+    \bfseries Index & \bfseries Exogenous States & \bfseries Endogenous States & \bfseries Controls
+    \csvreader[head to column names]{./files/realresults.csv}{}
+    {\\\index & \exostates & \endostates & \controls}
+  \end{tabular}
+  \caption{Models selected by algorithm for US macro data 1985-2005.}
+  \label{usmodels}
+\end{table}
+
+Table \ref{usmodels} shows the two models that were found to be valid for the real US macroeconomic data. These models disagree only on whether they classify the policy rate $rm$ as an exogenous or endogenous state. The first model had a higher score however, so it is ultimately the model that was selected by the algorithm. This means that the only DSGE models that are consistent in the sense of DAG-validity with this data must have these states. Therefore, this model can be interpreted as evidence in support of some common assumptions in DSGE models, and evidence against others, relative to this data set. 
+
+For example, the fact that consumption enters as an endogenous state suggests that habits in consumption \parencite{fuhrer2000habit} are consistent with this observed data. $Pi$ enters as an endogenous state which can be interpreted as evidence in favor of sticky prices (otherwise inflation would be a control). This is a key result in many versions of the New Keynesian model. On the other hand, the fact that TFP $z$ enters as an exogenous state would seem to be evidence against endogenous technological growth, however, this could be because these effects take more than one period to be felt. It is in any case consistent with what is assumed in both the baseline RBC and New Keynesian DSGE models. 
+
+We also find that goverment spending is a control in this model. This contradicts the assumption in for example the baseline RBC model that governement spending is an exogenous state variable. This is somewhat of a limitation for the observational model, as it means that IRFs to fiscal policy shocks cannot be calculated. On the other hand it does seem to be consistent with the observed data. An autoregression of $g$ on its lag gives a coefficient of 0.01, corresponding to a two-sided p-value of over 0.9. Therefore, (detrended) government data appears to be effectively $i.i.d.$ in this data, and although it is not necessary that state variables display persistence, it is nonetheless no surpise that the selected model rejects that government spending is a state variable. 
+
+\begin{figure}
+  \centering
+  \begin{subfigure}{0.8\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/real_data_rm_irf.png} 
+    \caption{Monetary policy shock}
+    \label{real_rm_irf}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.8\textwidth}
+    \centering  
+    \includegraphics[width=\linewidth]{images/real_data_z_irf.png}
+    \caption{Technology shock}
+    \label{real_z_irf}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.8\textwidth}
+    \centering  
+    \includegraphics[width=\linewidth]{images/real_data_y_irf.png}
+    \caption{Output shock}
+    \label{real_y_irf}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.8\textwidth}
+    \centering  
+    \includegraphics[width=\linewidth]{images/real_data_u_irf.png}
+    \caption{Unemployment shock}
+    \label{real_u_irf}
+  \end{subfigure}
+
+  \caption{IRFs to shocks to each of the exognous states in the model fit to real US macroeconomic data.}
+  \label{real_irfs}
+\end{figure} 
+
+Figure \ref{real_irfs} shows IRFs for shocks to the 4 exogenous processes in the real US data model.
 
 \section{Discussion and Conclusion}
 
@@ -572,7 +639,7 @@ There was only one model other than the true model that was selected a substanti
   For a set of variables $\mathbf{w}$ suppose a distribution $f(\mathbf{w})$ is faithful to a DAG $g$ of the type in figure \ref{dsge_dag} for some partition of $\mathbf{w}$ into $\mathbf{z}$, $\mathbf{x}$, and $\mathbf{y}$. Then a log-linearised DSGE model $M$ is faithfully represented by the same DAG if and only if it satisfies (\ref{constraint_test:3}) and (\ref{constraint_test:1}).
 \end{theorem}
 \begin{proof}
-  \textit{Necessary:} The DAG satisfies the conditional independence relationships by construction \\
+  \textit{Necessary:} The DAG satisfies the conditional independence relationships by construction. \\
   \textit{Sufficient:} Proof by contradiction: \\
   Suppose not. Then $M$ is faithfully represented by a DAH $h$ which is different to $g$. Since $M$ is still a log-linear DSGE solution it must still have a faithful DAG representation of the general form in figure (\ref{dsge_dag}). Therefore, the difference must be that $h$ classifies one or more of the variables in $\mathbf{w}$ differently than $g$. Define the following notation: $g_x$ is the set of variables that are categorised as endogenous states in DAG  $g$ and likewise for $h$ and other categories. \\
   Continue by considering cases: \\
