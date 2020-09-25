@@ -22,5 +22,12 @@
 !/text/latex/presentation/images
 !/text/latex/presentation/images/*
 !/text/latex/presentation/*.tex
-!/text/latex/proposal/*.bib
+!/text/latex/presentation/*.bib
+/text/latex/algo/*
+!/text/latex/algo/images
+!/text/latex/algo/images/*
+!/text/latex/algo/files
+!/text/latex/algo/files/*
+!/text/latex/algo/*.tex
+!/text/latex/algo/*.bib
 */__pycache__/*
