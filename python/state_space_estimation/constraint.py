@@ -4,6 +4,7 @@ from sklearn.linear_model import LinearRegression
 from scipy import stats
 from joblib import Memory
 import tempfile
+import warnings
 
 cachedir = tempfile.gettempdir()
 mem = Memory(cachedir)
@@ -26,8 +27,10 @@ def partial_correlation(y, x, z=None, tol=1e-5):
     if z is None or z.shape[1] == 0:
         return stats.pearsonr(y, x)
 
-    resid_y, score_y = residual_cache(y, z)
-    resid_x, score_x = residual_cache(x, z)
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        resid_y, score_y = residual_cache(y, z)
+        resid_x, score_x = residual_cache(x, z)
 
     # If there is evidence that x or y are _totally explained_ by z
     # then the residuals are a constant --- zero
