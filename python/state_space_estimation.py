@@ -62,12 +62,18 @@ else:
 
 if source == 'rbc':
     data = pd.read_csv('../data/rbc.csv')
+    true_exo_states = ['z', 'g']
+    true_endo_states = ['k']
 
 elif source == 'nk':
     data = pd.read_csv('../data/nk.csv')
+    true_exo_states = ['nu', 'a', 'z']
+    true_endo_states = ['p']
 
 elif source == 'sw':
     data = pd.read_csv('../data/sw.csv')
+    true_exo_states = []
+    true_endo_states = []
     
     shift_vars = data.columns.values
     shift = data.loc[:,shift_vars].shift()
@@ -77,6 +83,8 @@ elif source == 'sw':
 
 elif source == 'real':
     data = pd.read_csv('../data/real_data.csv', index_col='DATE')
+    true_exo_states = []
+    true_endo_states = []
 
 else:
     raise ValueError("Source data not supported")
@@ -109,7 +117,7 @@ if repeat:
         total_valid = result.shape[0]
         for i in range(result.shape[0]):
             row = result.iloc[i,:]
-            if set(row['exo_states']) == set(['z', 'g']) and set(row['endo_states']) == set(['k']):
+            if set(row['exo_states']) == set(true_exo_states) and set(row['endo_states']) == set(true_endo_states):
                 true_valid = True
                 true_index = i
             if wins.index.isin([('_'.join(sorted(row['exo_states'])), '_'.join(sorted(row['endo_states'])))]).any():
