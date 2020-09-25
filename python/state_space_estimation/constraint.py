@@ -8,8 +8,6 @@ import tempfile
 cachedir = tempfile.gettempdir()
 mem = Memory(cachedir)
 #  TODO: make sure that this cache is cleared-up on the drive after running - I think it is
-
-
 def partial_correlation(y, x, z=None, tol=1e-5):
     '''
     Arguments:
@@ -24,9 +22,7 @@ def partial_correlation(y, x, z=None, tol=1e-5):
     Returns:
         tuple(partial correlation, p-value): (float, float)
     '''
-    # TODO: given the places where this method is used, better to swap Y and X here (they are interchangeable anyway)?
     residual_cache = mem.cache(get_residuals, verbose=False)
-    # 2x plus speedup by memoizing get_residuals, I think
     if z is None or z.shape[1] == 0:
         return stats.pearsonr(y, x)
 
@@ -42,12 +38,19 @@ def partial_correlation(y, x, z=None, tol=1e-5):
     return stats.pearsonr(resid_y, resid_x) # return p-value
 
 
-def get_residuals(target, predictor):
-    # TODO: is this the correct way around? (think so ...)
+def get_residuals(Y, X):
     model = LinearRegression(fit_intercept=False, normalize=False)
-    model.fit(predictor, target)
-    residuals = target - model.predict(predictor)
-    return residuals, model.score(predictor, target)
+    model.fit(X, Y)
+    residuals = Y - model.predict(X)
+    return residuals, model.score(X, Y)
+
+
+def arrange_results(pcorr, pval, names, x, y, z):
+    return {'x': names[x],
+            'y': names[y],
+            'z': names[z] if len(z) > 0 else [],
+            'pcorr': pcorr,
+            'pval': pval}
 
 
 def constraint_tests(roles, names, data):
@@ -98,15 +101,6 @@ def constraint_tests(roles, names, data):
             z = roles.lag_exo_states_idx
             pcorr, pval = partial_correlation(data[:, x], data[:, y], data[:, z])
             res = arrange_results(pcorr, pval, names, x, y, z)
-            res.update({'z': [z]})  # slightly different naming convention in this case
             tests.append(res)
 
     return tests
-
-
-def arrange_results(pcorr, pval, names, x, y, z):
-    return {'x': names[x],
-            'y': names[y],
-            'z': names[z] if len(z) > 0 else [],
-            'pcorr': pcorr,
-            'pval': pval}

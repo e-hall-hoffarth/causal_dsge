@@ -50,7 +50,7 @@ class estimation():
 
 
     def evaluate_states(self, roles,
-                        tests=('score', 'constraint'),
+                        tests=['score', 'constraint'],
                         alpha=0.05,
                         return_tests=True,
                         verbose=False):
@@ -101,7 +101,11 @@ class estimation():
         return results
 
 
-    def choose_states(self, n_states, alpha=0.05, tests=['score', 'constraint'], return_tests=True, verbose=False):
+    def choose_states(self, n_states, 
+                      alpha=0.05, 
+                      tests=['score', 'constraint'], 
+                      return_tests=True, 
+                      verbose=False):
         '''
         Inputs:
             n_states: int
@@ -134,15 +138,9 @@ class estimation():
                                alpha=0.05,
                                tests=['score', 'constraint'],
                                return_tests=True,
-                               serial=False,
                                verbose=False):
         """
-        Args:
-            n_states:
-            serial: bool: whether to perform the iterations more slowly, not in parallel
-
-        Returns:
-             See self.choose_states; implements same functionality with a parallel backend.
+        See self.choose_states; implements same functionality with a parallel backend.
         """
         opts = {
             'tests': tests,
@@ -153,13 +151,8 @@ class estimation():
 
         states = self.potential_states(n_states=n_states)
 
-        # TODO: can the expression below be simpler?
         len_variables = len(self.data.columns.values[:np.int64(len(self.data.columns.values)/2)])
         tqdm_total = nCr(len_variables, n_states) * (2 ** n_states)
-
-        if serial:
-            tq = tqdm(states, total=tqdm_total)
-            return pd.DataFrame([self.evaluate_states(state, **opts) for state in tq])
 
         par = Parallel(n_jobs=cpu_count())
         tq = tqdm(states, total=tqdm_total)
