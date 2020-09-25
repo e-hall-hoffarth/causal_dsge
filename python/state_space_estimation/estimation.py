@@ -2,13 +2,13 @@ import numpy as np
 import pandas as pd
 import math
 from tqdm import tqdm
-from itertools import chain, combinations, product
+from itertools import chain, combinations
 from joblib import Parallel, delayed
 from multiprocessing import cpu_count
 from .roles import roles
-from .dag import dag
 from .constraint import constraint_tests
 from .score import score_tests
+
 
 def nCr(n,r):
     '''
@@ -49,8 +49,11 @@ class estimation():
         return None
 
 
-    def evaluate_states(self, roles, tests=('score', 'constraint'), alpha=0.05,
-                              return_tests=True, verbose=False):
+    def evaluate_states(self, roles,
+                        tests=('score', 'constraint'),
+                        alpha=0.05,
+                        return_tests=True,
+                        verbose=False):
         '''
         Inputs:
             roles: state_space_estimation.roles
@@ -71,7 +74,7 @@ class estimation():
             results: dict
         '''
         if verbose: 
-            print('Evaluating states {}'.format(list(roles.exo_states) + [es + '_1' for es in roles.endo_states]))
+            print('\nEvaluating states {}'.format(list(roles.exo_states) + [es + '_1' for es in roles.endo_states]))
         names = roles.names
         results = {}
         results['exo_states'] = roles.exo_states
@@ -127,14 +130,38 @@ class estimation():
                 results['valid'] = results['valid'].astype(bool)
         return results
 
-            
-    def choose_states_parallel(self, n_states, alpha=0.05, tests=['score', 'constraint'], return_tests=True, verbose=False):
-        '''
-        See self.choose_states; implements same functionality with a parallel backend.
-        '''
-        variables = self.data.columns.values[:np.int64(len(self.data.columns.values)/2)]
+    def choose_states_parallel(self, n_states,
+                               alpha=0.05,
+                               tests=['score', 'constraint'],
+                               return_tests=True,
+                               serial=False,
+                               verbose=False):
+        """
+        Args:
+            n_states:
+            serial: bool: whether to perform the iterations more slowly, not in parallel
+
+        Returns:
+             See self.choose_states; implements same functionality with a parallel backend.
+        """
+        opts = {
+            'tests': tests,
+            'alpha': alpha,
+            'return_tests': return_tests,
+            'verbose': verbose
+        }
+
         states = self.potential_states(n_states=n_states)
-        results = Parallel(n_jobs=cpu_count())(delayed(self.evaluate_states)(state, tests, alpha, verbose) 
-                                            for state in tqdm(states, 
-                                                                total=(nCr(len(variables), n_states) * (2 ** (n_states)))))
+
+        # TODO: can the expression below be simpler?
+        len_variables = len(self.data.columns.values[:np.int64(len(self.data.columns.values)/2)])
+        tqdm_total = nCr(len_variables, n_states) * (2 ** n_states)
+
+        if serial:
+            tq = tqdm(states, total=tqdm_total)
+            return pd.DataFrame([self.evaluate_states(state, **opts) for state in tq])
+
+        par = Parallel(n_jobs=cpu_count())
+        tq = tqdm(states, total=tqdm_total)
+        results = par(delayed(self.evaluate_states)(state, **opts) for state in tq)
         return pd.DataFrame(results)
