@@ -27,6 +27,7 @@ parser.add_argument('source', help='''one of:
 parser.add_argument('-t', '--test', required=False, help='Testing strategy to employ, one of (srivastava, schott, custom_3, custom_4)')
 parser.add_argument('-a', '--alpha', required=False, help='Nominal significance level of constraint tests (default 0.05)')
 parser.add_argument('-m', '--min_states', required=False, help='consider only models with > min_states')
+parser.add_argument('-M', '--max_states', required=False, help='consider only models with < max_states')
 parser.add_argument('-n', '--sample_size', required=False, help='max sample size')
 parser.add_argument('-r', '--random_state', required=False, help='random state for subsampling')
 parser.add_argument('-c', '--repeat', required=False, help='how many times to repeat test')
@@ -91,17 +92,22 @@ elif source == 'real':
 else:
     raise ValueError("Source data not supported")
 
+if args.max_states:
+    max_states = min(int(args.max_states) + 1, int(len(data.columns.values)/2) - 1)
+else:
+    max_states = int(len(data.columns.values)/2) - 1
 
 def test(data):
     est = estimation(data)
-    for i in range(min_states, int(len(data.columns.values)/2) - 1):
+    for i in range(min_states, max_states):
         print('Evaluating models with {} states'.format(i))
-        results = est.choose_states_parallel(i, method=method, alpha=alpha)
+        results = est.choose_states(i, method=method, alpha=alpha)
         if results[results['valid']].shape[0] > 0:
             return results[results['valid']].sort_values(by='bic', ascending=True)
         else:
             del results
             gc.collect()
+    return None # No valid models found
 
 
 if repeat:
@@ -114,33 +120,36 @@ if repeat:
         else:
             sample = data
         result = test(sample)
-        true_valid = False
-        true_index = -1
-        total_valid = result.shape[0]
-        for i in range(result.shape[0]):
-            row = result.iloc[i,:]
-            if source == 'rbc' and set(row['exo_states']) == set(['z', 'g']) and set(row['endo_states']) == set(['k']):
-                true_valid = True
-                true_index = i
-            elif source == 'nk' and set(row['exo_states']) == set(['nu', 'a', 'z']) and set(row['endo_states']) == set(['p']):
-                true_valid = True
-                true_index = i
-            if wins.index.isin([('_'.join(sorted(row['exo_states'])), '_'.join(sorted(row['endo_states'])))]).any():
-                wins.loc[('_'.join(sorted(row['exo_states'])), '_'.join(sorted(row['endo_states']))),'wins'] += 1 if i == 0 else 0
-                wins.loc[('_'.join(sorted(row['exo_states'])), '_'.join(sorted(row['endo_states']))),'valid'] += 1
-            else:
-                wins.loc[('_'.join(sorted(row['exo_states'])), '_'.join(sorted(row['endo_states']))),'wins'] = 1 if i == 0 else 0
-                wins.loc[('_'.join(sorted(row['exo_states'])), '_'.join(sorted(row['endo_states']))),'valid'] = 1
+        if result is not None:
+            true_valid = False
+            true_index = -1
+            total_valid = result.shape[0]
+            for i in range(result.shape[0]):
+                row = result.iloc[i,:]
+                if source == 'rbc' and set(row['exo_states']) == set(['z', 'g']) and set(row['endo_states']) == set(['k']):
+                    true_valid = True
+                    true_index = i
+                elif source == 'nk' and set(row['exo_states']) == set(['nu', 'a', 'z']) and set(row['endo_states']) == set(['p']):
+                    true_valid = True
+                    true_index = i
+                if wins.index.isin([('_'.join(sorted(row['exo_states'])), '_'.join(sorted(row['endo_states'])))]).any():
+                    wins.loc[('_'.join(sorted(row['exo_states'])), '_'.join(sorted(row['endo_states']))),'wins'] += 1 if i == 0 else 0
+                    wins.loc[('_'.join(sorted(row['exo_states'])), '_'.join(sorted(row['endo_states']))),'valid'] += 1
+                else:
+                    wins.loc[('_'.join(sorted(row['exo_states'])), '_'.join(sorted(row['endo_states']))),'wins'] = 1 if i == 0 else 0
+                    wins.loc[('_'.join(sorted(row['exo_states'])), '_'.join(sorted(row['endo_states']))),'valid'] = 1
 
-        result = result.iloc[0,:]
-        result['true_valid'] = true_valid
-        result['true_index'] = true_index
-        result['total_valid'] = total_valid
-        results = results.append(result, ignore_index=True)
-        print('Result: exo_states: {}, endo_states: {}, true model valid: {}, true index: {}, total valid: {}'.format(
-            result['exo_states'], result['endo_states'], result['true_valid'], result['true_index'], result['total_valid']
-        ))
-    wins.sort_values(by='wins', ascending=False, inplace=True)
+            result = result.iloc[0,:]
+            result['true_valid'] = true_valid
+            result['true_index'] = true_index
+            result['total_valid'] = total_valid
+            results = results.append(result, ignore_index=True)
+            print('Result: exo_states: {}, endo_states: {}, true model valid: {}, true index: {}, total valid: {}'.format(
+                result['exo_states'], result['endo_states'], result['true_valid'], result['true_index'], result['total_valid']
+            ))
+        else:
+            print('No valid model found')
+        wins.sort_values(by='wins', ascending=False, inplace=True)
     if save:
         results.to_csv('../data/{}_{}_{}_{}_{}iter_results.csv'.format(source, str(n), str(method), str(alpha), str(repeat)))
         wins.to_csv('../data/{}_{}_{}_{}_{}iter_wins.csv'.format(source, str(n), str(method), str(alpha), str(repeat)))
@@ -151,11 +160,14 @@ else:
         results = test(sample)
     else:
         results = test(data)
-    print('Found valid model with {} states'.format(results['nstates'].iloc[0]))
-    if save:
-        results.to_csv('../data/{}_{}_{}_{}_results.csv'.format(source, str(n), str(method), str(alpha)))
-    for result in results.iterrows():
-        print('exo_states: {} || endo_states: {} || controls: {} || log-likelihood:{}'.format(
-            result[1]['exo_states'], result[1]['endo_states'], result[1]['controls'], result[1]['loglik']
-        ))
+    if results is not None:
+        print('Found valid model with {} states'.format(results['nstates'].iloc[0]))
+        if save:
+            results.to_csv('../data/{}_{}_{}_{}_results.csv'.format(source, str(n), str(method), str(alpha)))
+        for result in results.iterrows():
+            print('exo_states: {} || endo_states: {} || controls: {} || log-likelihood:{}'.format(
+                result[1]['exo_states'], result[1]['endo_states'], result[1]['controls'], result[1]['loglik']
+            ))
+    else:
+        print('No valid model found')
 

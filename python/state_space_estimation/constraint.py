@@ -50,6 +50,7 @@ def schott(data):
     '''
     n = data.shape[0]
     m = data.shape[1]
+    k = m*(m-1)/2
     if m > 1:
         R = np.corrcoef(data.T)
         t_nm = np.sum(np.square(np.triu(R, k=1))) - ((m*(m-1))/(2*n))
@@ -78,9 +79,11 @@ def custom(data, l, tol=1e-5):
     k = (l/2)*(2*m-l-1) # number of elements of R considered
     if m > 1 and k > 0:
         R = np.corrcoef(data.T)      
-        t_nm = (np.sum(np.square(np.triu(R, k=1))) 
-                - np.sum(np.square(np.triu(R[:(m-l),:(m-l)], k=1)))
-                - k/n)
+        included = np.triu(R, k=1)
+        excluded = np.concatenate([np.concatenate([np.triu(R[:(m-l),:(m-l)], k=1), 
+                                                   np.zeros(((m-l), l))], axis=1), 
+                                   np.zeros((l,m))], axis=0)
+        t_nm = (np.sum(np.square(included - excluded))) - k/n
         s_nm = (2*k*(n-1))/((n**2)*(n+2))
         return t_nm/np.sqrt(s_nm)
     
@@ -133,8 +136,7 @@ def get_resids(roles, data, ntests=4):
     if cset1.shape[0] > 0:
         lm1 = LinearRegression(fit_intercept=True, normalize=False)
         lm1.fit(data[:,cset1], data[:,tar1])
-        resid1 = data[:,tar1] - lm1.predict(data[:,cset1])
-        
+        resid1 = data[:,tar1] - lm1.predict(data[:,cset1]) 
     else:
         resid1 = data[:,tar1]
         
@@ -172,14 +174,13 @@ def constraint_tests(roles, data, method='custom_3', alpha=0.05, tol=1e-20):
     valid = True
     if method == 'srivastava':
         resid1, resid2 = get_resids(roles, data, ntests=2)
-        if np.var(resid1.flatten()) < tol:
+        if resid1.shape[1] == 0 or np.var(resid1.flatten()) < tol:
             t1 = 0
-            t2 = srivastava(resid2)
-        elif np.var(resid2.flatten()) < tol:
-            t1 = srivastava(resid1)
-            t2 = 0
         else:
             t1 = srivastava(resid1)
+        if resid2.shape[1] == 0 or np.var(resid2.flatten()) < tol:
+            t2 = 0
+        else:
             t2 = srivastava(resid2)
 
         crit_val = stats.norm.ppf(1-(alpha/2)) # One-sided test w/ Bonferroni correction
@@ -190,14 +191,13 @@ def constraint_tests(roles, data, method='custom_3', alpha=0.05, tol=1e-20):
 
     elif method == 'schott':
         resid1, resid2 = get_resids(roles, data, ntests=2)
-        if np.var(resid1.flatten()) < tol:
+        if resid1.shape[1] == 0 or np.var(resid1.flatten()) < tol:
             t1 = 0
-            t2 = schott(resid2)
-        elif np.var(resid2.flatten()) < tol:
-            t1 = schott(resid1)
-            t2 = 0
         else:
             t1 = schott(resid1)
+        if resid2.shape[1] == 0 or np.var(resid2.flatten()) < tol:
+            t2 = 0
+        else:
             t2 = schott(resid2)
         
         crit_val = stats.norm.ppf(1-(alpha/4)) # Two-sided test w/ Bonferroni correction
@@ -212,14 +212,13 @@ def constraint_tests(roles, data, method='custom_3', alpha=0.05, tol=1e-20):
         l1 = len(roles.controls) + len(roles.endo_states)
         l2 = len(roles.exo_states)
         
-        if np.var(resid1.flatten()) < tol:
+        if resid1.shape[1] == 0 or np.var(resid1.flatten()) < tol:
             t1 = 0
-            t2 = custom(resid2, l2)
-        elif np.var(resid2.flatten()) < tol:
-            t1 = custom(resid1, l1)
-            t2 = 0
         else:
             t1 = custom(resid1, l1)
+        if resid2.shape[1] == 0 or np.var(resid2.flatten()) < tol:
+            t2 = 0
+        else:
             t2 = custom(resid2, l2)
         
         crit_val = stats.norm.ppf(1-(alpha/4)) # Two-sided test w/ Bonferroni correction
@@ -235,14 +234,13 @@ def constraint_tests(roles, data, method='custom_3', alpha=0.05, tol=1e-20):
         l1 = len(roles.controls) + len(roles.endo_states)
         l2 = len(roles.exo_states)
         
-        if np.var(resid1.flatten()) < tol:
+        if resid1.shape[1] == 0 or np.var(resid1.flatten()) < tol:
             t1 = 0
-            t2 = custom(resid2, l2)
-        elif np.var(resid2.flatten()) < tol:
-            t1 = custom(resid1, l1)
-            t2 = 0
         else:
             t1 = custom(resid1, l1)
+        if resid2.shape[1] == 0 or np.var(resid2.flatten()) < tol:
+            t2 = 0
+        else:
             t2 = custom(resid2, l2)
         
         crit_val = stats.norm.ppf(1-(alpha/4)) # Two-sided test w/ Bonferroni correction
