@@ -9,6 +9,7 @@
 \usepackage{amsthm}
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{tikz}
+\usepackage{blkarray}
 \usetikzlibrary{arrows}
 \usepackage[
   backend=biber,
@@ -204,7 +205,7 @@ Where $\mathbf{x}_t$ is a vector of control variables, $\mathbf{y}_t$ is a vecto
 
 Furthermore assume that $\mathbf{E}$ is diagonal ($e_{ij} = 0$ if $i \not = j$) such that the process of each exogenous state depends only on its own past and $|e_{ii}| < 1$ such that the model has a stationary solution. Note that for simplicity the exogenous states are assumed to possess the Markov property, that is, $\mathbf{z}_t$ depends only on $\mathbf{z}_{t-1}$ and not any further lags. As a result, the entire model has the Markov property. However, the framework and algorithm proposed here could easily be generalised to allow for longer lags.
 
-In this setup, all variables can be categorized as either state variables or control variables \parencite{fernandez2016solution}. Defined as broadly as possible, state variables are the variables whose past is relevant for determining the current value of modelled variables, and control variables are the rest; their past is independent of the current values of the model. State variables can be further categorized as either endogenous states (such as the capital stock) and exogenous states (such as the state of technology or productivity) \parencite{ravenna2007vector}. As the name suggests, endogenous states are determined simultaneously (endogenously) with contemporaneous controls in the model, however, their past is by definition exogenous and relevant to the determination of the current values of the model. Exogenous states, on the other hand, are exogenous in the sense that they are determined independently of any contemporaneous variables in the model, and are thus determined entirely by the past of the model or any exogenous innovations (shocks) that might be present. The distinction between endogenous and exogenous states is subtle, and it is primarily made because we often wish to give different interpretations to these two types of variables, but the fact that exogenous states enter the prediction of time $t$ endogenous variables at time $t$ rather than at time $t-1$ is an important modelling distinction.
+In this setup, all variables can be categorised as either state variables or control variables \parencite{fernandez2016solution}. Defined as broadly as possible, state variables are the variables whose past is relevant for determining the current value of modelled variables, and control variables are the rest; their past is independent of the current values of the model. State variables can be further categorized as either endogenous states (such as the capital stock) and exogenous states (such as the state of technology or productivity) \parencite{ravenna2007vector}. As the name suggests, endogenous states are determined simultaneously (endogenously) with contemporaneous controls in the model, however, their past is by definition exogenous and relevant to the determination of the current values of the model. Exogenous states, on the other hand, are exogenous in the sense that they are determined independently of any contemporaneous variables in the model, and are thus determined entirely by the past of the model or any exogenous innovations (shocks) that might be present. The distinction between endogenous and exogenous states is subtle, and it is primarily made because we often wish to give different interpretations to these two types of variables, but the fact that exogenous states enter the prediction of time $t$ endogenous variables at time $t$ rather than at time $t-1$ is an important modelling distinction.
 
 \section{Methodology}
 
@@ -258,6 +259,8 @@ As a result of these limitations, a more effective approach in this context is t
 
 \subsection{Constraint Tests} \label{constrainttests}
 
+\subsubsection{Independence Relationships}
+
 Figure \ref{dsge_dag} implies the following four independence relationships among the time $t$ and $t-1$ variables:
 
 \begin{align}
@@ -269,14 +272,91 @@ Figure \ref{dsge_dag} implies the following four independence relationships amon
 
 The first condition (\ref{constraint_test:1}) is the statement that the model's time $t$ endogenous variables are explained entirely by and are therefore unconfounded conditional on $\mathbf{x}_{t-1}$ and $\mathbf{z}_t$ (the time $t$ states). In DAG parlance, a time $t$ endogenous variable is \textit{d-separated} from and therefore independent of any other time $t$ endogenous variable by the time $t$ states. Condition (\ref{constraint_test:3}) states that the time $t$ states that every lagged endogenous state is independent of every exogenous state conditional on the lagged exogenous states. This follows from the exogeneity of $\mathbf{z}$ which implies that the only parent of $z_t$ other than the shock is $z_{t-1}$. Condition (\ref{constraint_test:2}) holds because the time $t$ states d-separate the time $t$ endogenous variables from the lagged exogenous states. If we were to consider further lags, this conditional independence would apply not only to $z_{t-1}$, but also to all $t-2$ and earlier variables because of the Markov condition. Finally, Condition (\ref{constraint_test:4}) holds that all exogenous states are mutually independent conditional on past exogenous shocks. This is a stronger assumption than the other three, and depends crucially on the assumption that the shocks $\mathbf{\epsilon}_t$ are mutually uncorrelated, and thus structural in nature.
 
-These constraint tests already provide a powerful selection criteria for empirical DSGE models I will call DAG-consistency:
+These constraint tests already provide a powerful selection criteria for empirical DSGE models I will call \textit{validity}:
 
 \begin{definition}
-  For a set of variables $\mathbf{w}$ a log-linearised DSGE model $M$ is \textit{valid} with respect to a distribution $f(\mathbf{w})$ if the exogenous states ($\mathbf{z}$), endogenous states ($\mathbf{x}$) and controls ($\mathbf{y}$) of $M$ as defined in equations (\ref{ss_solution:x}) - (\ref{ss_solution:z}) satisfy conditions (\ref{constraint_test:1}) and (\ref{constraint_test:3}).
+  For a set of variables $\mathbf{w}$ a log-linearised DSGE model $M$ is \textit{valid} with respect to a distribution $f(\mathbf{w})$ if the exogenous states ($\mathbf{z}$), endogenous states ($\mathbf{x}$) and controls ($\mathbf{y}$) of $M$ as defined in equations (\ref{ss_solution:x}) - (\ref{ss_solution:z}) satisfy conditions (\ref{constraint_test:1}), (\ref{constraint_test:3}), and the minimum state variable criterion.
   \label{validity}
 \end{definition}
 
 It is proved in an appendix (\ref{proofs}) that validity is necessary and sufficient to guarantee that if the ground truth can be characterised as in (\ref{ss_solution:x}) - (\ref{ss_solution:z}) then DSGE models that are dag-consistent with the ground truth have the same DAG representation, and therefore, the same state-space model. Constraints (\ref{constraint_test:2}) and (\ref{constraint_test:4}) are still applicable because they are implied by the DAG, but there are not required. To be more general we could drop these assumptions as long as the shocks only directly effect the exogenous states, and the other constraints would still hold and be valid tests of the model. However, these constraints (and the associated assumptions) are nonetheless included because they is satisfied by a wide range of DSGE models including all of those considered in the empirical portion of this paper, and all else equal conducting a larger number of tests gives more statistical \textit{power} to reject incorrect models when using finite samples.
+
+\subsubsection{Testing Procedure} \label{testing}
+
+This section will discuss the implementation of an emprically viable strategy for testing conditions (\ref{constraint_test:1}) - (\ref{constraint_test:4}). In the present application, we make the assumption that observed variables are normally distributed, such that testing for conditional independence is equivalent to testing for a partial non-correlation. This assumption is in general not required as it is possible to test for conditional independence non-parametrically (see \citeauthor{strobl2019approximate} (\citeyear{strobl2019approximate}) for a review of recent contributions in this vein), however, it is justified here as Gaussian assumptions are common in DSGE models and economic applications more generally, and it will greatly simplify the testing procedure. 
+
+Partial linear correlations can estimated by regressing the set of target variables of interest $\mathbf{x}$ on the set of conditioning variables $\mathbf{z}$ and then estimating the correlations between the resulting residuals $\mathbf{u}_x$. Conditions (\ref{constraint_test:1}) - (\ref{constraint_test:4}) involve only two distinct conditioning sets, namely $[\mathbf{x}_{t-1},\mathbf{z}_t]$ and $\mathbf{z}_{t-1}$. Now note that the null hypothesis implied by condition (\ref{constraint_test:1}) is that the correlation matrix of residuals obtained by regressing the vector $[\mathbf{x}_t, \mathbf{y}_t]$ on $[\mathbf{x}_{t-1},\mathbf{z}_t]$ is an identity matrix. In other words, the controls and endogenous states are \textit{completely independent} conditional on $[\mathbf{x}_{t-1},\mathbf{z}_t]$. Similarly, condition (\ref{constraint_test:4}) implies the null hypothesis that exogenous states are completely independent conditional on lagged exogenous states. A range of tests are availible for testing exactly this type of null hypothesis, see \citeauthor{schott2005testing} (\citeyear{schott2005testing}), \citeauthor{srivastava2005some} (\citeyear{srivastava2005some}), and, \citeauthor{wang2015conditional} (\citeyear{wang2015conditional}). Unfortunately, conditions (\ref{constraint_test:3}) and (\ref{constraint_test:2}) do not imply a similar diagonal correlation matrix hypotheses. This is because in the case of the former the off-diagonal partial correlations between the lagged endogenous states are unrestricted, and in the case of the latter the off-diagonal partial correlations between the lagged exogenous states are unrestricted. This is particular problematic because condition \ref{constraint_test:3} is required to identify a unique valid model. 
+
+Figure \ref{corr_matrices} shows how conditions (\ref{constraint_test:1}) - (\ref{constraint_test:4}) can be represented by two partial correlation matrices. This mimimal example illustrates a model with two exogenous states ($z$ and $z^{\prime}$), two endogenous states ($x$ and $x^\prime$), and one control ($y$). The matrices contain elements U indicating unrestricted correlations. Clearly we are interested in a hypothesis which is weaker than complete (partial) independence. The null hypothesis of interest is that all the elements in the lower left (or upper right) trapazoids of these two partial correlation matrices are zero. In order to test this, we will use a modified version of the test proposed in \citeauthor{schott2005testing} (\citeyear{schott2005testing}). The test statistic for diagonal matrices given in that paper is:
+
+\begin{align}
+  \hat{t} = \sum_{i=2}^m \sum_{j=1}^{i-1} \hat{\rho}^2_{ij} - \frac{m(m-1)}{2n} \\
+  \hat{\sigma}^2 = \frac{m(m-1)(n-1)}{n^2(n+2)} \\
+  \hat{t} / \hat{\sigma} \xrightarrow[]{d} N(0,1)
+\end{align}
+
+where $\hat{\rho}_{ij}$ is the $(i,j)$ element of the estimated sample (partial) correlation matrix, $m$ is the dimension of the matrix, and $n$ is the sample size. Define the number of squared sample correlations that are summed over as $k$. These statistics can be rewritten in terms of the variance and covariance of the squared sample correlations given by \citeauthor{schott2005testing} (\citeyear{schott2005testing}), which are $E(\hat{\rho}_{ij}^4) = \frac{3}{n(n+2)}$ and $E(\hat{\rho}_{ij}^2\hat{\rho}_{gh}^2) = \frac{1}{n^2}$:
+
+\begin{align}
+  \hat{t} = \sum_{i=2}^m \sum_{j=1}^{i-1} \hat{\rho}^2_{ij} - \frac{k}{n} \\
+  \hat{\sigma}^2 = k(\frac{3}{n(n+2)} - \frac{1}{n^2})
+\end{align}
+
+We now modify these test statistics to test the relevant hypothesis. Define $l$ as the number of columns of the lower triangle that are restricted to 0 under the null hypothesis. Then $m - l$ columns contain unrestricted elements. Note that $l \leq m - 1$ as the diagonal itself cannot be 0. For example, in Figure \ref{corr_matrices}, the left hand side matrix has $m=5$ and $l=3$, whereas the right hand side matrix has $m=4$ and $l=2$. To get the relevant sum we can directly sum the squared sample correlations over the relevant trapazoid. The number of relevant elements that we will be summing over, $k^*$, is now $(\frac{m(m-1)}{2}-\frac{(m-l)(m-l-1)}{2}) = \frac{l}{2}(2m-l-1)$. Finally, the modified test statistics are written as:
+
+\begin{align}
+  \hat{t}^* = \sum_{i=m-l}^m \sum_{j=1}^{i-1} \hat{\rho}^2_{ij} - \frac{k^*}{n} \\
+  \hat{\sigma^*}^2 = k^*(\frac{3}{n(n+2)} - \frac{1}{n^2}) = \frac{2k(n-1)}{n^2(n+2)} \\
+  \hat{t}^* / \hat{\sigma^*} \xrightarrow{d} N(0,1)
+\end{align}
+
+The above logic is simply an argument by analogy, and does not constitute a formal proof. In lieu of this, I have provided simulation evidence that the emperical size of this test over a range of specifications is close to the specified nominal significance level. Results for this test are shown in Appendix \ref{testing_validation}.
+
+\begin{figure}
+  \centering
+  \captionsetup{justification=centering,margin=2cm}
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    Conditioning set: $[x_{t-1}, z_t, z^{\prime}_t]$ \\
+    \begin{blockarray}{cccccc}
+      $z_{t-1}$ & $z^{\prime}_{t-1}$ & $x_t$ & $x^{\prime}_t$ & $y_t$ \\
+      \begin{block}{(ccccc)c}
+        1 & U & 0 & 0 & 0 & $z_{t-1}$ \\
+        U & 1 & 0 & 0 & 0 & $z^{\prime}_{t-1}$ \\
+        0 & 0 & 1 & 0 & 0 & $x_t$ \\
+        0 & 0 & 0 & 1 & 0 & $x^{\prime}_t$ \\
+        0 & 0 & 0 & 0 & 1 & $y_t$ \\
+      \end{block}
+    \end{blockarray}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.4\textwidth}
+    \centering
+    Conditioning set: $[z_{t-1}, z^{\prime}_{t-1}]$ \\
+    \begin{blockarray}{ccccc}
+      $x_{t-1}$ & $x^{\prime}_{t-1}$ & $z_t$ & $z^{\prime}_t$ \\
+      \begin{block}{(cccc)c}
+        1 & U & 0 & 0 & $x_{t-1}$ \\
+        U & 1 & 0 & 0 & $x^{\prime}_{t-1}$ \\
+        0 & 0 & 1 & 0 & $z_t$ \\
+        0 & 0 & 0 & 1 & $z^{\prime}_t$ \\
+      \end{block}
+    \end{blockarray}
+  \end{subfigure}
+  \caption{Simple example of partial correlation matrices under null hypothesis implied by conditions (\ref{constraint_test:1}) - (\ref{constraint_test:4})}
+  \label{corr_matrices}
+\end{figure}
+
+
+
+
+the conditional independence test that is used in this application is a t-test on the (partial) correlation of the relevant variables. It is important to note that these conditional independence tests are used in a somewhat unusual manner. Unlike most economic applications, the case we are interested in is the case in which we \textit{do not reject} the null hypotheses that the correlation is 0. In each test, the significance level $\alpha$ is the probability of rejecting the hypothesis that the true (partial) correlation is 0, and therefore, rejecting the model under consideration. 
+
+For any given model we may consider a large number of conditional independence tests (the number is polynomial order in the number in each category), and so there is a multiple comparisons problem. In an attempt to correct for this a Bonferroni (\citeyear{bonferroni1936teoria}) correction is applied. The Bonferroni correction adjusts the significance level assuming the independence of tests. In this context tests are clearly not independent, therefore, given the correction, $\alpha$ should be interpreted as an upper bound on the probability of rejecting a correct model.
+
+When investigating a statistical methodology there are two broad categories of properties that we may wish to establish. First are the asymptotic properties relating to the identifiability of the parameters of interest. In this context the goal is to establish that the algorithm selects the correct ground truth state-space model as the number of observations $n$ goes to infinity. It is straightforward to (at least informally) demonstrate the asymptotic consistency of this algorithm. Consider data generated from a DGP characterised by (\ref{ss_solution:x}) - (\ref{ss_solution:z}) that satisfies (\ref{constraint_test:1}) - (\ref{constraint_test:4}). Sample (partial) correlation is a consistent estimator of (partial) correlation, so the partial correlations estimated for (\ref{constraint_test:1}) - (\ref{constraint_test:4}), and thus the probability of rejecting the true model goes to zero as $n \rightarrow \infty$. On the other hand, consider a DSGE model that does not have the same state-space representation as the DGP. The result in \ref{proofs} implies that at least one of these the partial correlations in (\ref{constraint_test:1}) - (\ref{constraint_test:3}) is not zero, and therefore, the associated sample partial correlation does not converge to zero as $n \rightarrow \infty$. The t-statistic for this partial correlation goes to infinity and the chance of rejecting this incorrect model goes to 1 as $n \rightarrow \infty$.
+
+The other properties to consider are the finite sample or statistical inference properties. These may be much more difficult to establish because the probability that the correct model is not chosen depends both on the probability that some other incorrect model is \textit{valid}, and that that incorrect model has a higher score than the correct model. Both of these probabilities, in turn, depend on the alternative incorrect model under consideration. Therefore, instead of considering any theory in this regard, I will use simulations to demonstrate performance on finite samples in \ref{results}.
 
 \subsection{Score Tests} \label{scoretests}
 
@@ -392,13 +472,8 @@ The algorithm also assumes that the constraints validity is more important than 
 
 The algorithm applies the Minimal State Variable (MSV) criteria \parencite{mccallum1999role}. Once a model is found that is valid relative to the conditional independence tests, models with more states are not considered because these are inferior solutions. There are a number of relevant justifications for the application of this criteria. Firstly, this can be seen as the application of \textit{Occam's Razor} to state-space models, wherein state variables have more complex dynamics than controls. Consider equations (\ref{ss_solution:x}) - (\ref{ss_solution:z}). Exogenous states are involved in all three equations, endogenous states two, and controls only one. Another way to see this is in figure \ref{dsge_dag}. Among time $t$ and $t-1$ variables, adding an exogenous state results in the addition of edges in four places, an endogenous state in three places, and a control in only two. Therefore, models with with fewer states, especially exogenous states are more parsimonious and are therefore preferable, all else equal. The MSV criteria also allows for a potentially very large increase in the speed of the algorithm. Without it we must consider every possible combinations of states. Since the choice of states is multinomial with three categories the complexity of this algorithm is $\mathcal{O}(3^k)$. However, if the ground truth has only $m < k$ states then we can skip $\sum_{r=m}^{k} 2^r {\binom{k}{r}}$ iterations, which is potentially many orders of magnitude if $m << k$. This algorithm is nonetheless highly inefficient, however, given that macroeconomic data is usually of relatively low dimension, it is still feasible in many important cases. There are undoubtedly many performance improvements which could be made to this algorithm, but this is left as a topic for for future research.
 
-Given the fact that this algorithm considers every possible state-space model, and the result in \ref{constrainttests}, if conditional independence was completely observable this algorithm would always identify the ground truth state-space model. Unfortunately, in empirical applications with finite samples we have to rely on conditional independence tests that are not always correct. Since observed variables are assumed to follow a normal distribution, zero (partial) correlation is the same as (conditional) independence. So the conditional independence test that is used in this application is a t-test on the (partial) correlation of the relevant variables. It is important to note that these conditional independence tests are used in a somewhat unusual manner. Unlike most economic applications, the case we are interested in is the case in which we \textit{do not reject} the null hypotheses that the correlation is 0. In each test, the significance level $\alpha$ is the probability of rejecting the hypothesis that the true (partial) correlation is 0, and therefore, rejecting the model under consideration. 
+Given the fact that this algorithm considers every possible state-space model, and the result in \ref{constrainttests}, if conditional independence was completely observable this algorithm would always identify the ground truth state-space model. However, the statistical tests employed here (discussed in \ref{testing}) have like any other test an associated type I error rate, and therefore, in practice sometimes the correct model will be rejected. 
 
-For any given model we may consider a large number of conditional independence tests (the number is polynomial order in the number in each category), and so there is a multiple comparisons problem. In an attempt to correct for this a Bonferroni (\citeyear{bonferroni1936teoria}) correction is applied. The Bonferroni correction adjusts the significance level assuming the independence of tests. In this context tests are clearly not independent, therefore, given the correction, $\alpha$ should be interpreted as an upper bound on the probability of rejecting a correct model.
-
-When investigating a statistical methodology there are two broad categories of properties that we may wish to establish. First are the asymptotic properties relating to the identifiability of the parameters of interest. In this context the goal is to establish that the algorithm selects the correct ground truth state-space model as the number of observations $n$ goes to infinity. It is straightforward to (at least informally) demonstrate the asymptotic consistency of this algorithm. Consider data generated from a DGP characterised by (\ref{ss_solution:x}) - (\ref{ss_solution:z}) that satisfies (\ref{constraint_test:1}) - (\ref{constraint_test:4}). Sample (partial) correlation is a consistent estimator of (partial) correlation, so the partial correlations estimated for (\ref{constraint_test:1}) - (\ref{constraint_test:4}), and thus the probability of rejecting the true model goes to zero as $n \rightarrow \infty$. On the other hand, consider a DSGE model that does not have the same state-space representation as the DGP. The result in \ref{proofs} implies that at least one of these the partial correlations in (\ref{constraint_test:1}) - (\ref{constraint_test:3}) is not zero, and therefore, the associated sample partial correlation does not converge to zero as $n \rightarrow \infty$. The t-statistic for this partial correlation goes to infinity and the chance of rejecting this incorrect model goes to 1 as $n \rightarrow \infty$.
-
-The other properties to consider are the finite sample or statistical inference properties. These may be much more difficult to establish because the probability that the correct model is not chosen depends both on the probability that some other incorrect model is \textit{valid}, and that that incorrect model has a higher score than the correct model. Both of these probabilities, in turn, depend on the alternative incorrect model under consideration. Therefore, instead of considering any theory in this regard, I will use simulations to demonstrate performance on finite samples in \ref{results}.
 
 \subsection{Related Modelling Techniques}
 
@@ -544,7 +619,7 @@ Using a the entire sample for the RBC model the algorithm successfully identifie
   \centering
   \begin{tabular}{|c|c|c|l|l|}
     \bfseries Index & \bfseries Exogenous States & \bfseries Endogenous States & \bfseries Wins & \bfseries Valid
-    \csvreader[head to column names]{./files/rbc_wins.csv}{}
+    \csvreader[head to column names]{./files/rbc_wins_new.csv}{}
     {\\\index & \exostates & \endostates & \wins & \valid}
   \end{tabular}
   \caption{Small-sample results for RBC model}
@@ -577,17 +652,30 @@ There was only one model other than the true model that was selected a substanti
   Suppose not. Then $M$ is faithfully represented by a DAG $h$ which is different to $g$. Since $M$ is still a log-linear DSGE solution it must still have a faithful DAG representation of the general form in figure (\ref{dsge_dag}). Therefore, the difference must be that $h$ classifies one or more of the variables in $\mathbf{w}$ differently than $g$. Define the following notation: $g_x$ is the set of variables that are categorised as endogenous states in DAG  $g$ and likewise for $h$ and other categories. \\
   Continue by considering cases: \\
   Case 1: $a \in g_y \text{ and } a \in h_x$ \\
-    (\ref{constraint_test:3}) fails because in $g$ $\mathbf{z}_t$ has a direct path to $a$ in $g$. Contradiction. \\
+    If g is faithful, then h does not satisfy the MSV criteria. \\
   Case 2: $a \in g_y \text{ and } a \in h_z$ \\
-    (\ref{constraint_test:3}) fails because there is a direct path from $\mathbf{x}_t$ to $a$ in $g$. Contradiction. \\
+    (\ref{constraint_test:3}) fails because there is a direct path from $\mathbf{x}_{t-1}$ to $a$ in $g$. Contradiction. \\
   Case 3: $a \in g_x \text{ and } a \in h_y$ \\
     (\ref{constraint_test:1}) fails because $a$ is not in the conditioning set for this test in $h$ and therefore there is an unblocked backdoor path from $a$ to the other time $t$ endogenous variables in $g$. Contradiction. \\
   Case 4: $a \in g_x \text{ and } a \in h_z$ \\
-    (\ref{constraint_test:3}) fails because there is a direct path from $\mathbf{x}_t$ to $a$ in $g$. Contradiction.
+    (\ref{constraint_test:3}) fails because there is a direct path from $\mathbf{x}_{t-1}$ to $a$ in $g$. Contradiction. \\
   Case 5: $a \in g_z \text{ and } a \in h_y$ \\
     (\ref{constraint_test:1}) fails because there is a direct path from $a$ to any time $t$ endogenous variable in $g$. Contradiction. \\
   Case 6: $a \in g_z \text{ and } a \in h_x$ \\
     (\ref{constraint_test:1}) fails because there is a direct path from $a$ to any time $t$ endogenous variable in $g$. Contradiction. 
 \end{proof}
+
+\section{Testing Validation} \label{testing_validation}
+
+\begin{table}
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \bfseries Emperical Size & \bfseries Alpha & \bfseries Difference & \bfseries n & \bfseries Correlation & \bfseries m & \bfseries l & \bfseries Repetitions
+    \csvreader[head to column names]{./files/test_validation.csv}{}
+    {\\\es & \a & \d & \n & \c & \m & \l & \k}
+  \end{tabular}
+  \caption{Emperical validation of testing strategy outlined in section \ref{testing}.}
+  \label{test_validation}
+\end{table}
 
 \end{document}
