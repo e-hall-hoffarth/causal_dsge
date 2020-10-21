@@ -79,10 +79,9 @@ def get_resids(roles, data):
     cset = np.append(roles.lag_2_endo_states_idx, roles.lag_exo_states_idx)
     
     # Targets 
-    tar = np.append(np.append(np.append(roles.lag_endo_states_idx, 
+    tar = np.append(np.append(roles.lag_endo_states_idx, 
                                         roles.lag_controls_idx), 
-                              roles.exo_states_idx), 
-                    roles.lag_2_exo_states_idx)
+                              roles.exo_states_idx) 
     
     if cset.shape[0] > 0:
         lm = LinearRegression(fit_intercept=True, normalize=False)
@@ -117,7 +116,6 @@ def constraint_tests(roles, data, method='srivastava', alpha=0.05, tol=1e-20):
     '''
     valid = True
     resid = get_resids(roles, data)
-    f = len(roles.controls) + len(roles.endo_states)
     if method == 'srivastava':
         t = srivastava(resid)
         crit_val = stats.norm.ppf(1-(alpha)) # One-sided test
