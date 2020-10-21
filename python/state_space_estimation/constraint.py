@@ -50,7 +50,6 @@ def schott(data):
     '''
     n = data.shape[0]
     m = data.shape[1]
-    k = m*(m-1)/2
     if m > 1:
         R = np.corrcoef(data.T)
         t_nm = np.sum(np.square(np.triu(R, k=1))) - ((m*(m-1))/(2*n))
@@ -60,48 +59,15 @@ def schott(data):
     
     else: # Test isn't meaningful, so do not exclude the model on this basis
         return 0
-    
-
-def custom(data, l, tol=1e-5):
-    '''
-    Inputs:
-        data: np.ndarray
-            Residual correlation matrix
-    Performs:
-        Perform a test modified from Schott (2005) to test the
-        hypothesis that all of the elements in the upper right
-        lxm right trapazoid of the correlation matrix are zero
-    Returns:
-        float
-    '''
-    n = data.shape[0]   # sample size
-    m = data.shape[1]   # total number of variables
-    k = (l/2)*(2*m-l-1) # number of elements of R considered
-    if m > 1 and k > 0:
-        R = np.corrcoef(data.T)      
-        included = np.triu(R, k=1)
-        excluded = np.concatenate([np.concatenate([np.triu(R[:(m-l),:(m-l)], k=1), 
-                                                   np.zeros(((m-l), l))], axis=1), 
-                                   np.zeros((l,m))], axis=0)
-        t_nm = (np.sum(np.square(included - excluded))) - k/n
-        s_nm = (2*k*(n-1))/((n**2)*(n+2))
-        return t_nm/np.sqrt(s_nm)
-    
-    else: # Test isn't meaningful, so do not exclude the model on this basis
-        return 0
 
 
-def get_resids(roles, data, ntests=4):
+def get_resids(roles, data):
     '''
     Inputs:
         roles: state_space_estimation.roles
         data: pd.DataFrame
-        ntests: int in (2, 3, 4)
-            Number of tests (from paper) that can be tested with the 
-            returned residuals
     Performs:
-        Collect linear regression residuals for the specified number
-        of tests from the model specified in roles
+        Collect linear regression residuals from the model specified in roles
     Returns:
         (np.ndarray, np.ndarray)
     '''
@@ -110,53 +76,31 @@ def get_resids(roles, data, ntests=4):
     data = data.values
     
     # Conditioning sets
-    cset1 = np.append(roles.lag_endo_states_idx, roles.exo_states_idx)
-    cset2 = roles.lag_exo_states_idx
+    cset = np.append(roles.lag_2_endo_states_idx, roles.lag_exo_states_idx)
     
     # Targets 
+    tar = np.append(np.append(np.append(roles.lag_endo_states_idx, 
+                                        roles.lag_controls_idx), 
+                              roles.exo_states_idx), 
+                    roles.lag_2_exo_states_idx)
     
-    # All 4 tests
-    if ntests == 4:
-        tar1 = np.append(roles.lag_exo_states_idx, np.append(roles.endo_states_idx, roles.controls_idx))
-        tar2 = np.append(roles.lag_endo_states_idx, roles.exo_states_idx)
-        
-    # Exclude (7) --- causes trouble with simulated data
-    elif ntests == 3:
-        tar1 = np.append(roles.endo_states_idx, roles.controls_idx)
-        tar2 = np.append(roles.lag_endo_states_idx, roles.exo_states_idx)
-    
-    # Only 2 tests involving (strictly) diagonal matrices
-    elif ntests == 2:
-        tar1 = np.append(roles.endo_states_idx, roles.controls_idx)
-        tar2 = roles.exo_states_idx
-    
+    if cset.shape[0] > 0:
+        lm = LinearRegression(fit_intercept=True, normalize=False)
+        lm.fit(data[:,cset], data[:,tar])
+        resid = data[:,tar] - lm.predict(data[:,cset]) 
     else:
-        raise ValueError("Valid numbers of tests are 2, 3 and 4")
+        resid = data[:,tar]
     
-    if cset1.shape[0] > 0:
-        lm1 = LinearRegression(fit_intercept=True, normalize=False)
-        lm1.fit(data[:,cset1], data[:,tar1])
-        resid1 = data[:,tar1] - lm1.predict(data[:,cset1]) 
-    else:
-        resid1 = data[:,tar1]
-        
-    if cset2.shape[0] > 0:
-        lm2 = LinearRegression(fit_intercept=True, normalize=False)
-        lm2.fit(data[:,cset2], data[:,tar2])
-        resid2 = data[:,tar2] - lm2.predict(data[:,cset2])
-    else:
-        resid2 = data[:,tar2]
-    
-    return resid1, resid2
+    return resid
 
 
-def constraint_tests(roles, data, method='custom_3', alpha=0.05, tol=1e-20):
+def constraint_tests(roles, data, method='srivastava', alpha=0.05, tol=1e-20):
     '''
     Inputs:
         roles: state_space_estimation.roles
             Model upon which to conduct constraint tests
         data: pd.DataFrame
-        method: one of ('srivastava', 'schott', 'custom_3', 'custom_4')
+        method: one of ('srivastava', 'schott')
             Testing strategy to use
         alpha: float
             Significance level
@@ -172,84 +116,23 @@ def constraint_tests(roles, data, method='custom_3', alpha=0.05, tol=1e-20):
         tests: dict
     '''
     valid = True
+    resid = get_resids(roles, data)
+    f = len(roles.controls) + len(roles.endo_states)
     if method == 'srivastava':
-        resid1, resid2 = get_resids(roles, data, ntests=2)
-        if resid1.shape[1] == 0 or np.var(resid1.flatten()) < tol:
-            t1 = 0
-        else:
-            t1 = srivastava(resid1)
-        if resid2.shape[1] == 0 or np.var(resid2.flatten()) < tol:
-            t2 = 0
-        else:
-            t2 = srivastava(resid2)
-
-        crit_val = stats.norm.ppf(1-(alpha/2)) # One-sided test w/ Bonferroni correction
-        p1 = 1 - stats.norm.cdf(t1)
-        p2 = 1 - stats.norm.cdf(t2)
-        if t1 > crit_val or t2 > crit_val:
+        t = srivastava(resid)
+        crit_val = stats.norm.ppf(1-(alpha)) # One-sided test
+        p = 1 - stats.norm.cdf(t)
+        if t > crit_val:
             valid = False
 
     elif method == 'schott':
-        resid1, resid2 = get_resids(roles, data, ntests=2)
-        if resid1.shape[1] == 0 or np.var(resid1.flatten()) < tol:
-            t1 = 0
-        else:
-            t1 = schott(resid1)
-        if resid2.shape[1] == 0 or np.var(resid2.flatten()) < tol:
-            t2 = 0
-        else:
-            t2 = schott(resid2)
-        
-        crit_val = stats.norm.ppf(1-(alpha/4)) # Two-sided test w/ Bonferroni correction
-        p1 = 2*(1 - stats.norm.cdf(np.abs(t1)))
-        p2 = 2*(1 - stats.norm.cdf(np.abs(t2)))
-        if np.abs(t1) > crit_val or np.abs(t2) > crit_val:
+        t = schott(resid)
+        crit_val = stats.norm.ppf(1-(alpha/2)) # Two-sided test
+        p = 2*(1 - stats.norm.cdf(np.abs(t)))
+        if np.abs(t) > crit_val:
             valid = False
         
-    elif method == 'custom_3':
-        resid1, resid2 = get_resids(roles, data, ntests=3)
-
-        l1 = len(roles.controls) + len(roles.endo_states)
-        l2 = len(roles.exo_states)
-        
-        if resid1.shape[1] == 0 or np.var(resid1.flatten()) < tol:
-            t1 = 0
-        else:
-            t1 = custom(resid1, l1)
-        if resid2.shape[1] == 0 or np.var(resid2.flatten()) < tol:
-            t2 = 0
-        else:
-            t2 = custom(resid2, l2)
-        
-        crit_val = stats.norm.ppf(1-(alpha/4)) # Two-sided test w/ Bonferroni correction
-        p1 = 2*(1 - stats.norm.cdf(np.abs(t1)))
-        p2 = 2*(1 - stats.norm.cdf(np.abs(t2)))
-        if np.abs(t1) > crit_val or np.abs(t2) > crit_val:
-            valid = False
-
-
-    elif method == 'custom_4':
-        resid1, resid2 = get_resids(roles, data, ntests=4)
-
-        l1 = len(roles.controls) + len(roles.endo_states)
-        l2 = len(roles.exo_states)
-        
-        if resid1.shape[1] == 0 or np.var(resid1.flatten()) < tol:
-            t1 = 0
-        else:
-            t1 = custom(resid1, l1)
-        if resid2.shape[1] == 0 or np.var(resid2.flatten()) < tol:
-            t2 = 0
-        else:
-            t2 = custom(resid2, l2)
-        
-        crit_val = stats.norm.ppf(1-(alpha/4)) # Two-sided test w/ Bonferroni correction
-        p1 = 2*(1 - stats.norm.cdf(np.abs(t1)))
-        p2 = 2*(1 - stats.norm.cdf(np.abs(t2)))
-        if np.abs(t1) > crit_val or np.abs(t2) > crit_val:
-            valid = False
-                
     else:
         raise ValueError('method {} not found'.format(method))
 
-    return {'t1': t1, 't2': t2, 'p1': p1, 'p2': p2, 'valid': valid}
+    return {'t': t, 'p': p, 'valid': valid}

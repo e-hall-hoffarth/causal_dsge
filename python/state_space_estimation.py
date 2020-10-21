@@ -24,7 +24,7 @@ parser.add_argument('source', help='''one of:
 "nk": use data from data/gali.csv
 "sw": use data from data/sw.csv
 "real": use data from data/real_data.csv''')
-parser.add_argument('-t', '--test', required=False, help='Testing strategy to employ, one of (srivastava, schott, custom_3, custom_4)')
+parser.add_argument('-t', '--test', required=False, help='Testing strategy to employ, one of (srivastava, schott)')
 parser.add_argument('-a', '--alpha', required=False, help='Nominal significance level of constraint tests (default 0.05)')
 parser.add_argument('-m', '--min_states', required=False, help='consider only models with > min_states')
 parser.add_argument('-M', '--max_states', required=False, help='consider only models with < max_states')
@@ -39,7 +39,7 @@ source = args.source
 if args.test:
     method = args.test
 else:
-    method = 'custom_3'
+    method = 'srivastava'
 
 if args.alpha:
     alpha = np.float64(args.alpha)
@@ -103,7 +103,7 @@ def test(data):
         print('Evaluating models with {} states'.format(i))
         results = est.choose_states(i, method=method, alpha=alpha)
         if results[results['valid']].shape[0] > 0:
-            return results[results['valid']].sort_values(by='bic', ascending=True)
+            return results[results['valid']].sort_values(by=['nexo','loglik'], ascending=[True,False])
         else:
             del results
             gc.collect()

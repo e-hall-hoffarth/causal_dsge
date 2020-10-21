@@ -25,17 +25,24 @@ class roles():
         self.lag_exo_states = [x + '_1' for x in self.exo_states]
         self.lag_endo_states = [x + '_1' for x in self.endo_states]
         self.lag_controls = [x + '_1' for x in self.controls]
+        self.lag_2_exo_states = [x + '_2' for x in self.exo_states]
+        self.lag_2_endo_states = [x + '_2' for x in self.endo_states]
+        self.lag_2_controls = [x + '_2' for x in self.controls]
 
         self.names = names
-        self.t_names = np.array([name for name in names if '_1' not in name])
+        self.t_names = np.array([name for name in names if '_1' not in name and '_2' not in name])
         self.lag_names = np.array([name for name in names if '_1' in name])
-        
+        self.lag_2_names = np.array([name for name in names if '_2' in name])
+
         self.exo_states_idx = np.where([x in self.exo_states for x in self.names])[0]
         self.endo_states_idx = np.where([x in self.endo_states for x in self.names])[0]
         self.controls_idx = np.where([x in self.controls for x in self.names])[0]
         self.lag_exo_states_idx = np.where([x in self.lag_exo_states for x in self.names])[0]
         self.lag_endo_states_idx = np.where([x in self.lag_endo_states for x in self.names])[0]
         self.lag_controls_idx = np.where([x in self.lag_controls for x in self.names])[0]
+        self.lag_2_exo_states_idx = np.where([x in self.lag_2_exo_states for x in self.names])[0]
+        self.lag_2_endo_states_idx = np.where([x in self.lag_2_endo_states for x in self.names])[0]
+        self.lag_2_controls_idx = np.where([x in self.lag_2_controls for x in self.names])[0]
 
     
     def make_adjacency(self, data):
@@ -50,7 +57,7 @@ class roles():
         '''
         data_names = data.columns.values.tolist()
         data = data.values
-        data_current = [name for name in data_names if '_1' not in name]
+        data_current = [name for name in data_names if '_1' not in name and '_2' not in name]
         implied_names = self.exo_states + self.endo_states + self.controls
         
         # Make sure roles and data make sense

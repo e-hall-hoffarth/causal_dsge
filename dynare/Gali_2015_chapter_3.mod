@@ -202,4 +202,4 @@ check;
 % generate IRFs for monetary policy shock, replicates Figures 3.1, p. 69 (interest rate rule)
 % 3.4, p. 76 (money supply rule)
 %----------------------------------------------------------------
-stoch_simul(order=1,irf=0,periods=100001);
+stoch_simul(order=1,irf=0,periods=100002);

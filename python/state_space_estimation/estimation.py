@@ -37,7 +37,7 @@ class estimation():
         Returns:
             generator
         '''
-        variables = self.data.columns.values[:int(len(self.data.columns.values)/2)]
+        variables = self.data.columns.values[:int(len(self.data.columns.values)/3)]
         limit = len(variables)-1 if n_states is None else n_states
         exo_states = chain.from_iterable(combinations(variables, r) for r in range(limit+1))
         for exo in exo_states:
@@ -73,7 +73,8 @@ class estimation():
             results: dict
         '''
         if verbose: 
-            print('Evaluating states {}'.format(list(roles.exo_states) + [es + '_1' for es in roles.endo_states]))
+            print('Evaluating model with exo state {} and endo states {}'.format(
+                list(roles.exo_states), list(roles.endo_states)))
         results = {}
         results['exo_states'] = roles.exo_states
         results['endo_states'] = roles.endo_states
@@ -112,7 +113,7 @@ class estimation():
             results: pd.DataFrame
         '''
         results = pd.DataFrame()
-        variables = self.data.columns.values[:int(len(self.data.columns.values)/2)]
+        variables = self.data.columns.values[:int(len(self.data.columns.values)/3)]
         ps = tqdm(self.potential_states(n_states=n_states),
                 total=(nCr(len(variables), n_states) * (2 ** (n_states))))
         for states in ps:
@@ -129,7 +130,7 @@ class estimation():
         '''
         See self.choose_states; implements same functionality with a parallel backend.
         '''
-        variables = self.data.columns.values[:np.int64(len(self.data.columns.values)/2)]
+        variables = self.data.columns.values[:np.int64(len(self.data.columns.values)/3)]
         states = self.potential_states(n_states=n_states)
         results = Parallel(n_jobs=cpu_count())(delayed(self.evaluate_states)(state, tests, method, alpha, verbose) 
                                             for state in tqdm(states, 

@@ -158,4 +158,4 @@ check;
 // compute policy function at first order, do IRFs and compute moments with HP-filter
 //****************************************************************************
 
-stoch_simul(order=1,irf=0,periods=100001);
+stoch_simul(order=1,irf=0,periods=100002);

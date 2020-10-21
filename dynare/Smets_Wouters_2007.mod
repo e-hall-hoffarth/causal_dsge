@@ -252,4 +252,4 @@ estimation(optim=('MaxIter',200),datafile=usmodel_data,mode_file=usmodel_shock_d
 
 // shock_decomposition y;
 
-stoch_simul(order=1,irf=0,periods=100001);
+stoch_simul(order=1,irf=0,periods=100002);
