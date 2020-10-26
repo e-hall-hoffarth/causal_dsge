@@ -80,9 +80,9 @@ def get_resids(roles, data):
     
     # Targets 
     tar = np.append(np.append(roles.lag_endo_states_idx, 
-                                        roles.lag_controls_idx), 
-                              roles.exo_states_idx) 
-    
+                              roles.lag_controls_idx), 
+                    roles.exo_states_idx) 
+
     if cset.shape[0] > 0:
         lm = LinearRegression(fit_intercept=True, normalize=False)
         lm.fit(data[:,cset], data[:,tar])

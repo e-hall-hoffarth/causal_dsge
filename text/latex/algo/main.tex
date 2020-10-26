@@ -32,7 +32,7 @@
 \renewcommand{\baselinestretch}{1.5} 
 \addbibresource{references.bib}
 
-\title{Semi-Parametric State-Space Model Selection for Macroeconomic Timeseries}
+\title{Causal Discovery of Macroeconomic State-Space Models}
 \author{Emmet Hall-Hoffarth}
 \date{\today}
 
@@ -40,7 +40,7 @@
 
 \maketitle
 
-\abstract{This paper presents a set of criteria and an algorithm for agnostic, data-driven selection among macroeconomic DSGE models inspired by structure learning methods for DAGs. The state-space representation of any DSGE model is also a DAG, and therefore concepts used for model selection amongst DAGs can also be used in the context of DSGE models. This implies a set of criteria based on conditional independence tests which can be used to evaluate whether a state-space model, and thereby a DSGE model is consistent with some observed data. I then introduce an algorithm which tests these criteria against the set of possible state-space models producing a subset of allowable models. When combined with likelihood maximisation this algorithm identifies a unique optimal model. The efficacy of this alogorithm is demonstrated for simualted data, and results for real data are also provided and discussed.}
+\abstract{This paper presents a set of criteria and an algorithm for agnostic, data-driven selection among macroeconomic DSGE models inspired by structure learning methods for DAGs. The state-space representation of any DSGE model is also a DAG, and therefore concepts used for model selection amongst DAGs can also be used in the context of DSGE models. This implies a set of criteria based on conditional independence tests which can be used to evaluate whether a state-space model, and thereby a DSGE model is consistent with some observed data. I then introduce an algorithm which tests these criteria against the set of possible state-space models producing a subset of allowable models. When combined with likelihood maximisation this algorithm identifies a unique optimal model. The efficacy of this algorithm is demonstrated for simualted data, and results for real data are also provided and discussed.}
 
 \section{Introduction}
 
@@ -264,7 +264,7 @@ As a result of these limitations, a more effective approach in this context is t
 Figure \ref{dsge_dag} implies the following four independence relationships among the time $t$ and $t-1$ variables:
 
 \begin{align}
-  x_t \indep x^{\prime}_{t} \,||\,& [\mathbf{x}_{t-1},\mathbf{z}_t] \text{ for all } (x_t, x^{\prime}_{t}) \in [\mathbf{x}_t, \mathbf{y}_t] \label{constraint_test:1} \\
+  x_t \indep x^{\prime}_{t} \,||\,& [\mathbf{x}_{t-1},\mathbf{z}_t] \text{ for all } x_t \neq x^{\prime}_{t} \in [\mathbf{x}_t, \mathbf{y}_t] \label{constraint_test:1} \\
   x_{t-1} \indep z_{t} \,||\,& \mathbf{z}_{t-1} \text{ for all } x_{t-1} \in \mathbf{x}_{t-1} \text{ and } z_{t} \in \mathbf{z}_t \label{constraint_test:3} \\
   x_t \indep z_{t-1} \,||\,& [\mathbf{x}_{t-1}, \mathbf{z}_t] \text{ for all } x_t \in [\mathbf{x}_t, \mathbf{y}_t] \text{ and } z_{t-1} \in \mathbf{z}_{t-1} \label{constraint_test:2} \\
   z_t \indep z^{\prime}_{t} || \mathbf{z}_{t-1} & \text{ for all } z_t \not = z^{\prime}_{t} \in \mathbf{z}_t \label{constraint_test:4}
@@ -275,90 +275,45 @@ The first condition (\ref{constraint_test:1}) is the statement that the model's 
 These constraint tests already provide a powerful selection criteria for empirical DSGE models I will call \textit{validity}:
 
 \begin{definition}
-  For a set of variables $\mathbf{w}$ a log-linearised DSGE model $M$ is \textit{valid} with respect to a distribution $f(\mathbf{w})$ if the exogenous states ($\mathbf{z}$), endogenous states ($\mathbf{x}$) and controls ($\mathbf{y}$) of $M$ as defined in equations (\ref{ss_solution:x}) - (\ref{ss_solution:z}) satisfy conditions (\ref{constraint_test:1}), (\ref{constraint_test:3}), and the minimum state variable criterion.
+  For a set of variables $\mathbf{w}$ a log-linearised DSGE model $M$ is \textit{valid} with respect to a distribution $f(\mathbf{w})$ if the exogenous states ($\mathbf{z}$), endogenous states ($\mathbf{x}$) and controls ($\mathbf{y}$) of $M$ as defined in equations (\ref{ss_solution:x}) - (\ref{ss_solution:z}) satisfy conditions (\ref{constraint_test:1}), (\ref{constraint_test:3}), and the minimum state variable criterion (MSV) \parencite{mccallum1999role}.
   \label{validity}
 \end{definition}
 
-It is proved in an appendix (\ref{proofs}) that validity is necessary and sufficient to guarantee that if the ground truth can be characterised as in (\ref{ss_solution:x}) - (\ref{ss_solution:z}) then DSGE models that are dag-consistent with the ground truth have the same DAG representation, and therefore, the same state-space model. Constraints (\ref{constraint_test:2}) and (\ref{constraint_test:4}) are still applicable because they are implied by the DAG, but there are not required. To be more general we could drop these assumptions as long as the shocks only directly effect the exogenous states, and the other constraints would still hold and be valid tests of the model. However, these constraints (and the associated assumptions) are nonetheless included because they is satisfied by a wide range of DSGE models including all of those considered in the empirical portion of this paper, and all else equal conducting a larger number of tests gives more statistical \textit{power} to reject incorrect models when using finite samples.
+It is proved in an appendix (\ref{proofs}) that under the assumption that the distribution generated by some log-linear DSGE model can be faithfully represented by some DAG $g$ there is exactly one DAG (and thus one partition of observed variables) that is valid. Constraints (\ref{constraint_test:2}) and (\ref{constraint_test:4}) are still applicable (necessary) because they are implied by the DAG, but there are not required for sufficeiency. To be more general we could drop these assumptions as long as the shocks only directly effect the exogenous states, and the other constraints would still hold and be valid tests of the model. However, these constraints (and the associated assumptions) can nonetheless be included because they are satisfied by a wide range of DSGE models including all of those considered in the empirical portion of this paper, and in many cases conducting a larger number of tests will give more \textit{power} to reject incorrect models when using finite samples.
 
 \subsubsection{Testing Procedure} \label{testing}
 
-This section will discuss the implementation of an emprically viable strategy for testing conditions (\ref{constraint_test:1}) - (\ref{constraint_test:4}). In the present application, we make the assumption that observed variables are normally distributed, such that testing for conditional independence is equivalent to testing for a partial non-correlation. This assumption is in general not required as it is possible to test for conditional independence non-parametrically (see \citeauthor{strobl2019approximate} (\citeyear{strobl2019approximate}) for a review of recent contributions in this vein), however, it is justified here as Gaussian assumptions are common in DSGE models and economic applications more generally, and it will greatly simplify the testing procedure. 
+This section will discuss the implementation of an emperically viable strategy for testing conditions (\ref{constraint_test:1}) - (\ref{constraint_test:4}). In the present application, we make the assumption that observed variables are normally distributed, such that testing for conditional independence is equivalent to testing for a partial non-correlation. This assumption is in general not required as it is possible to test for conditional independence non-parametrically (see \citeauthor{strobl2019approximate} (\citeyear{strobl2019approximate}) for a review of recent contributions in this vein), however, it is justified here as Gaussian assumptions are common in DSGE models and economic applications more generally, and it will greatly simplify the testing procedure. 
 
-Partial linear correlations can estimated by regressing the set of target variables of interest $\mathbf{x}$ on the set of conditioning variables $\mathbf{z}$ and then estimating the correlations between the resulting residuals $\mathbf{u}_x$. Conditions (\ref{constraint_test:1}) - (\ref{constraint_test:4}) involve only two distinct conditioning sets, namely $[\mathbf{x}_{t-1},\mathbf{z}_t]$ and $\mathbf{z}_{t-1}$. Now note that the null hypothesis implied by condition (\ref{constraint_test:1}) is that the correlation matrix of residuals obtained by regressing the vector $[\mathbf{x}_t, \mathbf{y}_t]$ on $[\mathbf{x}_{t-1},\mathbf{z}_t]$ is an identity matrix. In other words, the controls and endogenous states are \textit{completely independent} conditional on $[\mathbf{x}_{t-1},\mathbf{z}_t]$. Similarly, condition (\ref{constraint_test:4}) implies the null hypothesis that exogenous states are completely independent conditional on lagged exogenous states. A range of tests are availible for testing exactly this type of null hypothesis, see \citeauthor{schott2005testing} (\citeyear{schott2005testing}), \citeauthor{srivastava2005some} (\citeyear{srivastava2005some}), and, \citeauthor{wang2013necessary} (\citeyear{wang2013necessary}). Unfortunately, conditions (\ref{constraint_test:3}) and (\ref{constraint_test:2}) do not imply a similar diagonal correlation matrix hypotheses. This is because in the case of the former the off-diagonal partial correlations between the lagged endogenous states are unrestricted, and in the case of the latter the off-diagonal partial correlations between the lagged exogenous states are unrestricted. This is particular problematic because condition \ref{constraint_test:3} is required to identify a unique valid model. 
+Partial linear correlations can estimated by regressing the set of target variables of interest $\mathbf{x}$ on the set of conditioning variables $\mathbf{z}$ and then estimating the correlations between the resulting residuals $\mathbf{u}_x$. Therefore, one way to implement tests for conditions (\ref{constraint_test:1}) - (\ref{constraint_test:4}) would be to perform a t-test on the estimated partial linear correlation implied by each of these conditons for every model, and then reject the model if any of these t-tests reject the null hypothesis at the chosen significance level (after applying a \citeauthor{bonferroni1936teoria} (\citeyear{bonferroni1936teoria}) correction). This approach does seem to perform well on simulated data, with higher power and lower size than the second approach that I will soon introduce. However, it has a number of significant drawbacks. 
 
-Figure \ref{corr_matrices} shows how conditions (\ref{constraint_test:1}) - (\ref{constraint_test:4}) can be represented by two partial correlation matrices. This mimimal example illustrates a model with two exogenous states ($z$ and $z^{\prime}$), two endogenous states ($x$ and $x^\prime$), and one control ($y$). The matrices contain elements U indicating unrestricted correlations. Clearly we are interested in a hypothesis which is weaker than complete (partial) independence. The null hypothesis of interest is that all the elements in the lower left (or upper right) trapazoids of these two partial correlation matrices are zero. In order to test this, we will use a modified version of the test proposed in \citeauthor{schott2005testing} (\citeyear{schott2005testing}). The test statistic for diagonal matrices given in that paper is:
+Firstly, the \citeauthor{bonferroni1936teoria} (\citeyear{bonferroni1936teoria}) correction assumes independence of each of tests, which is highly implausible in this case. Indeed, this explains why the emperical size of these tests is less than the nominal significance level. It is difficult or impossible to pin down important statistical properties (such as the size or power) of this estimator. Furthermore, there is the issue that computation of partial correlations can be unstable if residuals are very close to or equal to zero. This is precisely what is observed in applications to simulated data, where the residuals produced by the ground truth model will be zero. In general, correlation is undefined in this case, but in practice it tends to 1. This is problematic because this is exactly when we do not want to reject the null hypothesis of conditional independence. The only way around this is to detect small residuals below some tolerance threashold and pass the model if they are observed. Finally, the number of tests conducted can grow very large if there is a large number of observables resulting in implausibly large critical values, and growing computaional complexity.
 
-\begin{align}
-  \hat{t} = \sum_{i=2}^m \sum_{j=1}^{i-1} \hat{\rho}^2_{ij} - \frac{m(m-1)}{2n} \\
-  \hat{\sigma}^2 = \frac{m(m-1)(n-1)}{n^2(n+2)} \\
-  \hat{t} / \hat{\sigma} \xrightarrow[]{d} N(0,1)
-\end{align}
-
-where $\hat{\rho}_{ij}$ is the $(i,j)$ element of the estimated sample (partial) correlation matrix, $m$ is the dimension of the matrix, and $n$ is the sample size. Define the number of squared sample correlations that are summed over as $k$. These statistics can be rewritten in terms of the variance and covariance of the squared sample correlations given by \citeauthor{schott2005testing} (\citeyear{schott2005testing}), which are $E(\hat{\rho}_{ij}^4) = \frac{3}{n(n+2)}$ and $E(\hat{\rho}_{ij}^2\hat{\rho}_{gh}^2) = \frac{1}{n^2}$:
+For these reasons, I also propose the implementation of a different test provided by \citeauthor{srivastava2005some} (\citeyear{srivastava2005some}). The test given by \citeauthor{srivastava2005some} (\citeyear{srivastava2005some}) is for the null hypothesis that a covaraince matrix is diagonal. In order to use this, we will combine conditions (\ref{constraint_test:1}) - (\ref{constraint_test:4}) such that they have the same conditioning set, and imply a relationship of \textit{complete independence} between tested variables. To do this, roll conditions (\ref{constraint_test:1}) and (\ref{constraint_test:2}) back 1 period \footnote{Alternatively, one could roll forwards the other two conditions, but this would require data on a lead rather than two lags.}, and add $\mathbf{x}_{t-2}$ to the conditioning sets in conditions (\ref{constraint_test:3}) and \ref{constraint_test:4}. This latter change is justified because in both cases we have already blocked every backdoor path between the variables of interest and $\mathbf{x}_{t-2}$ is not part of any frontdoor path between them. Therefore these changes do not modify the conditional independence relationships in any meaningful way. The modified conditions are shown in (\ref{mod_constraint_test:1}) - (\ref{mod_constraint_test:4}).
 
 \begin{align}
-  \hat{t} = \sum_{i=2}^m \sum_{j=1}^{i-1} \hat{\rho}^2_{ij} - \frac{k}{n} \\
-  \hat{\sigma}^2 = k(\frac{3}{n(n+2)} - \frac{1}{n^2})
+  x_{t-1} \indep x^{\prime}_{t-1} \,||\,& [\mathbf{x}_{t-2},\mathbf{z}_{t-1}] \text{ for all } x_{t-1} \neq x^{\prime}_{t-1} \in [\mathbf{x}_{t-1}, \mathbf{y}_{t-1}] \label{mod_constraint_test:1} \\
+  x_{t-2} \indep z_{t-1} \,||\,& [\mathbf{x}_{t-2},\mathbf{z}_{t-1}] \text{ for all } x_{t-1} \in \mathbf{x}_{t-1} \text{ and } z_{t-1} \in \mathbf{z}_{t-1} \label{mod_constraint_test:3} \\
+  x_{t-1} \indep z_{t-2} \,||\,& [\mathbf{x}_{t-2},\mathbf{z}_{t-1}] \text{ for all } x_{t-1} \in [\mathbf{x}_{t-1}, \mathbf{y}_{t-1}] \text{ and } z_{t-2} \in \mathbf{z}_{t-2} \label{mod_constraint_test:2} \\
+  z_{t-1} \indep z^{\prime}_{t-1} || & [\mathbf{x}_{t-2},\mathbf{z}_{t-1}] \text{ for all } z_{t-1} \not = z^{\prime}_{t-1} \in \mathbf{z}_{t-1} \label{mod_constraint_test:4}
 \end{align}
 
-We now modify these test statistics to test the relevant hypothesis. Define $l$ as the number of columns of the lower triangle that are restricted to 0 under the null hypothesis. Then $m - l$ columns contain unrestricted elements. Note that $l \leq m - 1$ as the diagonal itself cannot be 0. For example, in Figure \ref{corr_matrices}, the left hand side matrix has $m=5$ and $l=3$, whereas the right hand side matrix has $m=4$ and $l=2$. To get the relevant sum we can directly sum the squared sample correlations over the relevant trapazoid. The number of relevant elements that we will be summing over, $k^*$, is now $(\frac{m(m-1)}{2}-\frac{(m-l)(m-l-1)}{2}) = \frac{l}{2}(2m-l-1)$. Finally, the modified test statistics are written as:
+We now have that every condition relies on the same conditioning set. Furthermore, when combined these conditions imply that all of the variables in the vector $[\mathbf{y}_{t-1}, \mathbf{x}_{t-1}, \mathbf{z}_{t}, \mathbf{z}_{t-2}]$ are completely independent, conditional on $[\mathbf{x}_{t-2}, \mathbf{z}_{t-1}]$. $\mathbf{z}_{t-2}$ can be optionally excluded from this vector as it is associated with test (\ref{constraint_test:2}), which is not required for a unique \textit{valid} model. To test whether a model is valid emperically, we then estimate the covariance matrix of the vector $[\mathbf{y}_{t-1}, \mathbf{x}_{t-1}, \mathbf{z}_{t}]$, and perform a z-test at some nominal significance level $\alpha$ on the test statisic $T_3$ from \citeauthor{srivastava2005some} (\citeyear{srivastava2005some}), which is asymptotically normally distributed. This test statisic is defined in (\ref{t3}):
 
 \begin{align}
-  \hat{t}^* = \sum_{i=m-l}^m \sum_{j=1}^{i-1} \hat{\rho}^2_{ij} - \frac{k^*}{n} \\
-  \hat{\sigma^*}^2 = k^*(\frac{3}{n(n+2)} - \frac{1}{n^2}) = \frac{2k(n-1)}{n^2(n+2)} \\
-  \hat{t}^* / \hat{\sigma^*} \xrightarrow{d} N(0,1)
+  \hat{T}_3 = \left(\frac{n}2{}\right)\frac{(\hat{\gamma}_3-1)}{\left(1-\left(\frac{1}{p}\right)\left(\frac{\hat{a}_{40}}{\hat{a}^2_{20}}\right)\right)^\frac{1}{2}} \label{t3} \\
+  \hat{\gamma}_3 = \frac{n}{n-1}\frac{tr(S^2) - \frac{1}{n}(tr(S))^2}{\sum_{i=1}^ms^2_{ii}} \\
+  \hat{a}_{20} = \frac{n}{p(n+2)}\sum_{i=1}^ms^2_{ii} \\
+  \hat{a}_{40} = \frac{1}{p}\sum_{i=1}^ms^4_{ii}
 \end{align}
 
-The above logic is simply an argument by analogy, and does not constitute a formal proof. In lieu of this, I have provided simulation evidence that the emperical size of this test over a range of specifications is close to the specified nominal significance level. Results for this test are shown in Appendix \ref{testing_validation}.
+Where $S$ is an $m$ x $m$ estimated covariance matrix and $s_{ij}$ is the $(i,j)$ element of $S$. Note that the denominator in $\hat{T}_3$, $\left(1-\left(\frac{1}{p}\right)\left(\frac{\hat{a}_{40}}{\hat{a}^2_{20}}\right)\right)$ can be negative, and thus, the test statistic undefined. In order to alliviate this I take the same approach as in \citeauthor{wang2013necessary} (\citeyear{wang2013necessary}) and replace this term with $1-\sum_{i=1}^ms^4_{ii}/\left(\sum_{i=1}^ms^2_{ii}\right)^2$ when it is negative.
 
-\begin{figure}
-  \centering
-  \captionsetup{justification=centering,margin=2cm}
-  \begin{subfigure}{0.4\textwidth}
-    \centering
-    Conditioning set: $[x_{t-1}, z_t, z^{\prime}_t]$ \\
-    \begin{blockarray}{cccccc}
-      $z_{t-1}$ & $z^{\prime}_{t-1}$ & $x_t$ & $x^{\prime}_t$ & $y_t$ \\
-      \begin{block}{(ccccc)c}
-        1 & U & 0 & 0 & 0 & $z_{t-1}$ \\
-        U & 1 & 0 & 0 & 0 & $z^{\prime}_{t-1}$ \\
-        0 & 0 & 1 & 0 & 0 & $x_t$ \\
-        0 & 0 & 0 & 1 & 0 & $x^{\prime}_t$ \\
-        0 & 0 & 0 & 0 & 1 & $y_t$ \\
-      \end{block}
-    \end{blockarray}
-  \end{subfigure}
-  %
-  \begin{subfigure}{0.4\textwidth}
-    \centering
-    Conditioning set: $[z_{t-1}, z^{\prime}_{t-1}]$ \\
-    \begin{blockarray}{ccccc}
-      $x_{t-1}$ & $x^{\prime}_{t-1}$ & $z_t$ & $z^{\prime}_t$ \\
-      \begin{block}{(cccc)c}
-        1 & U & 0 & 0 & $x_{t-1}$ \\
-        U & 1 & 0 & 0 & $x^{\prime}_{t-1}$ \\
-        0 & 0 & 1 & 0 & $z_t$ \\
-        0 & 0 & 0 & 1 & $z^{\prime}_t$ \\
-      \end{block}
-    \end{blockarray}
-  \end{subfigure}
-  \caption{Simple example of partial correlation matrices under null hypothesis implied by conditions (\ref{constraint_test:1}) - (\ref{constraint_test:4})}
-  \label{corr_matrices}
-\end{figure}
-
-
-
-
-the conditional independence test that is used in this application is a t-test on the (partial) correlation of the relevant variables. It is important to note that these conditional independence tests are used in a somewhat unusual manner. Unlike most economic applications, the case we are interested in is the case in which we \textit{do not reject} the null hypotheses that the correlation is 0. In each test, the significance level $\alpha$ is the probability of rejecting the hypothesis that the true (partial) correlation is 0, and therefore, rejecting the model under consideration. 
-
-For any given model we may consider a large number of conditional independence tests (the number is polynomial order in the number in each category), and so there is a multiple comparisons problem. In an attempt to correct for this a Bonferroni (\citeyear{bonferroni1936teoria}) correction is applied. The Bonferroni correction adjusts the significance level assuming the independence of tests. In this context tests are clearly not independent, therefore, given the correction, $\alpha$ should be interpreted as an upper bound on the probability of rejecting a correct model.
-
-When investigating a statistical methodology there are two broad categories of properties that we may wish to establish. First are the asymptotic properties relating to the identifiability of the parameters of interest. In this context the goal is to establish that the algorithm selects the correct ground truth state-space model as the number of observations $n$ goes to infinity. It is straightforward to (at least informally) demonstrate the asymptotic consistency of this algorithm. Consider data generated from a DGP characterised by (\ref{ss_solution:x}) - (\ref{ss_solution:z}) that satisfies (\ref{constraint_test:1}) - (\ref{constraint_test:4}). Sample (partial) correlation is a consistent estimator of (partial) correlation, so the partial correlations estimated for (\ref{constraint_test:1}) - (\ref{constraint_test:4}), and thus the probability of rejecting the true model goes to zero as $n \rightarrow \infty$. On the other hand, consider a DSGE model that does not have the same state-space representation as the DGP. The result in \ref{proofs} implies that at least one of these the partial correlations in (\ref{constraint_test:1}) - (\ref{constraint_test:3}) is not zero, and therefore, the associated sample partial correlation does not converge to zero as $n \rightarrow \infty$. The t-statistic for this partial correlation goes to infinity and the chance of rejecting this incorrect model goes to 1 as $n \rightarrow \infty$.
-
-The other properties to consider are the finite sample or statistical inference properties. These may be much more difficult to establish because the probability that the correct model is not chosen depends both on the probability that some other incorrect model is \textit{valid}, and that that incorrect model has a higher score than the correct model. Both of these probabilities, in turn, depend on the alternative incorrect model under consideration. Therefore, instead of considering any theory in this regard, I will use simulations to demonstrate performance on finite samples in \ref{results}.
+This solves a approach does address many of the drawbacks of the first approach, however, as we will see in \ref{results}, it unfortunately does not seem to perform well in simulations on more complex data sets as the first method. Since this approach utilises estimated covariance rather than correlations it avoids unstable computation around the true model. Furthermore, it is much simpler to describe the properties of this test. Asymptotically, it will have exactly $\alpha$ type I error rate. Estimates of the power of this test against numerous alternatives can be found in \citeauthor{wang2013necessary} (\citeyear{wang2013necessary}). Estimates of the emperical size and power of this test over a range of scenarios are also provided in Appendix \ref{testing_validation}. Finally, this test results in exactly one test being perfomed regardless of the complexity of the data or model under consideration. While it is true that the test is somewhat more computationally intensive for larger covariance matrices, it scales much better than the other approach. 
 
 \subsection{Score Tests} \label{scoretests}
+
+While asymptotically there is exactly one model which satisfies the conditional independence tests from the previous section, in finite samples it is not uncommon to encounter cases where more than one model is valid. These models will generally be very similar to the ground truth, and represent a small minority of all considered models. Therefore, one possible approach is to find the set of emperically valid models and then select from these manually. However, in order to achieve a maximally agnostic algorithmic approach that still yields a unique solution we will instead implement a score function. Essentially, this will sort the models which are deemed to be valid by their predictive accuracy or likelihood in order to choose a unique winning model. In principle, one could evaluate models solely on their score, however, for the reasons outlined in Section \ref{dag_estimation}, my prefered approach is to use this only in a secondary role. For comparision simulation results for pure score-based estimation will be  considered in Section \ref{results}.
 
 The most basic score function for Gaussian Bayesian networks is the log-likelihood function. The Markov compatibility condition (Definition \ref{markovcompatibility}) DAG admits factorisation of the joint probability distribution into the product of the distribution of each variable conditional on its parents:
 
@@ -372,7 +327,7 @@ Therefore, the log-likelihood can be calculated as:
   \mathcal{L}(\mathbf{w},\theta) = \sum_{i=1}^{k} ln(f(w_i | pa_i;\theta))
 \end{equation}
 
-Now consider the assumptions in the current context. $\mathbf{w_i}$ is partitioned into $\mathbf{z}$, $\mathbf{x}$, and, $\mathbf{y}$. We assume that the conditional probabilities are linear functions and follow a mean-zero normal distribution, so the only parameter is the variance-covariance matrix $\mathbf{sigma}^2$. Furthermore, values from period $t-1$ are known at time $t$ and therefore these root nodes are deterministic, so their distribution is trivial. Therefore,
+Now consider the assumptions in the current context. $\mathbf{w_i}$ is partitioned into $\mathbf{z}$, $\mathbf{x}$, and, $\mathbf{y}$. We assume that the conditional probabilities are linear functions and follow a mean-zero normal distribution, so the only parameter is the variance-covariance matrix $\mathbf{\sigma}^2$. Furthermore, values from period $t-1$ are known at time $t$ and therefore these root nodes are deterministic, so their distribution is trivial. Therefore,
 
 \begin{align}
   \mathcal{L}(\mathbf{w}; \mathbf{A}, \mathbf{B}, \mathbf{C}, \mathbf{D}, \mathbf{E}, \mathbf{\sigma}^2) =& \sum_{z_{i,t} \in \mathbf{z}_t} \bigg{(} \sum_{t=1}^{T} ln(\phi(z_{i,t} | z_{i,t-1} | \mathbf{E}, \mathbf{\sigma}^2)) \bigg{)} \nonumber\\
@@ -382,7 +337,7 @@ Now consider the assumptions in the current context. $\mathbf{w_i}$ is partition
   & \sum_{z_{i,t} \in \mathbf{z}_t} \bigg{(} \sum_{t=1}^{T} ln(\phi(\mathbf{e}_i z_{i,t-1}  | \mathbf{e}_i, \sigma_{z_i}^2)) \bigg{)}
 \end{align}
 
-Where $\mathbf{x_i}$ is the $i_{th}$ row of $\mathbf{X_i}$. Notice that we can calculate the variances separately in each regression because the Markov compatibility condition implies that they are independent. Finally, we can substitute in for the maximum likelihood estimate of $\sigma^2$ for each regression and the functional form of $\phi$ to arrive at an expression for the log-likelihood function:
+Where $\mathbf{x_i}$ is the $i_{th}$ row of $\mathbf{X_i}$, and $\phi$ is the probability density function of the normal distribution. Notice that we can calculate the variances separately in each regression because the parental Markvov condition implies that they are independent. Finally, we can substitute in for the maximum likelihood estimate of $\sigma^2$ for each regression and the functional form of $\phi$ to arrive at an expression for the log-likelihood function:
 
 \begin{align}
   \mathcal{L(\mathbf{w})} =& -\frac{T}{2} \bigg{(} 
@@ -404,6 +359,8 @@ Since maximising the log-likelihood does not penalise complexity, it often favou
 Where $k = 2[|\mathbf{z}| + (|\mathbf{z}| + |\mathbf{x}|)(|\mathbf{y}| + |\mathbf{x}|)]$ is the total number of estimated parameters. Given that the algorithm terminates when a minimal valid set of states has been found, it may seem that this bias towards complexity is irrelevant. However given the minimal number of states, it is still possible to reallocate between exogenous and endogenous states. In this context the bias towards complexity means a we are likely to choose more exogenous states than truly exist, since these involve the estimation of more parameters than endogenous states, and since they enter at time $t$ instead of time $t-1$ they likely contain more relevant information about time $t$ endogenous variables. Therefore, it is still beneficial to score valid models in a penalised way.
 
 \subsection{Algorithm} \label{algo}
+
+Having defined a number of tests for an optimal and \textit{valid} model, we now turn our attention to developing an algorithm which will apply these tests in order to choose one from the space of all possible state-space models.
 
 \begin{minipage}{\linewidth}
   \begin{algorithm}[H]
@@ -433,6 +390,7 @@ Where $k = 2[|\mathbf{z}| + (|\mathbf{z}| + |\mathbf{x}|)(|\mathbf{y}| + |\mathb
     \SetKwData{Constrainttest}{$constraint\_test$}
     \SetKwData{Scoretests}{$score\_tests$}
     \SetKwData{Scoretest}{$score\_test$}
+    \SetKwData{Nendo}{$\#endogenous\_states$}
     \SetKwData{States}{$states$}
     \SetKwData{True}{$true$}
     \SetKwData{False}{$false$}
@@ -440,6 +398,7 @@ Where $k = 2[|\mathbf{z}| + (|\mathbf{z}| + |\mathbf{x}|)(|\mathbf{y}| + |\mathb
     \SetKwData{Getconstrainttests}{$get\_constraint\_tests$}
     \SetKwData{Getscoretests}{$get\_score\_tests$}
     \KwIn{$alpha$: significance level}
+    \KwIn{$test$: testing strategy is either 'multiple' or 'srivastava'}
     \KwOut{$all\_valid\_states$: A set of minimal sets of exogenous and endogenous states whose implied conditional independences are valid relative to the observed data}
     \Begin{
       \Continue $=$ \True\;
@@ -451,14 +410,18 @@ Where $k = 2[|\mathbf{z}| + (|\mathbf{z}| + |\mathbf{x}|)(|\mathbf{y}| + |\mathb
         \For{\Potentialstates $\in$ \Allpotentialstates}{
           \Constrainttests $=$ \Getconstrainttests{\Potentialstates}\;
           \Scoretests $=$ \Getscoretests{\Potentialstates}\;
-          \Siglevel $=$ $\frac{alpha}{length(constraint\_tests)}$\;
+          \If{$test$ $=$ $multiple$}{
+            \Siglevel $=$ $\frac{alpha}{length(constraint\_tests)}$\;
+          } \Else {
+            \Siglevel $=$ $\alpha$
+          }
           \If{$every$ \Constrainttest $.p\_value >$ \Siglevel $for$ \Constrainttest $\in$ \Constrainttests}{
             $append$ \Potentialstates $to$ \Allvalidstates\;
             \Continue $=$ \False\;
           }
         }
       }
-      $sort$ \Allvalidstates $by$ \Scoretests\;
+      $sort$ $ascending$ \Allvalidstates $by$ \Nendo, \Scoretests\;
       $return$ \Allvalidstates
   }
     \caption{Brute force hybrid state-space estimation algorithm}
@@ -466,14 +429,13 @@ Where $k = 2[|\mathbf{z}| + (|\mathbf{z}| + |\mathbf{x}|)(|\mathbf{y}| + |\mathb
   \end{algorithm}
 \end{minipage} \\
 
-The algorithm is very simple and is designed to reflect a few model selection heuristics. 
+The algorithm is very simple and is designed to reflect a few key model selection heuristics. As previously discussed, The algorithm assumes that the constraints validity is more important than score maximisation. The scores of models that are not valid relative to the constraints are irrelevant because these models are thrown out. The justification for this heuristic is outlined int \ref{dag_estimation}. Essentially, unlike score functions, constraints directly encode information about a relevant sense of causality.
 
-The algorithm also assumes that the constraints validity is more important than score maximisation. The scores of models that are not valid relative to the constraints are irrelevant because these models are thrown out. The justification for this heuristic is outlined int \ref{dag_estimation}. Essentially, unlike score functions, constraints directly encode information about a relevant sense of causality.
+The algorithm embodies the MSV criterion in the sense that it stops once one valid model is found. There are a number of relevant justifications for the application of this criteria. Firstly, this can be seen as the application of \textit{Occam's Razor} to state-space models, wherein state variables have more complex dynamics than controls. Consider equations (\ref{ss_solution:x}) - (\ref{ss_solution:z}). Exogenous states are involved in all three equations, endogenous states two, and controls only one. Another way to see this is in figure \ref{dsge_dag}. Among time $t$ and $t-1$ variables, adding an exogenous state results in the addition of edges in four places, an endogenous state in three places, and a control in only two. Therefore, models with with fewer states, especially exogenous states are more parsimonious and are therefore preferable, all else equal. The MSV criteria also allows for a potentially very large increase in the speed of the algorithm. Without it we must consider every possible combinations of states. Since the choice of states is multinomial with three categories the complexity of this algorithm is $\mathcal{O}(3^k)$. However, if the ground truth has only $m < k$ states then we can skip $\sum_{r=m}^{k} 2^r {\binom{k}{r}}$ iterations, which is potentially many orders of magnitude if $m << k$. This algorithm is nonetheless highly inefficient, however, given that macroeconomic data is usually of relatively low dimension, it is still feasible in many important cases. There are undoubtedly many performance improvements which could be made to this algorithm, but this is left as a topic for for future research.
 
-The algorithm applies the Minimal State Variable (MSV) criteria \parencite{mccallum1999role}. Once a model is found that is valid relative to the conditional independence tests, models with more states are not considered because these are inferior solutions. There are a number of relevant justifications for the application of this criteria. Firstly, this can be seen as the application of \textit{Occam's Razor} to state-space models, wherein state variables have more complex dynamics than controls. Consider equations (\ref{ss_solution:x}) - (\ref{ss_solution:z}). Exogenous states are involved in all three equations, endogenous states two, and controls only one. Another way to see this is in figure \ref{dsge_dag}. Among time $t$ and $t-1$ variables, adding an exogenous state results in the addition of edges in four places, an endogenous state in three places, and a control in only two. Therefore, models with with fewer states, especially exogenous states are more parsimonious and are therefore preferable, all else equal. The MSV criteria also allows for a potentially very large increase in the speed of the algorithm. Without it we must consider every possible combinations of states. Since the choice of states is multinomial with three categories the complexity of this algorithm is $\mathcal{O}(3^k)$. However, if the ground truth has only $m < k$ states then we can skip $\sum_{r=m}^{k} 2^r {\binom{k}{r}}$ iterations, which is potentially many orders of magnitude if $m << k$. This algorithm is nonetheless highly inefficient, however, given that macroeconomic data is usually of relatively low dimension, it is still feasible in many important cases. There are undoubtedly many performance improvements which could be made to this algorithm, but this is left as a topic for for future research.
+This algorithm will consistently estimate the unique valid state-space model as $n \rightarrow \infty$ with $k \equiv |\mathbf{w}|$ fixed. The test given by \citeauthor{srivastava2005some} (\citeyear{srivastava2005some}) has asymptotic power of unity. Therefore, since the algorithm systematically considers every possible model, it will reject every incorrect model in the asymptotic case. It will also reject the correct model in a proportion $\alpha$ of samples. In these cases the algorithm will yield no solution. In the rest it will yield the unique valid model. 
 
-Given the fact that this algorithm considers every possible state-space model, and the result in \ref{constrainttests}, if conditional independence was completely observable this algorithm would always identify the ground truth state-space model. However, the statistical tests employed here (discussed in \ref{testing}) have like any other test an associated type I error rate, and therefore, in practice sometimes the correct model will be rejected. 
-
+However, in finite samples there is unfortunately no guarantee that the algorithm will yield the correct solution. Although the test from \citeauthor{srivastava2005some} (\citeyear{srivastava2005some}) is only asymptotically normal, in practice the type I error rate remains close to the specified nominal significance level $\alpha$ for any reasonable sample size (see Appendix \ref{testing_validation}). On the other hand, the probability of type II error can be quite high in small samples, and this is very problematic. The algorithm will stop early if it finds some valid model with $m$ states. However, if this is the result of a type II error, and the correct model actually has $>m$ states, then the algorithm will terminate before it ever even considers the correct model. Potential solutions to this problem that would improve small sample performance would be to devise a test with more power, or to remove the early stopping behavior, although this would result in a greater reliance on sorting by score to differentiate between valid models, and greatly increased runtime in most applications.
 
 \subsection{Related Modelling Techniques}
 
@@ -645,8 +607,7 @@ There was only one model other than the true model that was selected a substanti
 
 \theoremstyle{definition}
 \begin{theorem}
-  Let $M$ be a log-linearised DSGE model that generates a distribution $f(\mathbf{w})$ over a set of variables $\mathbf{w}$, which can be partitioned into $\mathbf{z}$, $\mathbf{x}$, and $\mathbf{y}$ (exogenous states, endogenous states, and controls). Further suppose that $M$ is \textit{faithfully represented} by some DAG $g$ of the form of figure \ref{dsge_dag} according to the partitioning of $\mathbf{w}$. Then $g$ is the unique faithful DAG that satisfies both (\ref{constraint_test:1}) and (\ref{constraint_test:3}).
-  
+  Let $M$ be a log-linearised DSGE model that generates a distribution $f(\mathbf{w})$ over a set of variables $\mathbf{w}$, which can be partitioned into $\mathbf{z}$, $\mathbf{x}$, and $\mathbf{y}$ (exogenous states, endogenous states, and controls). Further suppose that $M$ is \textit{faithfully represented} by some DAG $g$ of the form of figure \ref{dsge_dag} according to the partitioning of $\mathbf{w}$. Then $g$ is the unique faithful DAG that satisfies (\ref{constraint_test:1}), (\ref{constraint_test:3}) and the minimum state variable criterion.
 \end{theorem}
 \begin{proof}
   Suppose not. Then $M$ is faithfully represented by a DAG $h$ which is different to $g$. Since $M$ is still a log-linear DSGE solution it must still have a faithful DAG representation of the general form in figure (\ref{dsge_dag}). Therefore, the difference must be that $h$ classifies one or more of the variables in $\mathbf{w}$ differently than $g$. Define the following notation: $g_x$ is the set of variables that are categorised as endogenous states in DAG  $g$ and likewise for $h$ and other categories. \\
@@ -669,13 +630,25 @@ There was only one model other than the true model that was selected a substanti
 
 \begin{table}
   \centering
-  \begin{tabular}{|c|c|c|c|c|c|c|c|}
-    \bfseries Emperical Size & \bfseries Alpha & \bfseries Difference & \bfseries n & \bfseries Correlation & \bfseries m & \bfseries l & \bfseries Repetitions
-    \csvreader[head to column names]{./files/test_validation.csv}{}
-    {\\\es & \a & \d & \n & \c & \m & \l & \k}
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \bfseries Emperical Size & \bfseries Alpha & \bfseries Difference & \bfseries n & \bfseries m & \bfseries Repetitions
+    \csvreader[head to column names]{./files/test_validation_alpha.csv}{}
+    {\\\es & \a & \d & \n & \m & \k}
   \end{tabular}
-  \caption{Emperical validation of testing strategy outlined in section \ref{testing}.}
-  \label{test_validation}
+  \caption{Emperical validation of significance level of \citeauthor{srivastava2005some} (\citeyear{srivastava2005some}) test.}
+  \label{test_validation_alpha}
+\end{table}
+
+\begin{table}
+  \centering
+  \tiny
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \bfseries Emperical Power & \bfseries Alpha & \bfseries n & \bfseries Correlation & \bfseries m & \bfseries Repetitions
+    \csvreader[head to column names]{./files/test_validation_power.csv}{}
+    {\\\ep & \a & \n & \c & \m & \k}
+  \end{tabular}
+  \caption{Emperical validation of power of \citeauthor{srivastava2005some} (\citeyear{srivastava2005some}) test against data generated from a normal distribution where the off-diagonal elements of the covariance matrix all take on the specified value.}
+  \label{test_validation_power}
 \end{table}
 
 \end{document}

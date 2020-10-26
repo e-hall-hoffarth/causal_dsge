@@ -77,8 +77,19 @@
 }
 
 \usepackage{graphicx} % Allows including images
-\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{subcaption}
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{csvsimple}
+\usepackage[
+  backend=biber,
+  style=apa,
+  citestyle=apa
+]{biblatex}
+\usetikzlibrary{arrows}
+
+\addbibresource{references.bib}
 
 \def\indep{\perp \!\!\! \perp}
 
@@ -86,7 +97,7 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title[Macro DAGs]{DAGs with Applications to Macroeconomic Timeseries} % The short title appears at the bottom of every slide, the full title is only on the title page
+\title[Causal Discovery DSGE]{Causal Discovery of DSGE Models} % The short title appears at the bottom of every slide, the full title is only on the title page
 
 \author{Emmet Hall-Hoffarth} % Your name
 \institute[Oxford] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
@@ -108,299 +119,360 @@ University of Oxford \\ % Your institution for the title page
     \tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
 \end{frame}
 
-\section{Background}
+\section{Introduction}
 
-\subsection{DAGs}
-\subsubsection{Representation}
 \begin{frame}
-    \frametitle{DAGs}
-    \begin{tabular}{ p{5.5cm} p{5.5cm} }
-        \begin{figure}
-            \includegraphics[width=4.5cm]{images/trafficjam.png}
-            \caption{An example of a simple DAG}
-            \label{dag1}
-        \end{figure}
-        &
-        \begin{itemize}
-            \item Root nodes of the graph are $i.i.d.$ shocks.
-            \item Parent nodes are exogenous relative to their children.
-            \item Each arc specifies a (non-parametric) conditional dependence.
-            \item I will assume that the data follows a joint normal distribution $s.t.$ each conditional probability relationship is a linear function with a normally distributed error.
-        \end{itemize}
-    \end{tabular}
+    \frametitle{Introduction}
+    \begin{itemize}
+        \item I develop an algorithm for agnostic and data-driven causal discovery of a unique state-space model and associated family of DSGE models which are \textit{valid} (in a sense that I shall make specific later) relative to some observational data.
+        \item I provide proof that the solution to this procedure is asymptotically unique and consistent, along with empirical evidence that it performs well with realistic sample sizes.
+    \end{itemize}
 \end{frame}
 
-\subsubsection{Structure learning}
+\section{What?}
+
 \begin{frame}
-    \frametitle{Structure Learning}
+    \centering
+    \huge
+    What does this mean?
+\end{frame}
+
+\begin{frame}
+    \frametitle{Causal Discovery}
+    \begin{itemize}
+        \item \textit{Causal Discovery} is a field initiated by the work of Pearl, Spirtes, and others involving using large data sets and algorithms to develop models that can make counterfactual predictions.
+        \item One approach to this involves graphical models such as directed acyclical graphs (DAGs).
+        \item Algorithms seek to identify a DAG from data using either a score-based (likelihood maximisation) or constraint-based (conditional independence testing) approach.
+        \item \citeauthor{imbens2019potential} (\citeyear{imbens2019potential}) calls for more applications of graphical models to be demonstrated within the field of economics.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{DSGE Models}
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        Consumer problem
+        \begin{align*}
+            & \max \text{ } \sum_{t=0}^{\infty} \beta^t U(C_t, L_t, ...) \text{ } s.t. \\
+            & \text{ } P_t C_t + ... \leq W_t L_t + ... \text{ } \forall t \\
+            & \lim_{T \rightarrow \infty} \beta^T \lambda_{x,T} x_T \rightarrow 0 \text{ } \forall x \in \{K, B, ...\}
+        \end{align*}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        Firm problem
+        \begin{align*}
+            \max \text{ } & P_t f(L_t, ...) - W_t L_t \text{ } \forall t \\
+        \end{align*}
+    \end{minipage}
+    \centering
+    Competitive equilibrium, market clearing conditions ...
+\end{frame}
+
+\begin{frame}
+    \frametitle{State Space Representation}
+    \begin{itemize}
+        \item Solve out these equations and take a log-linear approximation to the model that takes on the following general form: 
+    \end{itemize}
+        \begin{align}
+            \vec{y}_t &= \vec{A} \vec{x}_{t-1} + \vec{B} \vec{z}_{t} \label{ss_solution:x}\\
+            \vec{x}_t &= \vec{C} \vec{x}_{t-1} + \vec{D} \vec{z}_{t} \label{ss_solution:y}\\
+            \vec{z}_t &= \vec{E} \vec{z}_{t-1} + \vec{\epsilon}_{t} \label{ss_solution:z}
+        \end{align}
+    \begin{itemize}
+        \item This is a partition of the variables $\vec{w}_t$ in the model into three categories:
+        \begin{itemize}
+            \item $\vec{x}_t$: predetermined or endogenous state variables
+            \item $\vec{y}_t$: control variables or "jumpers"
+            \item $\vec{z}_t$: exogenous state variables
+        \end{itemize}
+        \item The algorithm identifies this partition (and the matrices $\vec{A}$ - $\vec{E}$).
+    \end{itemize}
+\end{frame}
+
+\section{Why?}
+
+\begin{frame}
+    \centering
+    \huge
+    Why is this useful?
+\end{frame}
+
+\begin{frame}
+    \frametitle{Reduction of problem space}
+    \begin{itemize}
+        \item Given a set of observations over $k$ variables there are $3^k$ possible state space representations.
+        \begin{itemize}
+            \item Choice of model is \textit{trinomial}
+        \end{itemize}
+        \item Reducing this to just one is then a huge reduction in the space of models that need to be considered.
+        \item Note that this does not mean that we identify a unique DSGE model --- different microfoundations may give rise to the same state space representation.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Agnosticism}
+    \begin{itemize}
+        \item Assumptions we use are very minimal:
+        \begin{itemize}
+            \item The true DGP of the macroeconomy can be modelled as some sort of log-linear DSGE model.
+            \item \textit{Casual Markov Assumption} --- All variables are independent of their non-descendants given their parents \parencite{spirtes2016causal}.
+            \begin{itemize}
+                \item This is the statement that causality is equivalent to conditional independence (as implied by a DAG).
+                \item DSGE models have this property. So while in general this is a separate assumption it is in this case implied by the first condition.
+            \end{itemize}
+            \item \textit{Faithfulness} --- observed conditional indepedence are real features of the DGP. Effects do not cancel out exactly.
+            \item Linearity, Gaussian shocks --- these can be relaxed.
+        \end{itemize}
+        \item As a result the solution produced reflects the data to the greatest extent possible.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Inference}
+    \begin{itemize}
+        \item We cannot pin down a unique DSGE microfoundation given its state space form. However, we can make statements about certain kinds of assumptions.
+        \item For example, if we find that consumption is predetermined, this is evidence that any sensible model should include habits in consumption (although you could come up with some other explanation).
+        \item If we find that inflation is a endogenous state then we have evidence of persistence in inflation, which might be explained by for example indexing. If it is a control we have evidence that inflation is strictly forward-looking.
+        \item These types of inferences are particularly meaningful in the context of the previous slide.
+    \end{itemize}
+\end{frame}
+
+\section{How?}
+\begin{frame}
+    \centering
+    \huge
+    How is this even possible?
+\end{frame}
+
+\begin{frame}
+    \frametitle{DAGs}
+    \begin{itemize}
+        \item We can represent the state space representation as a DAG.
+    \end{itemize}
     \begin{figure}
         \centering
-        \begin{subfigure}{0.3\textwidth}
-          \centering
-          \includegraphics[width=\linewidth]{images/collider.png} 
-          \small
-          \begin{equation*}
-            x = \epsilon_{x}
-          \end{equation*}
-          \begin{equation*}
-            y = \beta_{yx} x + \beta_{yz} z + \epsilon_{y}
-          \end{equation*}
-          \begin{equation*}
-            z = \epsilon_{z}
-          \end{equation*}
-          \caption{Collider}
-          \label{collider}
-        \end{subfigure}
-        %
-        \begin{subfigure}{0.3\textwidth}
-          \includegraphics[width=\linewidth]{images/chain.png}
-          \small
-          \begin{equation*}
-            x = \epsilon_{x}
-          \end{equation*}
-          \begin{equation*}
-            y = \beta_{yx} x + \epsilon_{y}
-          \end{equation*}
-          \begin{equation*}
-            z = \beta_{zy} y + \epsilon_{z}
-          \end{equation*}
-          \caption{Chain}
-          \label{chain}
-        \end{subfigure}
-        %
-        \begin{subfigure}{0.3\textwidth}
-          \includegraphics[width=\linewidth]{images/fork.png}
-          \small
-          \begin{equation*}
-            x = \beta_{xy} y + \epsilon_{x}
-          \end{equation*}
-          \begin{equation*}
-            y = \epsilon_{y}
-          \end{equation*}
-          \begin{equation*}
-            z = \beta_{zy} y + \epsilon_{z}
-          \end{equation*}
-          \caption{Fork}
-          \label{fork}
-        \end{subfigure}
-        \caption{The three possible v-structures of a 3 node DAG. Error terms $\epsilon$ are all i.i.d. Gaussian shocks.}
-        \label{dag2}
+        \begin{tikzpicture}[scale=1.5]
+          \tikzset{
+            vertex/.style={circle,draw, minimum size=2em},
+            edge/.style={->,> = latex'}
+          }
+          % vertices
+          \node[vertex] (zt) at (1 ,0) {$\vec{z}_{t\quad}$};
+          \node[vertex] (zt1) at (1 , 1) {$\vec{z}_{t-1}$};
+          \node[vertex] (zt2) at (1 , 2) {$\vec{z}_{t-2}$};
+          \node[vertex] (xt) at (0 ,-1) {$\vec{x}_{t\quad}$};
+          \node[vertex] (xt1) at (0 , 0) {$\vec{x}_{t-1}$};
+          \node[vertex] (xt2) at (0 , 1) {$\vec{x}_{t-2}$};
+          \node[vertex] (yt) at (-1,-1) {$\vec{y}_{t\quad}$};
+          \node[vertex] (yt1) at (-1, 0) {$\vec{y}_{t-1}$};
+          \node[vertex] (yt2) at (-1, 1) {$\vec{y}_{t-2}$};
+          \node[vertex] (et) at (2 , 0) {$\vec{\epsilon}_{t\quad}$};
+          \node[vertex] (et1) at (2 , 1) {$\vec{\epsilon}_{t-1}$};
+          \node[vertex] (et2) at (2 , 2) {$\vec{\epsilon}_{t-2}$};
+      
+          %edges
+          \draw[edge] (et) -- (zt);
+          \draw[edge] (et1) -- (zt1);
+          \draw[edge] (et2) -- (zt2);
+          \draw[edge] (zt2) -- (zt1);
+          \draw[edge] (zt1) -- (zt);
+          \draw[edge] (xt2) -- (xt1);
+          \draw[edge] (xt1) -- (xt);
+          \draw[edge] (zt2) -- (xt2);
+          \draw[edge] (zt1) -- (xt1);
+          \draw[edge] (zt) -- (xt);
+          \draw[edge] (zt2) -- (yt2);
+          \draw[edge] (zt1) -- (yt1);
+          \draw[edge] (zt) -- (yt);
+          \draw[edge] (xt2) -- (yt1);
+          \draw[edge] (xt1) -- (yt);
+        \end{tikzpicture}
       \end{figure}
 \end{frame}
 
 \begin{frame}
-    \frametitle{Structure Learning}
-    \begin{itemize}
-        \item These three V-structures are partially identifiable because they have different testable implications about conditional (in)dependence.
-        \begin{itemize}
-            \item Collider $\implies x \indep z$ but $x \not\!\indep z | y$
-            \item Chain $\implies x \not\!\indep z$ but $x \indep z | y$
-            \item Fork $\implies x \not\!\indep z$ but $x \indep z | y$
-        \end{itemize}
-        \item In the context of a linear Gaussian model these conditional (in)dependence relationships can be tested with a t-test.
-        \item Many algorithms have been developed which use this basic idea to identify (to the greatest extent possible) the underlying DAG given observed data. These are \textit{Constraint-Based Algorithms}.
-        \item There are also \textit{Score-Based Algorithms} that maximise a score (eg. likelihood) over the set of possible DAGs using gradient decent, and \textit{Hybrid Algorithms} that combine both approaches.
-    \end{itemize}
-\end{frame}
-
-\subsection{DSGE}
-\begin{frame}
-    \frametitle{DSGE}
-    \begin{tabular}{ p{5cm} p{5cm} }
+    \frametitle{(Aside) Is this sensible?}
+    \centering
+    \begin{minipage}{0.4\textwidth}
         \begin{figure}
             \centering
-            \includegraphics[width=5cm]{images/dsge_dag.png}
-            \caption{The general solution to a DSGE model as a DAG}
-            \label{dag3}
-          \end{figure}
-        &
-        \begin{itemize}
-            \item Exogenous states: Current value determines current state of model and depends only on its own past. (eg. technology)
-            \item Endogenous states: Current value depends on states, but past values determine current state of model. (eg. capital)
-            \item Controls: Current value depends on states, past values are irrelevant. (eg. consumption)
-        \end{itemize}
-    \end{tabular}
-\end{frame}
-
-\begin{frame}
-    \frametitle{DSGE}
-    \begin{itemize}
-        \item The DAG on the previous slide defines the \textit{ground-truth} that we seek to identify from data generated by a DSGE simulation.
-        \item This model is essentially a regularised ADL regression. Therefore, structure learning can be seen as providing an agnostic way to choose time $t$ regressors for an ADL model. 
-        \item Structure learning provide asymptotic theoretical guarantees that they can identify the ground truth given some observational data.
-        \item So everything is in order then?
-    \end{itemize}
-\end{frame}
-
-\section{Application}
-\subsection{RBC}
-\begin{frame}
-    \frametitle{Application}
-    \begin{tabular}{ p{5cm} p{5cm} }
-        \begin{figure}
-            \centering
-            \includegraphics[width=5cm]{images/rbc_true_dag.png}
-            \caption{Ground truth solution to RBC model}
-            \label{dag4}
-          \end{figure}
-        &
-        \begin{figure}
-            \centering
-            \includegraphics[width=5cm]{images/rbc_hybrid_structure.png}
-            \caption{Estimated DAG for RBC data (hybrid algorithm, 100k observations)}
-            \label{dag5}
-          \end{figure}
-    \end{tabular}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Application}
-    \begin{itemize}
-        \item Not quite....
-        \item There seems to be a number of problems with these algorithms, especially using simulated data:
-        \begin{itemize}
-            \item Faithfulness: We require that every dependency in the underlying DGP correspond to an observed statistical dependence. This is violated if some effects cancel out resulting in no observed correlation (eg mon. auth. chooses interest rate to cancel effect of inflationary shock on output)
-            \begin{itemize}
-                \item Causation $\implies$ Correlation
-            \end{itemize}
-            \item Collinearity: Calculating conditional correlation requires calculating regression residuals. In simulation, these are very close to zero conditional on the correct states, so the computation is unstable.
-            \item Asymptotics: The problem space grows super-exponentially with the number of variables $\implies$ even a sample size of 100k may not be big enough for asymptotic arguments.
-        \end{itemize}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Application}
-    \begin{tabular}{ p{5cm} p{5cm} }
-        \begin{figure}
-            \centering
-            \begin{subfigure}{5cm}
-              \centering
-              \includegraphics[width=\linewidth, height=1.25cm]{images/rbc_sim_irf.png} 
-              \caption{Original Simulation}
-              \label{simirf}
-            \end{subfigure}
-            %
-            \begin{subfigure}{5cm}
-              \centering  
-              \includegraphics[width=\linewidth, height=1.25cm]{images/rbc_true_dag_irfs.png}
-              \caption{Ground Truth DAG}
-              \label{gtirf}
-            \end{subfigure}
-            %
-            \begin{subfigure}{5cm}
-              \centering  
-              \includegraphics[width=\linewidth, height=1.25cm]{images/rbc_hybrid_irfs.png}
-              \caption{Fitted DAG (Hybrid Algorithm)}
-              \label{hirf}
-            \end{subfigure}
-            \caption{IRFs to a one standard deviation technology shock.}
-            \label{dag10}
+            \begin{tikzpicture}[scale=2]
+            \tikzset{
+                vertex/.style={circle,draw, minimum size=2em},
+                edge/.style={->,> = latex'}
+            }
+            % vertices
+            \node[vertex] (q) at (0,0) {$q$};
+            \node[vertex] (p) at (1,0) {$p$};
+            \node[vertex] (xd) at (0,1) {$x_d$};
+            \node[vertex] (xs) at (1,1) {$x_s$};
+        
+            %edges
+            \draw[edge] (q) -- (p);
+            \draw[edge] (p) -- (q);
+            \draw[edge] (xd) -- (q);
+            \draw[edge] (xs) -- (p);
+            \end{tikzpicture}
         \end{figure}
-        &
+        \small
+        \begin{align*}
+            p = \alpha_p + \beta_{ps} x(s) + \beta_{pq} q + \epsilon_{p} \\
+            q = \alpha_q + \beta_{qd} x(d) + \beta_{qp} p + \epsilon_{q}
+        \end{align*}
+    \end{minipage}
+    %
+    \begin{minipage}{0.05\textwidth}
+        \centering
+        $\iff$
+    \end{minipage}
+    %
+    \begin{minipage}{0.4\textwidth}
+        \begin{figure}
+            \centering
+            \begin{tikzpicture}[scale=2]
+            \tikzset{
+                vertex/.style={circle,draw, minimum size=2em},
+                edge/.style={->,> = latex'}
+            }
+            % vertices
+            \node[vertex] (q) at (0,0) {$q$};
+            \node[vertex] (p) at (1,0) {$p$};
+            \node[vertex] (xd) at (0,1) {$x_d$};
+            \node[vertex] (xs) at (1,1) {$x_s$};
+        
+            %edges
+            \draw[edge] (xd) -- (p);
+            \draw[edge] (xd) -- (q);
+            \draw[edge] (xs) -- (q);
+            \draw[edge] (xs) -- (p);
+            \end{tikzpicture}        
+        \end{figure}
+        \tiny
+        \begin{align*}
+            p = \frac{1}{1-\beta_{pq}\beta_{qp}}[& (\alpha_p + \beta_{pq} \alpha_q) + \beta_{ps} x(s) + \\ & \beta_{pq} \beta_{qd} x(d) + (\epsilon_p + \beta_{pq} \epsilon_q)] \\
+            q = \frac{1}{1-\beta_{qp}\beta_{pq}}[& (\alpha_q + \beta_{qp} \alpha_p) + \beta_{qd} x(d) + \\ & \beta_{qp} \beta_{ps} x(s) + (\epsilon_q + \beta_{qp} \epsilon_p)]
+        \end{align*}
+    \end{minipage}
+    \begin{itemize}
+        \item Understanding response to shocks does not require inference of "deep" parameters ($\beta_{xy}$).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Conditional Independence (I)}
+    \begin{itemize}
+        \item Given the Causal Markov assumption we can infer the following relationships from this DAG: 
+    \end{itemize}
+    \begin{align}
+        x_t \indep x^{\prime}_{t} \,||\,& [\vec{x}_{t-1},\vec{z}_t] \text{ for all } (x_t, x^{\prime}_{t}) \in [\vec{x}_t, \vec{y}_t] \label{constraint_test:1} \\
+        x_{t-1} \indep z_{t} \,||\,& \vec{z}_{t-1} \text{ for all } x_{t-1} \in \vec{x}_{t-1} \text{ and } z_{t} \in \vec{z}_t \label{constraint_test:3} \\
+        x_t \indep z_{t-1} \,||\,& [\vec{x}_{t-1}, \vec{z}_t] \text{ for all } x_t \in [\vec{x}_t, \vec{y}_t] \text{ and } z_{t-1} \in \vec{z}_{t-1} \label{constraint_test:2} \\
+        z_t \indep z^{\prime}_{t} || \vec{z}_{t-1} & \text{ for all } z_t \not = z^{\prime}_{t} \in \vec{z}_t \label{constraint_test:4}
+      \end{align}
+    \begin{itemize}
+        \item In the paper I show that under the stated assumptions if all conditional independence relationships are known there is exactly one state-space model that satisfies (\ref{constraint_test:1}), (\ref{constraint_test:3}) and the minimum state variable criterion (MSV) \parencite{mccallum1999role}. I refer to the satisfaction of these criteria as \textit{validity}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Conditional Independence (II)}
+    \begin{itemize}
+        \item In reality conditional independence is not known, so we implement a feasible test.
+        \item Given that we are dealing with Gaussian variables independence is equivalent to zero correlation/covariance, and likewise conditional independence is equivalent to zero correlation/covariance between residuals, having partialed out the conditioning set.
+        \item With some slight modification all 4 conditions can be combined into a single test on a covariance matrix.
+        \item In particular, test whether $\vec{x}_{t-1}$, $\vec{y}_{t-1}$, $\vec{z}_{t}$, and (optionally) $\vec{z}_{t-2}$ are \textit{completely independent} (covariance matrix is diagonal), conditional on $\vec{x}_{t-2}$ and $\vec{z}_{t-1}$.
+        \item Many statistical tests are available for this purpose, I implement one found in \parencite{srivastava2005some}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Scoring}
+    \begin{itemize}
+        \item In finite samples, it is not uncommon to find that more than one model is \textit{valid}, however, it is usually a small number compared to the search space.
+        \item In order to differentiate between this valid models I maximise a score function, which in most cases is the likelihood function of the model. I also implement penalised scores (AIC/BIC), but these are less useful because the models that survive the CI testing tend to have very similar structures/complexity.
+        \item In general, one can just maximise the score function over the set of all models, however, I argue against this approach because it is not necessarily the case that the model with the best predictive accuracy gives the most reasonable causal explanation.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Algorithm}
+    \begin{itemize}
+        \item To find the valid model(s), iterate over all possible models and apply the test (brute force).
+        \item We can make this less onerous by applying MSV and stopping once we have found a valid model.
+        \item If we find more than one valid model choose a winner using the score function.
+        \item This algorithm will consistently identify the unique valid model as $n \rightarrow \infty$ with the number of variables fixed because the power of the CI test to reject incorrect models goes to 1.
         \begin{itemize}
-            \item Even if structure learning does not return the ground-truth it does (sometimes) return a model that is causally equivalent in the sense that correctly identifies the states and replicates the true IRFs.
-            \item Furthermore, when using real data concerns about faithfulness, collinearity, and even asymptotics (if we consider a small number of variables) are less pronounced...
+            \item We will still have a significance level $\alpha$ probability of rejecting the correct model, and thus finding no solution in the asymptotic case.
+            \item To counter this we can lower $\alpha$ as $n$ increases. 
+            \item $\alpha$ is the only tuning parameter of this algorithm.
         \end{itemize}
-    \end{tabular}
-\end{frame}
-
-\subsection{Real data}
-\begin{frame}
-    \frametitle{Application}
-    \begin{tabular}{ p{5cm} p{5cm} }
-        \begin{figure}
-            \centering
-            \includegraphics[width=5cm]{images/real_hybrid_structure.png}
-            \caption{Estimated DAG for US economy 1980-2005 (hybrid algorithm)}
-            \label{dag11}
-          \end{figure}
-        &
-        \begin{figure}
-            \centering
-            \includegraphics[width=5cm,height=4cm]{images/real_z_irf.png}
-            \caption{IRFs to TFP shock for estimated DAG}
-            \label{dag12}
-          \end{figure}
-    \end{tabular}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Application}
-    \begin{itemize}
-        \item Since there is no ground-truth available we can consider this DAG against commonly accepted stylised facts.
-        \item The parents of $rm$, other than its own lag are $u_{t-1}$ and $\pi_{t-1}$ suggesting Taylor Rule like behaviour. There is a causal pathway from past monetary policy into current unemployment implying that monetary policy is a viable stabilising tool. 
-        \item $n$ and $l$ are separate from the rest of the graph suggesting the exogeneity of these variables, which is entirely reasonable. 
-        \item $z_t$ feed directly into $y_t$, $w_{t-1}$ into $c_t$, and $i_t$ into $u_t$, all of which seem like plausible causal linkages.
-        \item The IRFs seem to reflect many stylised facts about the macroeconomy in terms of direction of effect, even if the implied responses leave something to be desired, especially with regards to their jagged shape. 
     \end{itemize}
 \end{frame}
 
-\section{Papers to Write}
-
-\subsection{DSGE-specific structure learning}
 \begin{frame}
-    \frametitle{DSGE-Specific Structure Learning}
+    \frametitle{Results (I)}
     \begin{itemize}
-        \item Another problem with existing structure learning algorithms is that they are \textit{too agnostic} relative to what we are willing to assume in this context. 
-        \item If the DAG is a solution to a DSGE model it must take on a specific form, as illustrated in Figure \ref{dag3}.
-        \item By explicitly assuming the resulting DAG takes on this form we can drastically reduce the size of the search space and likely greatly improve the resulting estimated DAG.
-        \item I have already implemented this, and the only significant roadblock seems to be the collinearity issue as discussed earlier.
+        \item Baseline RBC model.
+        \item 9 Observables, true partition is $\vec{z} = [g \text{ } z]$, $\vec{x} = [k]$, $\vec{y} = [y \text{ } c \text{ } i \text{ } r \text{ } w \text{ } l]$.
+        \item With full sample of $10^5$ observations the only valid partition is the ground truth.
+        \item 834 models considered (models with $1 \leq$ \# state variables $\leq 3$).
+        \item 19683 possible models reduced to 1.
     \end{itemize}
 \end{frame}
 
-\subsection{Real data}
 \begin{frame}
-    \frametitle{Focus on Real Data}
+    \frametitle{Results (II)}
     \begin{itemize}
-        \item The original idea of this research was to use simulated data to give credence to the application to real data.
-        \item As it turns out there are many problems with simulated data the appear to not be an issue for real data.
-        \item This suggestion, therefore, is to ignore the simulations and instead provide a number of real data applications in the paper and evaluate those models against well-understood intuitions.
+        \small
+        \item 1000 iterations, 100 sample size
+        \item Wins = number of times model selected, Valid = number of times model is valid relative to CI test
     \end{itemize}
-\end{frame}
-
-\subsection{Choose your own states}
-\begin{frame}
-    \frametitle{"Choose your own states adventure"}
-    \begin{itemize}
-        \item If a DSGE-like solution is assumed, a researcher needs only to choose what they assume to be the exogenous and endogenous states in order to estimate a model.
-        \item I propose a methodology whereby researchers first test different combinations of states to see whether they produce expected IRFs, and only then go to develop a structural model that contains those states.
-        \item This approach is data-driven and mostly agnostic, as opposed to the \textit{ad hoc} approach that is commonly employed.
-    \end{itemize}
-\end{frame}
-
-\subsection{Lasso}
-\begin{frame}
-    \frametitle{Lasso}
-    \begin{itemize}
-        \item Assuming a DSGE solution the estimated VAR should be sparse (the only relevant regressors are the states). Therefore, it makes sense to use penalised regression to identify these states, which can then be fed into a DAG.
-        \item This approach seems to work very well even on simulated data.
-        \item Does not differentiate between exogenous and endogenous states (because it is a VAR instead of an ADL). That is left to the researcher to decide.
-        \item Potentially not a very original research contribution.
-    \end{itemize}
-\end{frame}
-
-\subsection{Theory}
-\begin{frame}
-    \frametitle{Theory}
-    \begin{itemize}
-        \item Would be nice to do more theoretical analysis.
-        \item The best opportunity to do this seems to be in the section relating DSGE solutions to DAGs where a good deal of rigour could be added.
-        \item Could perhaps develop some statistical theory for the DSGE-specific structure learning algorithm.
-        \item For the "Choose your own states adventure" I could actually develop a structural model in the manner I suggested. 
-        \item Hopeful for other suggestions here.
-    \end{itemize}
+    \begin{table}
+        \centering
+        \tiny
+        \begin{tabular}{|c|c|c|l|l|}
+            \bfseries Index & \bfseries Exogenous States & \bfseries Endogenous States & \bfseries Wins & \bfseries Valid
+            \csvreader[head to column names]{./files/rbc_wins_new.csv}{}
+            {\\\index & \exostates & \endostates & \wins & \valid}
+        \end{tabular}
+    \end{table}
 \end{frame}
 
 \section{Conclusion}
+
 \begin{frame}
-    \frametitle{Conclusion}
+    \frametitle{Limitations}
     \begin{itemize}
-        \item DAGs can allow for agnostic, data-driven discovery of causal models, and there are likely many applications in economics where this will prove useful.
-        \item My research aims to demonstrate one such application by utilizing macroeconomic timeseries data.
-        \item While initial results have been mixed, DAGs do so some promise, especially as a regularisation technique.
-        \item The exact direction of the paper(s) that I will write on these topics has yet to be determined.
+        \item Does not solve microeconomic dissonance
+        \begin{itemize}
+            \item Researchers still need to specify a structural model if they wish to make inferences about the counterfactual effects of structural parameter changes.
+        \end{itemize}
+        \item Type II error can be a problem on realistic data sizes
+        \begin{itemize}
+            \item We rely on the rejection of incorrect models to a large degree
+            \item If there are models similar to the true solution and sample sizes are small we can end up with the wrong solution.
+        \end{itemize}
+        \item Computational Complexity
+        \begin{itemize}
+            \item Considering up to $3^k$ models can become very costly as $k$ grows.
+            \item It is unclear the extent to which heuristic algorithms can improve the complexity as the search space is likely quite jagged and also this would threaten the agnosticism of the algorithm which is one of its primary benefits.
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
-\end{document} 
+\begin{frame}
+    \frametitle{Conclusion}
+    \begin{itemize}
+        \item I introduce a test and algorithm to identify a unique state-space model (and associated family of DSGE models) which is \textit{valid} relative to some observed data.
+        \item This procedure is asymptotically consistent and empirical results show it performs well on realistic sample sizes.
+        \item One approach to applying causal discovery tools in the context of economics.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Citations}
+    \printbibliography
+\end{frame}
+
+\end{document}
