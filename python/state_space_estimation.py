@@ -99,16 +99,19 @@ else:
 
 def test(data):
     est = estimation(data)
+    # results = pd.DataFrame()
     for i in range(min_states, max_states):
         print('Evaluating models with {} states'.format(i))
         results = est.choose_states(i, method=method, alpha=alpha)
+        # results = results.append(est.choose_states(i, method=method, alpha=alpha, tests=['score']), ignore_index=True)
         if results[results['valid']].shape[0] > 0:
             return results[results['valid']].sort_values(by=['nexo','loglik'], ascending=[True,False])
         else:
             del results
             gc.collect()
     return None # No valid models found
-
+    # results = results.sort_values(by='bic', ascending=True)
+    return results
 
 if repeat:
     wins = pd.DataFrame(index=pd.MultiIndex.from_frame(pd.DataFrame(columns=['exo_states','endo_states'])), columns=['wins','valid'])  
