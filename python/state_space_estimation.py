@@ -24,7 +24,7 @@ parser.add_argument('source', help='''one of:
 "nk": use data from data/gali.csv
 "sw": use data from data/sw.csv
 "real": use data from data/real_data.csv''')
-parser.add_argument('-t', '--test', required=False, help='Testing strategy to employ, one of (srivastava, schott)')
+parser.add_argument('-t', '--test', required=False, help='Testing strategy to employ, one of (score, srivastava, multiple)')
 parser.add_argument('-a', '--alpha', required=False, help='Nominal significance level of constraint tests (default 0.05)')
 parser.add_argument('-m', '--min_states', required=False, help='consider only models with > min_states')
 parser.add_argument('-M', '--max_states', required=False, help='consider only models with < max_states')
@@ -37,6 +37,7 @@ args = parser.parse_args()
 source = args.source
 
 if args.test:
+    assert args.test in ['srivastava', 'multiple', 'score']
     method = args.test
 else:
     method = 'srivastava'
@@ -99,19 +100,23 @@ else:
 
 def test(data):
     est = estimation(data)
-    # results = pd.DataFrame()
-    for i in range(min_states, max_states):
-        print('Evaluating models with {} states'.format(i))
-        results = est.choose_states(i, method=method, alpha=alpha)
-        # results = results.append(est.choose_states(i, method=method, alpha=alpha, tests=['score']), ignore_index=True)
-        if results[results['valid']].shape[0] > 0:
-            return results[results['valid']].sort_values(by=['nexo','loglik'], ascending=[True,False])
-        else:
-            del results
-            gc.collect()
-    return None # No valid models found
-    # results = results.sort_values(by='bic', ascending=True)
-    return results
+    if method == 'score':
+        results = pd.DataFrame()
+        for i in range(min_states, max_states):
+            print('Evaluating models with {} states'.format(i))
+            results = results.append(est.choose_states(i, method=method, alpha=alpha, tests=['score']), ignore_index=True)
+        results = results.sort_values(by='bic', ascending=True)
+        return results
+    else:
+        for i in range(min_states, max_states):
+            print('Evaluating models with {} states'.format(i))
+            results = est.choose_states(i, method=method, alpha=alpha)
+            if results[results['valid']].shape[0] > 0:
+                return results[results['valid']].sort_values(by=['nexo','loglik'], ascending=[True,False])
+            else:
+                del results
+                gc.collect()
+        return None # No valid models found
 
 if repeat:
     wins = pd.DataFrame(index=pd.MultiIndex.from_frame(pd.DataFrame(columns=['exo_states','endo_states'])), columns=['wins','valid'])  

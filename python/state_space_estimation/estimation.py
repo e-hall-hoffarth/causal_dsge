@@ -50,13 +50,13 @@ class estimation():
 
 
     def evaluate_states(self, roles, tests=('score', 'constraint'), 
-                        method='custom_3', alpha=0.05, verbose=False):
+                        method='srivastava', alpha=0.05, verbose=False):
         '''
         Inputs:
             roles: state_space_estimation.roles
             tests: tuple(('score'), ('constraint'))
                 Which types of tests to perform
-            method: one of ('srivastava', 'schott', 'custom_3', 'custom_4')
+            method: one of ('srivastava', 'multiple')
                 Testing strategy to use (for constrain tests)
             alpha: float in (0, 1)
                 The significance level to apply in constraint testing
@@ -92,14 +92,14 @@ class estimation():
 
 
     def choose_states(self, n_states, tests=['score', 'constraint'], 
-                      method='custom_3', alpha=0.05, verbose=False):
+                      method='srivastava', alpha=0.05, verbose=False):
         '''
         Inputs:
             n_states: int
                 the number of states in models to consider
                 Which types of tests to perform
             tests: tuple(('score'), ('constraint'))
-            method: one of ('srivastava', 'schott', 'custom_3', 'custom_4')
+            method: one of ('srivastava', 'multiple')
                 Testing strategy to use (for constrain tests)
             alpha: float in (0, 1)
                 The significance level to apply in constraint testing
@@ -126,7 +126,7 @@ class estimation():
 
             
     def choose_states_parallel(self, n_states, tests=['score', 'constraint'], 
-                               method='custom_3', alpha=0.05, verbose=False):
+                               method='srivastava', alpha=0.05, verbose=False):
         '''
         See self.choose_states; implements same functionality with a parallel backend.
         '''
