@@ -118,9 +118,9 @@ def constraint_tests(roles, data, method='srivastava', alpha=0.05, tol=1e-20):
     resid = get_resids(roles, data)
     if method == 'srivastava':
         t = srivastava(resid)
-        crit_val = stats.norm.ppf(1-(alpha)) # One-sided test
-        p = 1 - stats.norm.cdf(t)
-        if t > crit_val:
+        crit_val = stats.norm.ppf(1-(alpha/2)) # One-sided test
+        p = 2*(1 - stats.norm.cdf(np.abs(t)))
+        if np.abs(t) > crit_val:
             valid = False
 
     elif method == 'schott':
