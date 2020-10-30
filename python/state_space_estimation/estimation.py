@@ -37,7 +37,7 @@ class estimation():
         Returns:
             generator
         '''
-        variables = self.data.columns.values[:int(len(self.data.columns.values)/2)]
+        variables = self.data.columns.values[:int(len(self.data.columns.values)/3)]
         limit = len(variables)-1 if n_states is None else n_states
         exo_states = chain.from_iterable(combinations(variables, r) for r in range(limit+1))
         for exo in exo_states:
@@ -49,13 +49,15 @@ class estimation():
         return None
 
 
-    def evaluate_states(self, roles, tests=('score', 'constraint'), alpha=0.05,
-                              return_tests=True, verbose=False):
+    def evaluate_states(self, roles, tests=('score', 'constraint'), 
+                        method='srivastava', alpha=0.05, verbose=False):
         '''
         Inputs:
             roles: state_space_estimation.roles
             tests: tuple(('score'), ('constraint'))
                 Which types of tests to perform
+            method: one of ('srivastava', 'multiple')
+                Testing strategy to use (for constrain tests)
             alpha: float in (0, 1)
                 The significance level to apply in constraint testing
             return_tests:
@@ -71,24 +73,15 @@ class estimation():
             results: dict
         '''
         if verbose: 
-            print('Evaluating states {}'.format(list(roles.exo_states) + [es + '_1' for es in roles.endo_states]))
-        names = roles.names
+            print('Evaluating model with exo state {} and endo states {}'.format(
+                list(roles.exo_states), list(roles.endo_states)))
         results = {}
         results['exo_states'] = roles.exo_states
         results['endo_states'] = roles.endo_states
         results['controls'] = roles.controls
         if 'constraint' in tests:
-            ct = constraint_tests(roles, names, self.data) 
-            m = len(ct)
-            valid = (len(ct) > 0) and all([test['pval'] > (alpha/2)/m for test in ct]) 
-            if valid and verbose:
-                print('Valid states found: {}'.format(np.append(roles.exo_states, roles.endo_states)))
-            results['valid'] = valid
-            results['mean_pval'] = np.mean([test['pval'] for test in ct]) if len(ct) > 0 else None
-            results['max_pval'] = max([test['pval'] for test in ct]) if len(ct) > 0 else None
-            results['min_pval'] = min([test['pval'] for test in ct]) if len(ct) > 0 else None
-            if return_tests:
-                results['constraint_tests'] = ct
+            ct = constraint_tests(roles, self.data, method=method, alpha=alpha) 
+            results = {**results, **ct}
         if 'score' in tests: 
             st = score_tests(roles, self.data)             
             results = {**results, **st}
@@ -98,15 +91,18 @@ class estimation():
         return results
 
 
-    def choose_states(self, n_states, alpha=0.05, tests=['score', 'constraint'], return_tests=True, verbose=False):
+    def choose_states(self, n_states, tests=['score', 'constraint'], 
+                      method='srivastava', alpha=0.05, verbose=False):
         '''
         Inputs:
             n_states: int
                 the number of states in models to consider
+                Which types of tests to perform
+            tests: tuple(('score'), ('constraint'))
+            method: one of ('srivastava', 'multiple')
+                Testing strategy to use (for constrain tests)
             alpha: float in (0, 1)
                 The significance level to apply in constraint testing
-            tests: tuple(('score'), ('constraint'))
-                Which types of tests to perform
             verbose: bool
                 If true print progress
         Performs:
@@ -117,24 +113,26 @@ class estimation():
             results: pd.DataFrame
         '''
         results = pd.DataFrame()
-        variables = self.data.columns.values[:int(len(self.data.columns.values)/2)]
+        variables = self.data.columns.values[:int(len(self.data.columns.values)/3)]
         ps = tqdm(self.potential_states(n_states=n_states),
                 total=(nCr(len(variables), n_states) * (2 ** (n_states))))
         for states in ps:
-            result = self.evaluate_states(states, tests, alpha=alpha, return_tests=True, verbose=verbose)
+            result = self.evaluate_states(states, tests, method=method, 
+                                          alpha=alpha, verbose=verbose)
             results = results.append(result, ignore_index=True)
             if 'valid' in results.columns:
                 results['valid'] = results['valid'].astype(bool)
         return results
 
             
-    def choose_states_parallel(self, n_states, alpha=0.05, tests=['score', 'constraint'], return_tests=True, verbose=False):
+    def choose_states_parallel(self, n_states, tests=['score', 'constraint'], 
+                               method='srivastava', alpha=0.05, verbose=False):
         '''
         See self.choose_states; implements same functionality with a parallel backend.
         '''
-        variables = self.data.columns.values[:np.int64(len(self.data.columns.values)/2)]
+        variables = self.data.columns.values[:np.int64(len(self.data.columns.values)/3)]
         states = self.potential_states(n_states=n_states)
-        results = Parallel(n_jobs=cpu_count())(delayed(self.evaluate_states)(state, tests, alpha, verbose) 
+        results = Parallel(n_jobs=cpu_count())(delayed(self.evaluate_states)(state, tests, method, alpha, verbose) 
                                             for state in tqdm(states, 
                                                                 total=(nCr(len(variables), n_states) * (2 ** (n_states)))))
         return pd.DataFrame(results)
