@@ -1,0 +1,19 @@
+[0] Config.pm:304> INFO - This is Biber 2.14
+[0] Config.pm:307> INFO - Logfile is 'main.blg'
+[111] biber:322> INFO - === Wed Jul 29, 2020, 12:16:00
+[134] Biber.pm:415> INFO - Reading 'main.bcf'
+[253] Biber.pm:943> INFO - Found 34 citekeys in bib section 0
+[270] Biber.pm:4256> INFO - Processing section 0
+[271] Utils.pm:75> INFO - Globbing data source 'references.bib'
+[271] Utils.pm:91> INFO - Globbed data source 'references.bib' to references.bib
+[284] Biber.pm:4455> INFO - Looking for bibtex format file 'references.bib' for section 0
+[286] bibtex.pm:1653> INFO - LaTeX decoding ...
+[335] bibtex.pm:1471> INFO - Found BibTeX data source 'references.bib'
+[555] Utils.pm:304> WARN - BibTeX subsystem: /tmp/biber_tmp_QPj4/references.bib_659281.utf8, line 4, warning: 54 characters of junk seen at toplevel
+[648] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[649] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[649] Biber.pm:4084> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'en-US'
+[649] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
+[711] bbl.pm:652> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[738] bbl.pm:755> INFO - Output to main.bbl
+[739] Biber.pm:128> INFO - WARNINGS: 1

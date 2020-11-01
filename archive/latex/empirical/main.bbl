@@ -1,0 +1,1231 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{apa/global//global/global}
+    \entry{barr2018causal}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e386abec6c286ce488030e8ebe1ae0a6}{%
+           family={Barr},
+           familyi={B\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e386abec6c286ce488030e8ebe1ae0a6}
+      \strng{fullhash}{e386abec6c286ce488030e8ebe1ae0a6}
+      \strng{bibnamehash}{e386abec6c286ce488030e8ebe1ae0a6}
+      \strng{authorbibnamehash}{e386abec6c286ce488030e8ebe1ae0a6}
+      \strng{authornamehash}{e386abec6c286ce488030e8ebe1ae0a6}
+      \strng{authorfullhash}{e386abec6c286ce488030e8ebe1ae0a6}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Causal inference with Python}
+      \field{urlday}{2}
+      \field{urlmonth}{6}
+      \field{urlyear}{2020}
+      \field{year}{2018}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://www.degeneratestate.org/posts/2018/Jul/10/causal-inference-with-python-part-2-causal-graphical-models/
+      \endverb
+      \verb{url}
+      \verb http://www.degeneratestate.org/posts/2018/Jul/10/causal-inference-with-python-part-2-causal-graphical-models/
+      \endverb
+    \endentry
+    \entry{chen1998speaker}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=a5e93bc163bb364387b9a80d906e1434}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=92c14761460436ea713444a7ddad4ada}{%
+           family={Gopalakrishnan},
+           familyi={G\bibinitperiod},
+           given={Ponani},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {Virginia, USA}%
+      }
+      \strng{namehash}{e77c8ce3dc5a82100fe9eb71562e1f7d}
+      \strng{fullhash}{e77c8ce3dc5a82100fe9eb71562e1f7d}
+      \strng{bibnamehash}{e77c8ce3dc5a82100fe9eb71562e1f7d}
+      \strng{authorbibnamehash}{e77c8ce3dc5a82100fe9eb71562e1f7d}
+      \strng{authornamehash}{e77c8ce3dc5a82100fe9eb71562e1f7d}
+      \strng{authorfullhash}{e77c8ce3dc5a82100fe9eb71562e1f7d}
+      \field{sortinit}{C}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proc. DARPA broadcast news transcription and understanding workshop}
+      \field{title}{Speaker, environment and channel change detection and clustering via the bayesian information criterion}
+      \field{volume}{8}
+      \field{year}{1998}
+      \field{pages}{127\bibrangedash 132}
+      \range{pages}{6}
+    \endentry
+    \entry{chickering1996learning}{inbook}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=6ad7674f9262d200ad3d57c2c383ad94}{%
+           family={Chickering},
+           familyi={C\bibinitperiod},
+           given={David\bibnamedelima Maxwell},
+           giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \strng{fullhash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \strng{bibnamehash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \strng{authorbibnamehash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \strng{authornamehash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \strng{authorfullhash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \field{extraname}{1}
+      \field{sortinit}{C}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Learning from data}
+      \field{title}{Learning Bayesian networks is NP-complete}
+      \field{year}{1996}
+      \field{pages}{121\bibrangedash 130}
+      \range{pages}{10}
+    \endentry
+    \entry{chickering2002optimal}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=6ad7674f9262d200ad3d57c2c383ad94}{%
+           family={Chickering},
+           familyi={C\bibinitperiod},
+           given={David\bibnamedelima Maxwell},
+           giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \strng{fullhash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \strng{bibnamehash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \strng{authorbibnamehash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \strng{authornamehash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \strng{authorfullhash}{6ad7674f9262d200ad3d57c2c383ad94}
+      \field{extraname}{2}
+      \field{sortinit}{C}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of machine learning research}
+      \field{number}{Nov}
+      \field{title}{Optimal structure identification with greedy search}
+      \field{volume}{3}
+      \field{year}{2002}
+      \field{pages}{507\bibrangedash 554}
+      \range{pages}{48}
+    \endentry
+    \entry{demiralp2003searching}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=434ba75bdd7806bc6dbcf9854c1805c7}{%
+           family={Demiralp},
+           familyi={D\bibinitperiod},
+           given={Selva},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=51da298a0a2879415f2935c5666fa1f7}{%
+           family={Hoover},
+           familyi={H\bibinitperiod},
+           given={Kevin\bibnamedelima D},
+           giveni={K\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{c2de02f647e8bd84413b91283e77af45}
+      \strng{fullhash}{c2de02f647e8bd84413b91283e77af45}
+      \strng{bibnamehash}{c2de02f647e8bd84413b91283e77af45}
+      \strng{authorbibnamehash}{c2de02f647e8bd84413b91283e77af45}
+      \strng{authornamehash}{c2de02f647e8bd84413b91283e77af45}
+      \strng{authorfullhash}{c2de02f647e8bd84413b91283e77af45}
+      \field{sortinit}{D}
+      \field{sortinithash}{c438b3d5d027251ba63f5ed538d98af5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Oxford Bulletin of Economics and statistics}
+      \field{title}{Searching for the causal structure of a vector autoregression}
+      \field{volume}{65}
+      \field{year}{2003}
+      \field{pages}{745\bibrangedash 767}
+      \range{pages}{23}
+    \endentry
+    \entry{fernandez2016solution}{inbook}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=dcb904eb9ebfbee40644b4c6d91a49e8}{%
+           family={Fernandez-Villaverde},
+           familyi={F\bibinithyphendelim V\bibinitperiod},
+           given={Jesus},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=51121cd891e6e7a290912858d58adefd}{%
+           family={Rubio-Ramirez},
+           familyi={R\bibinithyphendelim R\bibinitperiod},
+           given={Juan\bibnamedelima Francisco},
+           giveni={J\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1af94bbc8c2c09472f1d416fb9de3fa1}{%
+           family={Schorfheide},
+           familyi={S\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{c4cbd9ded60090269df3a4ba594fdcc5}
+      \strng{fullhash}{b3747120ca1721a4a4d0801ac5f239fe}
+      \strng{bibnamehash}{b3747120ca1721a4a4d0801ac5f239fe}
+      \strng{authorbibnamehash}{b3747120ca1721a4a4d0801ac5f239fe}
+      \strng{authornamehash}{c4cbd9ded60090269df3a4ba594fdcc5}
+      \strng{authorfullhash}{b3747120ca1721a4a4d0801ac5f239fe}
+      \field{sortinit}{F}
+      \field{sortinithash}{fb0c0faa89eb6abae8213bf60e6799ea}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Handbook of macroeconomics}
+      \field{title}{Solution and estimation methods for DSGE models}
+      \field{volume}{2}
+      \field{year}{2016}
+      \field{pages}{527\bibrangedash 724}
+      \range{pages}{198}
+    \endentry
+    \entry{friedman2013learning}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=987ee418ae32e261a8a5385e14cda479}{%
+           family={Friedman},
+           familyi={F\bibinitperiod},
+           given={Nir},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1c7ad1bc53d6ca0843da4b5e8562cf2d}{%
+           family={Nachman},
+           familyi={N\bibinitperiod},
+           given={Iftach},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=25504e4a8fa9f7fbfbc81a03b943d827}{%
+           family={Pe'er},
+           familyi={P\bibinitperiod},
+           given={Dana},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{3f4b5af2aff03e84437918e7db2e9f9d}
+      \strng{fullhash}{2bf0d8882a22699655b027d4fd80bd4c}
+      \strng{bibnamehash}{2bf0d8882a22699655b027d4fd80bd4c}
+      \strng{authorbibnamehash}{2bf0d8882a22699655b027d4fd80bd4c}
+      \strng{authornamehash}{3f4b5af2aff03e84437918e7db2e9f9d}
+      \strng{authorfullhash}{2bf0d8882a22699655b027d4fd80bd4c}
+      \field{sortinit}{F}
+      \field{sortinithash}{fb0c0faa89eb6abae8213bf60e6799ea}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1301.6696}
+      \field{title}{Learning Bayesian network structure from massive datasets: The" sparse candidate" algorithm}
+      \field{year}{2013}
+    \endentry
+    \entry{ghahramani1997learning}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=bf5cf30deddddad00a6341ad7a414445}{%
+           family={Ghahramani},
+           familyi={G\bibinitperiod},
+           given={Zoubin},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{bf5cf30deddddad00a6341ad7a414445}
+      \strng{fullhash}{bf5cf30deddddad00a6341ad7a414445}
+      \strng{bibnamehash}{bf5cf30deddddad00a6341ad7a414445}
+      \strng{authorbibnamehash}{bf5cf30deddddad00a6341ad7a414445}
+      \strng{authornamehash}{bf5cf30deddddad00a6341ad7a414445}
+      \strng{authorfullhash}{bf5cf30deddddad00a6341ad7a414445}
+      \field{sortinit}{G}
+      \field{sortinithash}{62eb2aa29549e4fdbd3cb154ec5711cb}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International School on Neural Networks, Initiated by IIASS and EMFCSC}
+      \field{title}{Learning dynamic Bayesian networks}
+      \field{year}{1997}
+      \field{pages}{168\bibrangedash 197}
+      \range{pages}{30}
+    \endentry
+    \entry{hall2020git}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a6ef6b2153cc889fc8ece27118863489}{%
+           family={Hall-Hoffarth},
+           familyi={H\bibinithyphendelim H\bibinitperiod},
+           given={Emmet},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{a6ef6b2153cc889fc8ece27118863489}
+      \strng{fullhash}{a6ef6b2153cc889fc8ece27118863489}
+      \strng{bibnamehash}{a6ef6b2153cc889fc8ece27118863489}
+      \strng{authorbibnamehash}{a6ef6b2153cc889fc8ece27118863489}
+      \strng{authornamehash}{a6ef6b2153cc889fc8ece27118863489}
+      \strng{authorfullhash}{a6ef6b2153cc889fc8ece27118863489}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{DSGE Bayesian Networks}
+      \field{urlday}{17}
+      \field{urlmonth}{7}
+      \field{urlyear}{2020}
+      \field{year}{2020}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/e-hall-hoffarth/bayesian_networks/
+      \endverb
+      \verb{url}
+      \verb https://github.com/e-hall-hoffarth/bayesian_networks/
+      \endverb
+    \endentry
+    \entry{hamilton1994state}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=f1528bc518ebb8f6103311513805ac7d}{%
+           family={Hamilton},
+           familyi={H\bibinitperiod},
+           given={James\bibnamedelima D},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{fullhash}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{bibnamehash}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{authorbibnamehash}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{authornamehash}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{authorfullhash}{f1528bc518ebb8f6103311513805ac7d}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Handbook of econometrics}
+      \field{title}{State-space models}
+      \field{volume}{4}
+      \field{year}{1994}
+      \field{pages}{3039\bibrangedash 3080}
+      \range{pages}{42}
+    \endentry
+    \entry{holland1986statistics}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=f77d8823946c674172702e2a9422f960}{%
+           family={Holland},
+           familyi={H\bibinitperiod},
+           given={Paul\bibnamedelima W},
+           giveni={P\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Taylor \& Francis}%
+      }
+      \strng{namehash}{f77d8823946c674172702e2a9422f960}
+      \strng{fullhash}{f77d8823946c674172702e2a9422f960}
+      \strng{bibnamehash}{f77d8823946c674172702e2a9422f960}
+      \strng{authorbibnamehash}{f77d8823946c674172702e2a9422f960}
+      \strng{authornamehash}{f77d8823946c674172702e2a9422f960}
+      \strng{authorfullhash}{f77d8823946c674172702e2a9422f960}
+      \field{sortinit}{H}
+      \field{sortinithash}{6db6145dae8dc9e1271a8d556090b50a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the American statistical Association}
+      \field{number}{396}
+      \field{title}{Statistics and causal inference}
+      \field{volume}{81}
+      \field{year}{1986}
+      \field{pages}{945\bibrangedash 960}
+      \range{pages}{16}
+    \endentry
+    \entry{imbens2019potential}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=9f4fa8d00c0311b9cdad0f20ad429e57}{%
+           family={Imbens},
+           familyi={I\bibinitperiod},
+           given={Guido\bibnamedelima W.},
+           giveni={G\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{9f4fa8d00c0311b9cdad0f20ad429e57}
+      \strng{fullhash}{9f4fa8d00c0311b9cdad0f20ad429e57}
+      \strng{bibnamehash}{9f4fa8d00c0311b9cdad0f20ad429e57}
+      \strng{authorbibnamehash}{9f4fa8d00c0311b9cdad0f20ad429e57}
+      \strng{authornamehash}{9f4fa8d00c0311b9cdad0f20ad429e57}
+      \strng{authorfullhash}{9f4fa8d00c0311b9cdad0f20ad429e57}
+      \field{sortinit}{I}
+      \field{sortinithash}{9417e9a1288a9371e2691d999083ed39}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{stat.ME}
+      \field{eprinttype}{arXiv}
+      \field{title}{Potential Outcome and Directed Acyclic Graph Approaches to Causality: Relevance for Empirical Practice in Economics}
+      \field{year}{2019}
+      \verb{eprint}
+      \verb 1907.07271
+      \endverb
+    \endentry
+    \entry{jorda2005estimation}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=96bbf7b0e9ac8ce819531464f81847e8}{%
+           family={Jorda},
+           familyi={J\bibinitperiod},
+           given={Oscar},
+           giveni={O\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{96bbf7b0e9ac8ce819531464f81847e8}
+      \strng{fullhash}{96bbf7b0e9ac8ce819531464f81847e8}
+      \strng{bibnamehash}{96bbf7b0e9ac8ce819531464f81847e8}
+      \strng{authorbibnamehash}{96bbf7b0e9ac8ce819531464f81847e8}
+      \strng{authornamehash}{96bbf7b0e9ac8ce819531464f81847e8}
+      \strng{authorfullhash}{96bbf7b0e9ac8ce819531464f81847e8}
+      \field{sortinit}{J}
+      \field{sortinithash}{c45040a764d616897e7f5b30174d7b92}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American economic review}
+      \field{number}{1}
+      \field{title}{Estimation and inference of impulse responses by local projections}
+      \field{volume}{95}
+      \field{year}{2005}
+      \field{pages}{161\bibrangedash 182}
+      \range{pages}{22}
+    \endentry
+    \entry{kalisch2007estimating}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=df9a0e9859bb9965919cd59d2523022d}{%
+           family={Kalisch},
+           familyi={K\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=73b8ae79083852e052f5bd5f82021408}{%
+           family={B{ü}hlmann},
+           familyi={B\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{b95d0200b803f91c642234524bd4e0f9}
+      \strng{fullhash}{b95d0200b803f91c642234524bd4e0f9}
+      \strng{bibnamehash}{b95d0200b803f91c642234524bd4e0f9}
+      \strng{authorbibnamehash}{b95d0200b803f91c642234524bd4e0f9}
+      \strng{authornamehash}{b95d0200b803f91c642234524bd4e0f9}
+      \strng{authorfullhash}{b95d0200b803f91c642234524bd4e0f9}
+      \field{sortinit}{K}
+      \field{sortinithash}{d3edc18d54b9438a72c24c925bfb38f4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Machine Learning Research}
+      \field{number}{Mar}
+      \field{title}{Estimating high-dimensional directed acyclic graphs with the PC-algorithm}
+      \field{volume}{8}
+      \field{year}{2007}
+      \field{pages}{613\bibrangedash 636}
+      \range{pages}{24}
+    \endentry
+    \entry{traffic_jam}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=4ea0cbdc36595187701e0197dd18bc3b}{%
+           family={Liszka},
+           familyi={L\bibinitperiod},
+           given={Jason},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4ea0cbdc36595187701e0197dd18bc3b}
+      \strng{fullhash}{4ea0cbdc36595187701e0197dd18bc3b}
+      \strng{bibnamehash}{4ea0cbdc36595187701e0197dd18bc3b}
+      \strng{authorbibnamehash}{4ea0cbdc36595187701e0197dd18bc3b}
+      \strng{authornamehash}{4ea0cbdc36595187701e0197dd18bc3b}
+      \strng{authorfullhash}{4ea0cbdc36595187701e0197dd18bc3b}
+      \field{sortinit}{L}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Bayesian networks and causality}
+      \field{urlday}{7}
+      \field{urlmonth}{4}
+      \field{urlyear}{2020}
+      \field{year}{2013}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://blog.jliszka.org/2013/12/18/bayesian-networks-and-causality.html
+      \endverb
+      \verb{url}
+      \verb http://blog.jliszka.org/2013/12/18/bayesian-networks-and-causality.html
+      \endverb
+    \endentry
+    \entry{lucas1976econometric}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=d75b1c25901858e9d7cbfbb24d9dc0de}{%
+           family={Lucas},
+           familyi={L\bibinitperiod},
+           given={Robert\bibnamedelima E},
+           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{133bd7abb64ae10055b16756ace4f320}
+      \strng{fullhash}{133bd7abb64ae10055b16756ace4f320}
+      \strng{bibnamehash}{133bd7abb64ae10055b16756ace4f320}
+      \strng{authorbibnamehash}{133bd7abb64ae10055b16756ace4f320}
+      \strng{authornamehash}{133bd7abb64ae10055b16756ace4f320}
+      \strng{authorfullhash}{133bd7abb64ae10055b16756ace4f320}
+      \field{sortinit}{L}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Carnegie-Rochester conference series on public policy}
+      \field{number}{1}
+      \field{title}{Econometric policy evaluation: A critique}
+      \field{volume}{1}
+      \field{year}{1976}
+      \field{pages}{19\bibrangedash 46}
+      \range{pages}{28}
+    \endentry
+    \entry{nandy2018high}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=886a11a8868ea0bcd528ff9665afd02f}{%
+           family={Nandy},
+           familyi={N\bibinitperiod},
+           given={Preetam},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=306794240c0c21f49e64540286ef1fda}{%
+           family={Hauser},
+           familyi={H\bibinitperiod},
+           given={Alain},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8f905a89e7bf1cc9d54e6934783ebb3f}{%
+           family={Maathuis},
+           familyi={M\bibinitperiod},
+           given={Marloes\bibnamedelima H},
+           giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Institute of Mathematical Statistics}%
+      }
+      \strng{namehash}{07e11194b896801f9ce9a8a42f2ad79e}
+      \strng{fullhash}{3c3f7104fc22a0f7ba142fa38fb73e59}
+      \strng{bibnamehash}{3c3f7104fc22a0f7ba142fa38fb73e59}
+      \strng{authorbibnamehash}{3c3f7104fc22a0f7ba142fa38fb73e59}
+      \strng{authornamehash}{07e11194b896801f9ce9a8a42f2ad79e}
+      \strng{authorfullhash}{3c3f7104fc22a0f7ba142fa38fb73e59}
+      \field{sortinit}{N}
+      \field{sortinithash}{98cf339a479c0454fe09153a08675a15}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Annals of Statistics}
+      \field{number}{6A}
+      \field{title}{High-dimensional consistency in score-based and hybrid structure learning}
+      \field{volume}{46}
+      \field{year}{2018}
+      \field{pages}{3151\bibrangedash 3183}
+      \range{pages}{33}
+    \endentry
+    \entry{fred2020data}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=7e5a44a889b7db9d67af647ac45e4990}{%
+           family={St.Louis},
+           familyi={S\bibinitperiod},
+           given={Federal\bibnamedelimb Reserve\bibnamedelima Bank},
+           giveni={F\bibinitperiod\bibinitdelim R\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0,
+           prefix={of},
+           prefixi={o\bibinitperiod}}}%
+      }
+      \strng{namehash}{7e5a44a889b7db9d67af647ac45e4990}
+      \strng{fullhash}{7e5a44a889b7db9d67af647ac45e4990}
+      \strng{bibnamehash}{7e5a44a889b7db9d67af647ac45e4990}
+      \strng{authorbibnamehash}{7e5a44a889b7db9d67af647ac45e4990}
+      \strng{authornamehash}{7e5a44a889b7db9d67af647ac45e4990}
+      \strng{authorfullhash}{7e5a44a889b7db9d67af647ac45e4990}
+      \field{sortinit}{o}
+      \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{FRED Economic Data}
+      \field{urlday}{12}
+      \field{urlmonth}{7}
+      \field{urlyear}{2020}
+      \field{year}{2020}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://fred.stlouisfed.org/
+      \endverb
+      \verb{url}
+      \verb https://fred.stlouisfed.org/
+      \endverb
+    \endentry
+    \entry{pearl1995causal}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=809f695b398afbb54b544c49e8d1bbbb}{%
+           family={Pearl},
+           familyi={P\bibinitperiod},
+           given={Judea},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press}%
+      }
+      \strng{namehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{fullhash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{bibnamehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{authorbibnamehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{authornamehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{authorfullhash}{809f695b398afbb54b544c49e8d1bbbb}
+      \field{extraname}{1}
+      \field{sortinit}{P}
+      \field{sortinithash}{bb5b15f2db90f7aef79bb9e83defefcb}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biometrika}
+      \field{number}{4}
+      \field{title}{Causal diagrams for empirical research}
+      \field{volume}{82}
+      \field{year}{1995}
+      \field{pages}{669\bibrangedash 688}
+      \range{pages}{20}
+    \endentry
+    \entry{pearl2009causality}{book}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=809f695b398afbb54b544c49e8d1bbbb}{%
+           family={Pearl},
+           familyi={P\bibinitperiod},
+           given={Judea},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge university press}%
+      }
+      \strng{namehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{fullhash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{bibnamehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{authorbibnamehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{authornamehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{authorfullhash}{809f695b398afbb54b544c49e8d1bbbb}
+      \field{extraname}{2}
+      \field{sortinit}{P}
+      \field{sortinithash}{bb5b15f2db90f7aef79bb9e83defefcb}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Causality}
+      \field{year}{2009}
+    \endentry
+    \entry{pearl2014probabilistic}{book}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=809f695b398afbb54b544c49e8d1bbbb}{%
+           family={Pearl},
+           familyi={P\bibinitperiod},
+           given={Judea},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{fullhash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{bibnamehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{authorbibnamehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{authornamehash}{809f695b398afbb54b544c49e8d1bbbb}
+      \strng{authorfullhash}{809f695b398afbb54b544c49e8d1bbbb}
+      \field{extraname}{3}
+      \field{sortinit}{P}
+      \field{sortinithash}{bb5b15f2db90f7aef79bb9e83defefcb}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Probabilistic reasoning in intelligent systems: networks of plausible inference}
+      \field{year}{2014}
+    \endentry
+    \entry{pearl2018book}{book}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=809f695b398afbb54b544c49e8d1bbbb}{%
+           family={Pearl},
+           familyi={P\bibinitperiod},
+           given={Judea},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c9079832f1007044f9527046990ac87d}{%
+           family={Mackenzie},
+           familyi={M\bibinitperiod},
+           given={Dana},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Basic Books}%
+      }
+      \strng{namehash}{0d48f32515b0447e3a1d656cdc5d6b15}
+      \strng{fullhash}{0d48f32515b0447e3a1d656cdc5d6b15}
+      \strng{bibnamehash}{0d48f32515b0447e3a1d656cdc5d6b15}
+      \strng{authorbibnamehash}{0d48f32515b0447e3a1d656cdc5d6b15}
+      \strng{authornamehash}{0d48f32515b0447e3a1d656cdc5d6b15}
+      \strng{authorfullhash}{0d48f32515b0447e3a1d656cdc5d6b15}
+      \field{sortinit}{P}
+      \field{sortinithash}{bb5b15f2db90f7aef79bb9e83defefcb}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The book of why: the new science of cause and effect}
+      \field{year}{2018}
+    \endentry
+    \entry{pfeifer2020}{online}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=69cf42f683b48b8cd363fadf737c6f67}{%
+           family={Pfeifer},
+           familyi={P\bibinitperiod},
+           given={Johannes},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{69cf42f683b48b8cd363fadf737c6f67}
+      \strng{fullhash}{69cf42f683b48b8cd363fadf737c6f67}
+      \strng{bibnamehash}{69cf42f683b48b8cd363fadf737c6f67}
+      \strng{authorbibnamehash}{69cf42f683b48b8cd363fadf737c6f67}
+      \strng{authornamehash}{69cf42f683b48b8cd363fadf737c6f67}
+      \strng{authorfullhash}{69cf42f683b48b8cd363fadf737c6f67}
+      \field{sortinit}{P}
+      \field{sortinithash}{bb5b15f2db90f7aef79bb9e83defefcb}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{DSGE\_mod}
+      \field{urlday}{8}
+      \field{urlmonth}{4}
+      \field{urlyear}{2020}
+      \field{year}{2020}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/JohannesPfeifer/DSGE_mod
+      \endverb
+      \verb{url}
+      \verb https://github.com/JohannesPfeifer/DSGE_mod
+      \endverb
+    \endentry
+    \entry{scutari2010bnlearn}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=6b5b6c4422e3ec691b9660a315da34de}{%
+           family={Scutari},
+           familyi={S\bibinitperiod},
+           given={M},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6b5b6c4422e3ec691b9660a315da34de}
+      \strng{fullhash}{6b5b6c4422e3ec691b9660a315da34de}
+      \strng{bibnamehash}{6b5b6c4422e3ec691b9660a315da34de}
+      \strng{authorbibnamehash}{6b5b6c4422e3ec691b9660a315da34de}
+      \strng{authornamehash}{6b5b6c4422e3ec691b9660a315da34de}
+      \strng{authorfullhash}{6b5b6c4422e3ec691b9660a315da34de}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{R package}
+      \field{title}{bnlearn: Bayesian network structure learning}
+      \field{year}{2010}
+    \endentry
+    \entry{scutari2014multiple}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=b972290748083aebb53dafb73bcafd30}{%
+           family={Scutari},
+           familyi={S\bibinitperiod},
+           given={Marco},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1969635e9f8cd54b5cfdc5f24c9b7278}{%
+           family={Howell},
+           familyi={H\bibinitperiod},
+           given={Phil},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8efb9f47dcfe23f53d11e5ba1b007dba}{%
+           family={Balding},
+           familyi={B\bibinitperiod},
+           given={David\bibnamedelima J},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=80739f313d6cf80efc70c409e5b331e0}{%
+           family={Mackay},
+           familyi={M\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Genetics Soc America}%
+      }
+      \strng{namehash}{29c44ed45ba35e2a982c91c397942890}
+      \strng{fullhash}{c1a4c0fc7a68fa9c3b5b6bf97ee7bace}
+      \strng{bibnamehash}{c1a4c0fc7a68fa9c3b5b6bf97ee7bace}
+      \strng{authorbibnamehash}{c1a4c0fc7a68fa9c3b5b6bf97ee7bace}
+      \strng{authornamehash}{29c44ed45ba35e2a982c91c397942890}
+      \strng{authorfullhash}{c1a4c0fc7a68fa9c3b5b6bf97ee7bace}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Genetics}
+      \field{number}{1}
+      \field{title}{Multiple quantitative trait analysis using Bayesian networks}
+      \field{volume}{198}
+      \field{year}{2014}
+      \field{pages}{129\bibrangedash 137}
+      \range{pages}{9}
+    \endentry
+    \entry{sims1980macroeconomics}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=6ea5ed711258737020e21f785822b8e5}{%
+           family={Sims},
+           familyi={S\bibinitperiod},
+           given={Christopher\bibnamedelima A},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {JSTOR}%
+      }
+      \strng{namehash}{6ea5ed711258737020e21f785822b8e5}
+      \strng{fullhash}{6ea5ed711258737020e21f785822b8e5}
+      \strng{bibnamehash}{6ea5ed711258737020e21f785822b8e5}
+      \strng{authorbibnamehash}{6ea5ed711258737020e21f785822b8e5}
+      \strng{authornamehash}{6ea5ed711258737020e21f785822b8e5}
+      \strng{authorfullhash}{6ea5ed711258737020e21f785822b8e5}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica: journal of the Econometric Society}
+      \field{title}{Macroeconomics and reality}
+      \field{year}{1980}
+      \field{pages}{1\bibrangedash 48}
+      \range{pages}{48}
+    \endentry
+    \entry{smets2007shocks}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=f78e4957877432f887653cd776f7ec8b}{%
+           family={Smets},
+           familyi={S\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=271104365d8a3ae72ffe6ef9ca74ce39}{%
+           family={Wouters},
+           familyi={W\bibinitperiod},
+           given={Rafael},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{a0a01c0356237521a4dd9ef45801c9d9}
+      \strng{fullhash}{a0a01c0356237521a4dd9ef45801c9d9}
+      \strng{bibnamehash}{a0a01c0356237521a4dd9ef45801c9d9}
+      \strng{authorbibnamehash}{a0a01c0356237521a4dd9ef45801c9d9}
+      \strng{authornamehash}{a0a01c0356237521a4dd9ef45801c9d9}
+      \strng{authorfullhash}{a0a01c0356237521a4dd9ef45801c9d9}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American economic review}
+      \field{number}{3}
+      \field{title}{Shocks and frictions in US business cycles: A Bayesian DSGE approach}
+      \field{volume}{97}
+      \field{year}{2007}
+      \field{pages}{586\bibrangedash 606}
+      \range{pages}{21}
+    \endentry
+    \entry{spirtes1991algorithm}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=f0924fa092ce0a8f24b79fcf1e746c8f}{%
+           family={Spirtes},
+           familyi={S\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d92f65fed9d3110577c6ff13a43603b6}{%
+           family={Glymour},
+           familyi={G\bibinitperiod},
+           given={Clark},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Sage Publications Sage CA: Thousand Oaks, CA}%
+      }
+      \strng{namehash}{1a7a60fd207ba93151ece7d4c9929a8d}
+      \strng{fullhash}{1a7a60fd207ba93151ece7d4c9929a8d}
+      \strng{bibnamehash}{1a7a60fd207ba93151ece7d4c9929a8d}
+      \strng{authorbibnamehash}{1a7a60fd207ba93151ece7d4c9929a8d}
+      \strng{authornamehash}{1a7a60fd207ba93151ece7d4c9929a8d}
+      \strng{authorfullhash}{1a7a60fd207ba93151ece7d4c9929a8d}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Social science computer review}
+      \field{number}{1}
+      \field{title}{An algorithm for fast recovery of sparse causal graphs}
+      \field{volume}{9}
+      \field{year}{1991}
+      \field{pages}{62\bibrangedash 72}
+      \range{pages}{11}
+    \endentry
+    \entry{spirtes2000causation}{book}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=f0924fa092ce0a8f24b79fcf1e746c8f}{%
+           family={Spirtes},
+           familyi={S\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c1ac60b180fcd13ba2916a77d80dde83}{%
+           family={Glymour},
+           familyi={G\bibinitperiod},
+           given={Clark\bibnamedelima N},
+           giveni={C\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=02f6653c0e96cdc7d40f942944d5e3fb}{%
+           family={Scheines},
+           familyi={S\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4f11d780a2e78d72d5be3019b52bec26}{%
+           family={Heckerman},
+           familyi={H\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {MIT press}%
+      }
+      \strng{namehash}{b56b7720791c10654038b326c889a60f}
+      \strng{fullhash}{c10ab5e597707602ea67d8fe249632b8}
+      \strng{bibnamehash}{c10ab5e597707602ea67d8fe249632b8}
+      \strng{authorbibnamehash}{c10ab5e597707602ea67d8fe249632b8}
+      \strng{authornamehash}{b56b7720791c10654038b326c889a60f}
+      \strng{authorfullhash}{c10ab5e597707602ea67d8fe249632b8}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Causation, prediction, and search}
+      \field{year}{2000}
+    \endentry
+    \entry{steel2006homogeneity}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=33f1a90e8ce8d636024ccda53ebe3bed}{%
+           family={Steel},
+           familyi={S\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{33f1a90e8ce8d636024ccda53ebe3bed}
+      \strng{fullhash}{33f1a90e8ce8d636024ccda53ebe3bed}
+      \strng{bibnamehash}{33f1a90e8ce8d636024ccda53ebe3bed}
+      \strng{authorbibnamehash}{33f1a90e8ce8d636024ccda53ebe3bed}
+      \strng{authornamehash}{33f1a90e8ce8d636024ccda53ebe3bed}
+      \strng{authorfullhash}{33f1a90e8ce8d636024ccda53ebe3bed}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Minds and Machines}
+      \field{number}{3}
+      \field{title}{Homogeneity, selection, and the faithfulness condition}
+      \field{volume}{16}
+      \field{year}{2006}
+      \field{pages}{303\bibrangedash 317}
+      \range{pages}{15}
+    \endentry
+    \entry{taylor1993discretion}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e3dff114993f65bbf7693ec3251eab42}{%
+           family={Taylor},
+           familyi={T\bibinitperiod},
+           given={John\bibnamedelima B},
+           giveni={J\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{e3dff114993f65bbf7693ec3251eab42}
+      \strng{fullhash}{e3dff114993f65bbf7693ec3251eab42}
+      \strng{bibnamehash}{e3dff114993f65bbf7693ec3251eab42}
+      \strng{authorbibnamehash}{e3dff114993f65bbf7693ec3251eab42}
+      \strng{authornamehash}{e3dff114993f65bbf7693ec3251eab42}
+      \strng{authorfullhash}{e3dff114993f65bbf7693ec3251eab42}
+      \field{sortinit}{T}
+      \field{sortinithash}{51f9faf24c60c62ca764a77f78cf5666}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Carnegie-Rochester conference series on public policy}
+      \field{title}{Discretion versus policy rules in practice}
+      \field{volume}{39}
+      \field{year}{1993}
+      \field{pages}{195\bibrangedash 214}
+      \range{pages}{20}
+    \endentry
+    \entry{tsamardinos2006max}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=cc54d70ad26f30d64590a823f13f93c3}{%
+           family={Tsamardinos},
+           familyi={T\bibinitperiod},
+           given={Ioannis},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a98ac984f43c6c597cc7bca2e0c405d9}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Laura\bibnamedelima E},
+           giveni={L\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7b12d92cfd9c400d8dc7a2e7202e5545}{%
+           family={Aliferis},
+           familyi={A\bibinitperiod},
+           given={Constantin\bibnamedelima F},
+           giveni={C\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{5792a5ce3a4774ca0c17f44f4cef5f02}
+      \strng{fullhash}{8b2de258598364cf0562298a875e335a}
+      \strng{bibnamehash}{8b2de258598364cf0562298a875e335a}
+      \strng{authorbibnamehash}{8b2de258598364cf0562298a875e335a}
+      \strng{authornamehash}{5792a5ce3a4774ca0c17f44f4cef5f02}
+      \strng{authorfullhash}{8b2de258598364cf0562298a875e335a}
+      \field{sortinit}{T}
+      \field{sortinithash}{51f9faf24c60c62ca764a77f78cf5666}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Machine learning}
+      \field{number}{1}
+      \field{title}{The max-min hill-climbing Bayesian network structure learning algorithm}
+      \field{volume}{65}
+      \field{year}{2006}
+      \field{pages}{31\bibrangedash 78}
+      \range{pages}{48}
+    \endentry
+    \entry{verma1991equivalence}{book}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=84d99860f3a7e536b28955ef0b33ebbc}{%
+           family={Verma},
+           familyi={V\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a7538e40e4167b5b26f26010293495d9}{%
+           family={Pearl},
+           familyi={P\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {UCLA Computer Science Department}%
+      }
+      \strng{namehash}{01f33337d453932272fa00e5614d2ef8}
+      \strng{fullhash}{01f33337d453932272fa00e5614d2ef8}
+      \strng{bibnamehash}{01f33337d453932272fa00e5614d2ef8}
+      \strng{authorbibnamehash}{01f33337d453932272fa00e5614d2ef8}
+      \strng{authornamehash}{01f33337d453932272fa00e5614d2ef8}
+      \strng{authorfullhash}{01f33337d453932272fa00e5614d2ef8}
+      \field{sortinit}{V}
+      \field{sortinithash}{02432525618c08e2b03cac47c19764af}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{series}{CSD (Series)}
+      \field{title}{Equivalence and Synthesis of Causal Models}
+      \field{year}{1991}
+      \verb{urlraw}
+      \verb https://books.google.co.uk/books?id=ikuuHAAACAAJ
+      \endverb
+      \verb{url}
+      \verb https://books.google.co.uk/books?id=ikuuHAAACAAJ
+      \endverb
+    \endentry
+    \entry{wermuth1990substantive}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=e722d3e270359319a720cb525d0ae7f8}{%
+           family={Wermuth},
+           familyi={W\bibinitperiod},
+           given={Nanny},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1f85baedf43f7dbe070683432d0e1489}{%
+           family={Lauritzen},
+           familyi={L\bibinitperiod},
+           given={Steffen\bibnamedelima Lilholt},
+           giveni={S\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{6b78bcebe9a47c35a5b7904e4c4447af}
+      \strng{fullhash}{6b78bcebe9a47c35a5b7904e4c4447af}
+      \strng{bibnamehash}{6b78bcebe9a47c35a5b7904e4c4447af}
+      \strng{authorbibnamehash}{6b78bcebe9a47c35a5b7904e4c4447af}
+      \strng{authornamehash}{6b78bcebe9a47c35a5b7904e4c4447af}
+      \strng{authorfullhash}{6b78bcebe9a47c35a5b7904e4c4447af}
+      \field{sortinit}{W}
+      \field{sortinithash}{1af34bd8c148ffb32de1494636b49713}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the Royal Statistical Society: Series B (methodological)}
+      \field{number}{1}
+      \field{title}{On substantive research hypotheses, conditional independence graphs and graphical chain models}
+      \field{volume}{52}
+      \field{year}{1990}
+      \field{pages}{21\bibrangedash 50}
+      \range{pages}{30}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

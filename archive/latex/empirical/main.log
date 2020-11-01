@@ -1,0 +1,685 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2020.6.20)  1 AUG 2020 13:58
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/main.tex
+(/home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/main.tex
+LaTeX2e <2020-02-02> patch level 5
+L3 programming layer <2020-06-03> (/usr/share/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
+(/usr/share/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@section=\count168
+\c@subsection=\count169
+\c@subsubsection=\count170
+\c@paragraph=\count171
+\c@subparagraph=\count172
+\c@figure=\count173
+\c@table=\count174
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+) (/usr/share/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks15
+\inpenc@posthook=\toks16
+) (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+) (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) (/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+ (/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen135
+\Gin@req@width=\dimen136
+) (/usr/share/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2020/01/22 v1.3d Sub-captions (AR)
+ (/usr/share/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2020/05/10 v3.4j Customizing captions (AR)
+ (/usr/share/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2020/05/10 v1.11 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 61.
+\captionmargin=\dimen137
+\captionmargin@=\dimen138
+\captionwidth=\dimen139
+\caption@tempdima=\dimen140
+\caption@indent=\dimen141
+\caption@parindent=\dimen142
+\caption@hangindent=\dimen143
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count175
+\c@continuedfloat=\count176
+)
+\c@subfigure=\count177
+\c@subtable=\count178
+) (/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2020/01/20 v2.17e AMS math features
+\@mathmargin=\skip49
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+ (/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks18
+\ex@=\dimen144
+)) (/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen145
+) (/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count179
+LaTeX Info: Redefining \frac on input line 227.
+\uproot@=\count180
+\leftroot@=\count181
+LaTeX Info: Redefining \overline on input line 389.
+\classnum@=\count182
+\DOTSCASE@=\count183
+LaTeX Info: Redefining \ldots on input line 486.
+LaTeX Info: Redefining \dots on input line 489.
+LaTeX Info: Redefining \cdots on input line 610.
+\Mathstrutbox@=\box45
+\strutbox@=\box46
+\big@size=\dimen146
+LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
+\macc@depth=\count184
+\c@MaxMatrixCols=\count185
+\dotsspace@=\muskip16
+\c@parentequation=\count186
+\dspbrk@lvl=\count187
+\tag@help=\toks19
+\row@=\count188
+\column@=\count189
+\maxfields@=\count190
+\andhelp@=\toks20
+\eqnshift@=\dimen147
+\alignsep@=\dimen148
+\tagshift@=\dimen149
+\tagwidth@=\dimen150
+\totwidth@=\dimen151
+\lineht@=\dimen152
+\@envbody=\toks21
+\multlinegap=\skip50
+\multlinetaggap=\skip51
+\mathdisplay@stack=\toks22
+LaTeX Info: Redefining \[ on input line 2859.
+LaTeX Info: Redefining \] on input line 2860.
+) (/usr/share/texmf-dist/tex/latex/setspace/setspace.sty
+Package: setspace 2011/12/19 v6.7a set line spacing
+) (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.sty
+Package: biblatex 2019/12/01 v3.14 programmable bibliographies (PK/MW)
+ (/usr/share/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-04 v0.32 Utility functions of pdfTeX for LuaTeX (HO)
+ (/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+) (/usr/share/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+) (/usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+) (/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count191
+) (/usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+ (/usr/share/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+)) (/usr/share/texmf-dist/tex/latex/logreq/logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count192
+ (/usr/share/texmf-dist/tex/latex/logreq/logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+)) (/usr/share/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+) (/usr/share/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+\c@tabx@nest=\count193
+\c@listtotal=\count194
+\c@listcount=\count195
+\c@liststart=\count196
+\c@liststop=\count197
+\c@citecount=\count198
+\c@citetotal=\count199
+\c@multicitecount=\count266
+\c@multicitetotal=\count267
+\c@instcount=\count268
+\c@maxnames=\count269
+\c@minnames=\count270
+\c@maxitems=\count271
+\c@minitems=\count272
+\c@citecounter=\count273
+\c@maxcitecounter=\count274
+\c@savedcitecounter=\count275
+\c@uniquelist=\count276
+\c@uniquename=\count277
+\c@refsection=\count278
+\c@refsegment=\count279
+\c@maxextratitle=\count280
+\c@maxextratitleyear=\count281
+\c@maxextraname=\count282
+\c@maxextradate=\count283
+\c@maxextraalpha=\count284
+\c@abbrvpenalty=\count285
+\c@highnamepenalty=\count286
+\c@lownamepenalty=\count287
+\c@maxparens=\count288
+\c@parenlevel=\count289
+\blx@tempcnta=\count290
+\blx@tempcntb=\count291
+\blx@tempcntc=\count292
+\blx@maxsection=\count293
+\blx@maxsegment@0=\count294
+\blx@notetype=\count295
+\blx@parenlevel@text=\count296
+\blx@parenlevel@foot=\count297
+\blx@sectionciteorder@0=\count298
+\blx@entrysetcounter=\count299
+\labelnumberwidth=\skip52
+\labelalphawidth=\skip53
+\biblabelsep=\skip54
+\bibitemsep=\skip55
+\bibnamesep=\skip56
+\bibinitsep=\skip57
+\bibparsep=\skip58
+\bibhang=\skip59
+\blx@bcfin=\read2
+\blx@bcfout=\write3
+\blx@langwohyphens=\language86
+\c@mincomprange=\count300
+\c@maxcomprange=\count301
+\c@mincompwidth=\count302
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex/blx-dm.def
+File: blx-dm.def 2019/12/01 v3.14 biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load biblatex style data model...
+Package biblatex Info: ... file 'apa.dbx' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex-apa/apa.dbx
+File: apa.dbx 2020/05/30 v9.13 APA biblatex style data model
+)
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count303
+\c@savedafterword=\count304
+\c@annotator=\count305
+\c@savedannotator=\count306
+\c@author=\count307
+\c@savedauthor=\count308
+\c@bookauthor=\count309
+\c@savedbookauthor=\count310
+\c@commentator=\count311
+\c@savedcommentator=\count312
+\c@editor=\count313
+\c@savededitor=\count314
+\c@editora=\count315
+\c@savededitora=\count316
+\c@editorb=\count317
+\c@savededitorb=\count318
+\c@editorc=\count319
+\c@savededitorc=\count320
+\c@foreword=\count321
+\c@savedforeword=\count322
+\c@holder=\count323
+\c@savedholder=\count324
+\c@introduction=\count325
+\c@savedintroduction=\count326
+\c@namea=\count327
+\c@savednamea=\count328
+\c@nameb=\count329
+\c@savednameb=\count330
+\c@namec=\count331
+\c@savednamec=\count332
+\c@translator=\count333
+\c@savedtranslator=\count334
+\c@shortauthor=\count335
+\c@savedshortauthor=\count336
+\c@shorteditor=\count337
+\c@savedshorteditor=\count338
+\c@groupauthor=\count339
+\c@savedgroupauthor=\count340
+\c@narrator=\count341
+\c@savednarrator=\count342
+\c@execproducer=\count343
+\c@savedexecproducer=\count344
+\c@execdirector=\count345
+\c@savedexecdirector=\count346
+\c@with=\count347
+\c@savedwith=\count348
+\c@labelname=\count349
+\c@savedlabelname=\count350
+\c@institution=\count351
+\c@savedinstitution=\count352
+\c@lista=\count353
+\c@savedlista=\count354
+\c@listb=\count355
+\c@savedlistb=\count356
+\c@listc=\count357
+\c@savedlistc=\count358
+\c@listd=\count359
+\c@savedlistd=\count360
+\c@liste=\count361
+\c@savedliste=\count362
+\c@listf=\count363
+\c@savedlistf=\count364
+\c@location=\count365
+\c@savedlocation=\count366
+\c@organization=\count367
+\c@savedorganization=\count368
+\c@origlocation=\count369
+\c@savedoriglocation=\count370
+\c@origpublisher=\count371
+\c@savedorigpublisher=\count372
+\c@publisher=\count373
+\c@savedpublisher=\count374
+\c@language=\count375
+\c@savedlanguage=\count376
+\c@origlanguage=\count377
+\c@savedoriglanguage=\count378
+\c@citation=\count379
+\c@savedcitation=\count380
+\c@pageref=\count381
+\c@savedpageref=\count382
+\shorthandwidth=\skip60
+\shortjournalwidth=\skip61
+\shortserieswidth=\skip62
+\shorttitlewidth=\skip63
+\shortauthorwidth=\skip64
+\shorteditorwidth=\skip65
+\locallabelnumberwidth=\skip66
+\locallabelalphawidth=\skip67
+\localshorthandwidth=\skip68
+\localshortjournalwidth=\skip69
+\localshortserieswidth=\skip70
+\localshorttitlewidth=\skip71
+\localshortauthorwidth=\skip72
+\localshorteditorwidth=\skip73
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex/blx-compat.def
+File: blx-compat.def 2019/12/01 v3.14 biblatex compatibility (PK/MW)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.def
+File: biblatex.def 2019/12/01 v3.14 biblatex compatibility (PK/MW)
+\c@textcitecount=\count383
+\c@textcitetotal=\count384
+\c@textcitemaxnames=\count385
+\c@biburlbigbreakpenalty=\count386
+\c@biburlbreakpenalty=\count387
+\c@biburlnumpenalty=\count388
+\c@biburlucpenalty=\count389
+\c@biburllcpenalty=\count390
+\biburlbigskip=\muskip18
+\biburlnumskip=\muskip19
+\biburlucskip=\muskip20
+\biburllcskip=\muskip21
+\c@smartand=\count391
+)
+Package biblatex Info: Trying to load bibliography style 'apa'...
+Package biblatex Info: ... file 'apa.bbx' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex-apa/apa.bbx
+File: apa.bbx 2020/05/30 v9.13 APA biblatex references style
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
+File: standard.bbx 2019/12/01 v3.14 biblatex bibliography style (PK/MW)
+\c@bbx:relatedcount=\count392
+\c@bbx:relatedtotal=\count393
+))
+Package biblatex Info: Trying to load citation style 'apa'...
+Package biblatex Info: ... file 'apa.cbx' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex-apa/apa.cbx
+File: apa.cbx 2020/05/30 v9.13 APA biblatex citation style
+Package biblatex Info: Delimiter 'nameyeardelim' in context '' already defined, overwriting.
+Package biblatex Info: Delimiter 'nameyeardelim' in context 'textcite' already defined, overwriting.
+Package biblatex Info: Delimiter 'andothersdelim' in context '' already defined, overwriting.
+Package biblatex Info: Redefining '\fullcite'.
+Package biblatex Info: Redefining '\citeauthor'.
+Package biblatex Info: Redefining '\citeyear'.
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\cites'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\parencites'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcites'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\footcitetexts'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\smartcites'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.cfg
+File: biblatex.cfg 
+)) (/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count394
+\Gm@cntv=\count395
+\c@Gm@tempcnt=\count396
+\Gm@bindingoffset=\dimen153
+\Gm@wd@mp=\dimen154
+\Gm@odd@mp=\dimen155
+\Gm@even@mp=\dimen156
+\Gm@layoutwidth=\dimen157
+\Gm@layoutheight=\dimen158
+\Gm@layouthoffset=\dimen159
+\Gm@layoutvoffset=\dimen160
+\Gm@dimlist=\toks23
+)
+\@quotelevel=\count397
+\@quotereset=\count398
+ (/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+File: l3backend-pdfmode.def 2020-06-03 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count399
+\l__pdf_internal_box=\box47
+) (/home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/main.aux
+
+LaTeX Warning: Label `simirf' multiply defined.
+
+
+LaTeX Warning: Label `sub@simirf' multiply defined.
+
+
+LaTeX Warning: Label `gtirf' multiply defined.
+
+
+LaTeX Warning: Label `sub@gtirf' multiply defined.
+
+)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+ (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count400
+\scratchdimen=\dimen161
+\scratchbox=\box48
+\nofMPsegments=\count401
+\nofMParguments=\count402
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count403
+\MPscratchDim=\dimen162
+\MPnumerator=\count404
+\makeMPintoPDFobject=\count405
+\everyMPtoPDFconversion=\toks25
+) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+Package biblatex Info: Trying to load language 'english' -> 'english-apa'...
+Package biblatex Info: ... file 'english-apa.lbx' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex-apa/english-apa.lbx
+File: english-apa.lbx 2020/05/30 v9.13 APA biblatex localisation
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2019/12/01 v3.14 biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load language 'american' -> 'american-apa'...
+Package biblatex Info: ... file 'american-apa.lbx' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex-apa/american-apa.lbx
+File: american-apa.lbx 2020/05/30 v9.13 APA biblatex localisation
+Package biblatex Info: Trying to load language 'american'...
+Package biblatex Info: ... file 'american.lbx' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex/lbx/american.lbx
+File: american.lbx 2019/12/01 v3.14 biblatex localization (PK/MW)
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+ (/usr/share/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2019/12/01 v3.14 biblatex localization (PK/MW)
+))))
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'main.bbl' found.
+ (/home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/main.bbl)
+Package biblatex Info: Reference section=0 on input line 27.
+Package biblatex Info: Reference segment=0 on input line 27.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(85.35826pt, 426.79134pt, 85.35828pt)
+* v-part:(T,H,B)=(85.35826pt, 674.3303pt, 85.35828pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=426.79134pt
+* \textheight=674.3303pt
+* \oddsidemargin=13.08827pt
+* \evensidemargin=13.08827pt
+* \topmargin=-23.91173pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+<images/trafficjam.png, id=12, 501.875pt x 351.3125pt>
+File: images/trafficjam.png Graphic file (type png)
+<use images/trafficjam.png>
+Package pdftex.def Info: images/trafficjam.png  used on input line 49.
+(pdftex.def)             Requested size: 341.43436pt x 239.01797pt.
+ [2 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/trafficjam.png>] [3]
+<images/frontdoor.png, id=24, 501.875pt x 351.3125pt>
+File: images/frontdoor.png Graphic file (type png)
+<use images/frontdoor.png>
+Package pdftex.def Info: images/frontdoor.png  used on input line 94.
+(pdftex.def)             Requested size: 192.0548pt x 134.43823pt.
+<images/iv.png, id=25, 501.875pt x 351.3125pt>
+File: images/iv.png Graphic file (type png)
+<use images/iv.png>
+Package pdftex.def Info: images/iv.png  used on input line 100.
+(pdftex.def)             Requested size: 192.0548pt x 134.43823pt.
+ [4 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/frontdoor.png> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/iv.png>] [5]
+<images/trafficjam_unfit.png, id=36, 501.875pt x 351.3125pt>
+File: images/trafficjam_unfit.png Graphic file (type png)
+<use images/trafficjam_unfit.png>
+Package pdftex.def Info: images/trafficjam_unfit.png  used on input line 124.
+(pdftex.def)             Requested size: 341.43436pt x 239.01797pt.
+ [6 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/trafficjam_unfit.png>]
+<images/collider.png, id=41, 301.125pt x 200.75pt>
+File: images/collider.png Graphic file (type png)
+<use images/collider.png>
+Package pdftex.def Info: images/collider.png  used on input line 137.
+(pdftex.def)             Requested size: 128.0387pt x 85.36203pt.
+<images/chain.png, id=42, 301.125pt x 200.75pt>
+File: images/chain.png Graphic file (type png)
+<use images/chain.png>
+Package pdftex.def Info: images/chain.png  used on input line 153.
+(pdftex.def)             Requested size: 128.0387pt x 85.36203pt.
+<images/fork.png, id=43, 301.125pt x 200.75pt>
+File: images/fork.png Graphic file (type png)
+<use images/fork.png>
+Package pdftex.def Info: images/fork.png  used on input line 169.
+(pdftex.def)             Requested size: 128.0387pt x 85.36203pt.
+ [7 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/collider.png> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/chain.png> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/fork.png>] [8]
+<images/potential_outcomes_dag.png, id=55, 501.875pt x 351.3125pt>
+File: images/potential_outcomes_dag.png Graphic file (type png)
+<use images/potential_outcomes_dag.png>
+Package pdftex.def Info: images/potential_outcomes_dag.png  used on input line 204.
+(pdftex.def)             Requested size: 341.43436pt x 239.01797pt.
+ [9]
+File: images/trafficjam.png Graphic file (type png)
+<use images/trafficjam.png>
+Package pdftex.def Info: images/trafficjam.png  used on input line 229.
+(pdftex.def)             Requested size: 192.0548pt x 134.43823pt.
+<images/trafficjam_intervention.png, id=59, 501.875pt x 351.3125pt>
+File: images/trafficjam_intervention.png Graphic file (type png)
+<use images/trafficjam_intervention.png>
+Package pdftex.def Info: images/trafficjam_intervention.png  used on input line 239.
+(pdftex.def)             Requested size: 192.0548pt x 134.43823pt.
+ [10 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/potential_outcomes_dag.png>]
+<images/simultaneous.png, id=64, 501.875pt x 351.3125pt>
+File: images/simultaneous.png Graphic file (type png)
+<use images/simultaneous.png>
+Package pdftex.def Info: images/simultaneous.png  used on input line 258.
+(pdftex.def)             Requested size: 192.0548pt x 134.43823pt.
+<images/directed.png, id=65, 501.875pt x 351.3125pt>
+File: images/directed.png Graphic file (type png)
+<use images/directed.png>
+Package pdftex.def Info: images/directed.png  used on input line 269.
+(pdftex.def)             Requested size: 192.0548pt x 134.43823pt.
+ [11 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/trafficjam_intervention.png> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/simultaneous.png> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/directed.png>] [12]
+<images/dsge_dag.png, id=76, 1003.75pt x 702.625pt>
+File: images/dsge_dag.png Graphic file (type png)
+<use images/dsge_dag.png>
+Package pdftex.def Info: images/dsge_dag.png  used on input line 310.
+(pdftex.def)             Requested size: 341.43436pt x 239.00726pt.
+ [13] [14 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/dsge_dag.png>] [15] [16] [17] [18]
+<images/rbc_true_dag.png, id=98, 501.875pt x 351.3125pt>
+File: images/rbc_true_dag.png Graphic file (type png)
+<use images/rbc_true_dag.png>
+Package pdftex.def Info: images/rbc_true_dag.png  used on input line 469.
+(pdftex.def)             Requested size: 256.0774pt x 179.26349pt.
+<images/rbc_hybrid_structure.png, id=99, 849.92531pt x 627.09282pt>
+File: images/rbc_hybrid_structure.png Graphic file (type png)
+<use images/rbc_hybrid_structure.png>
+Package pdftex.def Info: images/rbc_hybrid_structure.png  used on input line 476.
+(pdftex.def)             Requested size: 256.0774pt x 188.94263pt.
+<images/rbc_sim_irf.png, id=100, 1289.81876pt x 580.1675pt>
+File: images/rbc_sim_irf.png Graphic file (type png)
+<use images/rbc_sim_irf.png>
+Package pdftex.def Info: images/rbc_sim_irf.png  used on input line 494.
+(pdftex.def)             Requested size: 341.43436pt x 153.57544pt.
+<images/rbc_true_dag_irfs.png, id=102, 1289.81876pt x 580.1675pt>
+File: images/rbc_true_dag_irfs.png Graphic file (type png)
+<use images/rbc_true_dag_irfs.png>
+Package pdftex.def Info: images/rbc_true_dag_irfs.png  used on input line 501.
+(pdftex.def)             Requested size: 341.43436pt x 153.57544pt.
+<images/rbc_hybrid_irfs.png, id=103, 967.36406pt x 435.12563pt>
+File: images/rbc_hybrid_irfs.png Graphic file (type png)
+<use images/rbc_hybrid_irfs.png>
+Package pdftex.def Info: images/rbc_hybrid_irfs.png  used on input line 508.
+(pdftex.def)             Requested size: 341.43436pt x 153.57767pt.
+ [19] [20 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/rbc_true_dag.png> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/rbc_hybrid_structure.png>] [21 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/rbc_sim_irf.png> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/rbc_true_dag_irfs.png (PNG copy)> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/rbc_hybrid_irfs.png>]
+<images/sw_gt_dag.png, id=119, 854.44218pt x 627.09282pt>
+File: images/sw_gt_dag.png Graphic file (type png)
+<use images/sw_gt_dag.png>
+Package pdftex.def Info: images/sw_gt_dag.png  used on input line 528.
+(pdftex.def)             Requested size: 256.0774pt x 187.93793pt.
+<images/sw_hybrid_01_dag.png, id=120, 854.44218pt x 627.09282pt>
+File: images/sw_hybrid_01_dag.png Graphic file (type png)
+<use images/sw_hybrid_01_dag.png>
+Package pdftex.def Info: images/sw_hybrid_01_dag.png  used on input line 535.
+(pdftex.def)             Requested size: 256.0774pt x 187.93793pt.
+<images/sw_sim_qs_irf.png, id=121, 967.36406pt x 435.12563pt>
+File: images/sw_sim_qs_irf.png Graphic file (type png)
+<use images/sw_sim_qs_irf.png>
+Package pdftex.def Info: images/sw_sim_qs_irf.png  used on input line 553.
+(pdftex.def)             Requested size: 341.43436pt x 153.57767pt.
+<images/sw_gt_qs_irf.png, id=122, 967.36406pt x 435.12563pt>
+File: images/sw_gt_qs_irf.png Graphic file (type png)
+<use images/sw_gt_qs_irf.png>
+Package pdftex.def Info: images/sw_gt_qs_irf.png  used on input line 560.
+(pdftex.def)             Requested size: 341.43436pt x 153.57767pt.
+<images/sw_hybrid_01_qs_irfs.png, id=123, 967.36406pt x 435.12563pt>
+File: images/sw_hybrid_01_qs_irfs.png Graphic file (type png)
+<use images/sw_hybrid_01_qs_irfs.png>
+Package pdftex.def Info: images/sw_hybrid_01_qs_irfs.png  used on input line 567.
+(pdftex.def)             Requested size: 341.43436pt x 153.57767pt.
+ [22] [23 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/sw_gt_dag.png> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/sw_hybrid_01_dag.png>] [24 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/sw_sim_qs_irf.png> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/sw_gt_qs_irf.png> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/sw_hybrid_01_qs_irfs.png>]
+<images/real_hybrid_structure.png, id=138, 854.44218pt x 627.09282pt>
+File: images/real_hybrid_structure.png Graphic file (type png)
+<use images/real_hybrid_structure.png>
+Package pdftex.def Info: images/real_hybrid_structure.png  used on input line 588.
+(pdftex.def)             Requested size: 426.79134pt x 313.22987pt.
+ [25 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/real_hybrid_structure.png>]
+<images/real_z_irf.png, id=144, 967.36406pt x 589.4522pt>
+File: images/real_z_irf.png Graphic file (type png)
+<use images/real_z_irf.png>
+Package pdftex.def Info: images/real_z_irf.png  used on input line 602.
+(pdftex.def)             Requested size: 341.43436pt x 208.04726pt.
+<images/real_rm_irf.png, id=145, 967.36406pt x 589.4522pt>
+File: images/real_rm_irf.png Graphic file (type png)
+<use images/real_rm_irf.png>
+Package pdftex.def Info: images/real_rm_irf.png  used on input line 609.
+(pdftex.def)             Requested size: 341.43436pt x 208.04726pt.
+ [26] [27 </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/real_z_irf.png> </home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/images/real_rm_irf.png>] [28]
+Overfull \hbox (0.36961pt too wide) in paragraph at lines 646--646
+[][]\OT1/cmr/m/n/10 Lucas, R. E. et al. (1976). Econo-met-ric pol-icy eval-u-a-tion: A cri-tique. \OT1/cmr/m/it/10 Carnegie-Rochester
+ []
+
+[29] [30] (/home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/main.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package logreq Info: Writing requests to 'main.run.xml'.
+ ) 
+Here is how much of TeX's memory you used:
+ 12001 strings out of 480478
+ 218825 string characters out of 5905959
+ 958449 words of memory out of 5000000
+ 27897 multiletter control sequences out of 15000+600000
+ 539857 words of font info for 50 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 47i,15n,74p,2779b,4731s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb>
+Output written on /home/emmet/Documents/bayesian/bayesian_networks/text/latex/empirical/main.pdf (30 pages, 644014 bytes).
+PDF statistics:
+ 219 PDF objects out of 1000 (max. 8388607)
+ 119 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 126 words of extra memory for PDF output out of 10000 (max. 10000000)
+
