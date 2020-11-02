@@ -1,0 +1,171 @@
+\documentclass{article}
+\begin{document}
+
+\section*{Overview}
+\begin{itemize}
+    \item State main result, the continue by answering the following questions which will likely arise directly afterwards: what? why? how?
+\end{itemize}
+
+\section*{Introduction}
+\begin{itemize}
+    \item I develop an algorithm for agnostic and data-driven causal discovery of a unique state-space model and associated family of DSGE models which are \textit{valid} (in a sense that I shall make specific later) relative to some observational data.
+    \item I provide proof that the solution to this procedure is asymptotically unique and consistent, along with empirical evidence that it performs well with realistic sample sizes.
+\end{itemize}
+
+\section*{Causal Discovery}
+\begin{itemize}
+    \item \textit{Causal Discovery} is a field initiated by the work of Judea Pearl, Peter Spirtes, and others involving using large data sets and algorithms to develop models that can make counterfactual predictions.
+    \item One approach to this involves graphical models such as directed acyclical graphs (DAGs).
+    \item Algorithms seek to identify a DAG from data using either a score-based (likelihood maximisation) or constraint-based (conditional independence testing) approach.
+\end{itemize}
+
+\section*{DSGE Models}
+\begin{itemize}
+    \item Type of problem we usually consider has the household solving some utility maximisation problem and firms maximising profits.
+    \item Assuming a competitive equilibrium and market clearing conditions we are able to find a solution to this. 
+\end{itemize}
+
+\section*{State Space Representation}
+\begin{itemize}
+    \item Arrows denote vectors because bold not working.
+    \item Usually the solution is found by taking a log-linear approximation to the model.
+    \item For any DSGE model this will yield a solution of the form in equations (1) - (3).
+    \item Assuming this, the only thing we need to know to estimate the solution is the partition of the $w_t$ variables into endogenous states or predetermined variables ($x_t$), controls ($y_t$), and exogenous states ($z_t$). 
+    \item The algorithm and test identify this partition.
+\end{itemize}
+
+\section*{Results (I)}
+\begin{itemize}
+    \item Consider the following example.
+    \item Simulate data from a baseline RBC model with exogenous states $z$ (technology) and $g$ (government spending), and endogenous state $k$ (capital).
+    \item When using 100,000 observations we can rule out every partition other than the correct one with a conditional independence test, out of 834 considered. 
+    \item The entire problem space contains nearly 20,000 models and we reduce this to just one.
+\end{itemize}
+
+\section*{Results (II)}
+\begin{itemize}
+    \item Now consider a realistic sample size of just 100 observations. 
+    \item We run the algorithm 1000 times to assess its performance in this setting.
+    \item The algorithm picks out the correct model nearly 95\% of the time, and every time it is not rejected. Nothing else comes close. Again problem space of $\sim$ 20k models.
+    \item Correct model is rejected about 5\% of the time because of significance level of the conditional independence test.
+\end{itemize}
+
+\section*{Context}
+\begin{itemize}
+    \item Guido Imbens recently wrote paper discussing the application of DAGs in empirical economics.
+    \item He says "the most important issue holding back the DAGs is the lack of convincing empirical applications. History suggests that those are what is driving the adoption of new methodologies in economics and other social sciences, not the mathematical elegance or rhetoric."
+    \item I aim to remedy this by considering a useful application.
+    \item He is quite negative about DAGs, saying that they are "most useful in complex models with many variables that are not particularly popular in empirical economics."
+    \item Papers like Smets and Wouters (2007) show that macro models can be quite large. I suggest that the problem is the converse: complex models are not popular \textit{because} economists don't have tools like DAGs that make these easy to work with.
+\end{itemize}
+
+\section*{Reduction of Problem Space}
+\begin{itemize}
+    \item Given a set of observations over $k$ variables there are $3^k$ possible state space representations.
+    \begin{itemize}
+        \item Choice of model is \textit{trinomial}
+    \end{itemize}
+    \item Reducing this to just one is then a huge reduction in the space of models that need to be considered.
+    \item Does not solve microeconomic dissonace --- different microfoundations may give rise to the same state space representation.
+\end{itemize}
+
+\section*{Agnosticism}
+\begin{itemize}
+    \item Assumptions we use are very minimal:
+    \begin{itemize}
+        \item The true DGP of the macroeconomy can be modelled as some sort of log-linear DSGE model.
+        \item \textit{Casual Markov Assumption} --- All variables are independent of their non-descendants given their parents.
+        \begin{itemize}
+            \item This is the statement that causality is equivalent to conditional independence (as implied by a DAG).
+            \item DSGE models have this property. So while in general this is a separate assumption it is in this case implied by the first condition.
+        \end{itemize}
+        \item \textit{Faithfulness} --- observed conditional independence are real features of the DGP. Effects do not cancel out exactly.
+        \item Linearity, Gaussian shocks --- these can be relaxed.
+    \end{itemize}
+    \item As a result the solution produced reflects the data to the greatest extent possible.
+\end{itemize}
+
+\section*{Inference}
+\begin{itemize}
+    \item We cannot pin down a unique DSGE microfoundation given its state space form. However, we can make statements about certain kinds of assumptions.
+    \item For example, if we find that consumption is predetermined, this is evidence that any sensible model should include habits in consumption (although you could come up with some other explanation).
+    \item If we find that inflation is a endogenous state then we have evidence of persistence in inflation, which might be explained by for example indexing. If it is a control we have evidence that inflation is strictly forward-looking.
+    \item These are actual results from the paper. For US data results imply habit formation and inflation persistence should be features of any DSGE model.
+    \item These types of inferences are particularly meaningful in the context of the previous slide.
+\end{itemize}
+
+\section*{DAGs}
+\begin{itemize}
+    \item This captures all of the relationships implied by equations (1) - (3).
+\end{itemize}
+
+\section*{Is this sensible?}
+\begin{itemize}
+    \item Depends on what we are interested in.
+    \item Can still identify the effect of exogenous shocks without modelling endogenous dynamics.
+    \item Cannot identify "deep parameters" in this kind of model.
+    \item We cannot circumvent the Lucas critique in this way. Relates to failure to identify unique DSGE microfoundation.
+\end{itemize}
+
+\section*{Conditional Independence (I)}
+\begin{itemize}
+    \item These relationships are implied by standard theory for DAGs (see paper).
+    \item The conditioning set needs to "d-separate" the targets. Basically contain something from every "backdoor path" and nothing in any "frontdoor path". 
+    \item In the paper I show that under the stated assumptions if all conditional independence relationships are known there is exactly one state-space model that satisfies (4), (5) and the minimum state variable criterion (MSV). I refer to the satisfaction of these criteria as \textit{validity}.
+\end{itemize}
+
+\section*{Conditional Independence (II)}
+\begin{itemize}
+    \item In reality conditional independence is not known, so we implement a feasible test.
+    \item Given that we are dealing with Gaussian variables independence is equivalent to zero correlation/covariance, and likewise conditional independence is equivalent to zero correlation/covariance between residuals, having partialed out the conditioning set.
+    \item With some slight modification all 4 conditions can be combined into a single test on a covariance matrix.
+    \item In particular, test whether $\vec{x}_{t-1}$, $\vec{y}_{t-1}$, $\vec{z}_{t}$, and (optionally) $\vec{z}_{t-2}$ are \textit{completely independent} (covariance matrix is diagonal), conditional on $\vec{x}_{t-2}$ and $\vec{z}_{t-1}$.
+    \item Many statistical tests are available for this purpose, I implement one found in Srivastava (2005).
+\end{itemize}
+
+\section*{Scoring}
+\begin{itemize}
+    \item In finite samples, it is not uncommon to find that more than one model is \textit{valid}, however, it is usually a small number compared to the search space.
+    \item In order to differentiate between this valid models I maximise a score function, which in most cases is the likelihood function of the model. I also implement penalised scores (AIC/BIC), but these are less useful because the models that survive the CI testing tend to have very similar structures/complexity.
+    \item In general, one can just maximise the score function over the set of all models, however, I argue against this approach because it is not necessarily the case that the model with the best predictive accuracy gives the most reasonable causal explanation.
+\end{itemize}
+
+\section*{Algorithm}
+\begin{itemize}
+    \item To find the valid model(s), iterate over all possible models and apply the test (brute force).
+    \item We can make this less onerous by applying MSV and stopping once we have found a valid model.
+    \item If we find more than one valid model choose a winner using the score function.
+    \item This algorithm will consistently identify the unique valid model as $n \rightarrow \infty$ with the number of variables fixed because the power of the CI test to reject incorrect models goes to 1.
+    \begin{itemize}
+        \item We will still have a significance level $\alpha$ probability of rejecting the correct model, and thus finding no solution in the asymptotic case.
+        \item To counter this we can lower $\alpha$ as $n$ increases. 
+        \item $\alpha$ is the only tuning parameter of this algorithm.
+    \end{itemize}
+\end{itemize}
+
+\section*{Limitations}
+\begin{itemize}
+    \item Does not solve microeconomic dissonance
+    \begin{itemize}
+        \item Researchers still need to specify a structural model if they wish to make inferences about the counterfactual effects of structural parameter changes.
+    \end{itemize}
+    \item Type II error can be a problem on realistic data sizes
+    \begin{itemize}
+        \item We rely on the rejection of incorrect models to a large degree
+        \item If there are models similar to the true solution and sample sizes are small we can end up with the wrong solution.
+    \end{itemize}
+    \item Computational Complexity
+    \begin{itemize}
+        \item Considering up to $3^k$ models can become very costly as $k$ grows.
+        \item It is unclear the extent to which heuristic algorithms can improve the complexity as the search space is likely quite jagged and also this would threaten the agnosticism of the algorithm which is one of its primary benefits.
+    \end{itemize}
+\end{itemize}
+
+\section*{Conclusion}
+\begin{itemize}
+    \item I introduce a test and algorithm to identify a unique state-space model (and associated family of DSGE models) which is \textit{valid} relative to some observed data.
+    \item This procedure is asymptotically consistent and empirical results show it performs well on realistic sample sizes.
+    \item One approach to applying causal discovery tools in the context of economics.
+\end{itemize}
+
+\end{document}

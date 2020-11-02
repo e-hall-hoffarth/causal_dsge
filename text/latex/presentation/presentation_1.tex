@@ -124,8 +124,10 @@ University of Oxford \\ % Your institution for the title page
 \begin{frame}
     \frametitle{Introduction}
     \begin{itemize}
-        \item I develop an algorithm for agnostic and data-driven causal discovery of a unique state-space model and associated family of DSGE models which are \textit{valid} (in a sense that I shall make specific later) relative to some observational data.
-        \item I provide proof that the solution to this procedure is asymptotically unique and consistent, along with empirical evidence that it performs well with realistic sample sizes.
+        \item Causal discovery uses algorithms and data to identify causal models.
+        \item I use this idea to construct a test and an algorithm that identifies log-linear solution to DSGE model from observational data.
+        \item Test and algorithm are asymptotically unique and consistent.
+        \item Performs well in small sample simulations.
     \end{itemize}
 \end{frame}
 
@@ -139,12 +141,9 @@ University of Oxford \\ % Your institution for the title page
 
 \begin{frame}
     \frametitle{Causal Discovery}
-    \begin{itemize}
-        \item \textit{Causal Discovery} is a field initiated by the work of Pearl, Spirtes, and others involving using large data sets and algorithms to develop models that can make counterfactual predictions.
-        \item One approach to this involves graphical models such as directed acyclical graphs (DAGs).
-        \item Algorithms seek to identify a DAG from data using either a score-based (likelihood maximisation) or constraint-based (conditional independence testing) approach.
-        \item \citeauthor{imbens2019potential} (\citeyear{imbens2019potential}) calls for more applications of graphical models to be demonstrated within the field of economics.
-    \end{itemize}
+    \begin{figure}
+        \includegraphics[height=0.8\textheight]{images/trafficjam.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
@@ -165,6 +164,7 @@ University of Oxford \\ % Your institution for the title page
             \max \text{ } & P_t f(L_t, ...) - W_t L_t \text{ } \forall t \\
         \end{align*}
     \end{minipage}
+    \vskip 1cm
     \centering
     Competitive equilibrium, market clearing conditions ...
 \end{frame}
@@ -172,7 +172,7 @@ University of Oxford \\ % Your institution for the title page
 \begin{frame}
     \frametitle{State Space Representation}
     \begin{itemize}
-        \item Solve out these equations and take a log-linear approximation to the model that takes on the following general form: 
+        \item Log-linear approximation yields the following general solution: 
     \end{itemize}
         \begin{align}
             \vec{y}_t &= \vec{A} \vec{x}_{t-1} + \vec{B} \vec{z}_{t} \label{ss_solution:x}\\
@@ -180,14 +180,43 @@ University of Oxford \\ % Your institution for the title page
             \vec{z}_t &= \vec{E} \vec{z}_{t-1} + \vec{\epsilon}_{t} \label{ss_solution:z}
         \end{align}
     \begin{itemize}
-        \item This is a partition of the variables $\vec{w}_t$ in the model into three categories:
+        \item Partition variables $\vec{w}_t$ into three categories:
         \begin{itemize}
             \item $\vec{x}_t$: predetermined or endogenous state variables
             \item $\vec{y}_t$: control variables or "jumpers"
             \item $\vec{z}_t$: exogenous state variables
         \end{itemize}
-        \item The algorithm identifies this partition (and the matrices $\vec{A}$ - $\vec{E}$).
+        \item Algorithm identifies partition (and $\vec{A}$ - $\vec{E}$).
     \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Results (I)}
+    \begin{itemize}
+        \item Baseline RBC model.
+        \item 9 Observables, true partition is $\vec{z} = [g \text{ } z]$, $\vec{x} = [k]$, $\vec{y} = [y \text{ } c \text{ } i \text{ } r \text{ } w \text{ } l]$.
+        \item With large sample of $10^6$ observations algorithm uniquely identifies true partition.
+        \item 834 models considered (models with $1 \leq$ \# state variables $\leq 3$).
+        \item 19683 possible models reduced to just 1.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Results (II)}
+    \begin{itemize}
+        \small
+        \item 1000 iterations, 100 sample size
+        \item Wins = number of times model selected, Valid = number of times model is valid relative to CI test
+    \end{itemize}
+    \begin{table}
+        \centering
+        \tiny
+        \begin{tabular}{|c|c|c|l|l|}
+            \bfseries Index & \bfseries Exogenous States & \bfseries Endogenous States & \bfseries Wins & \bfseries Valid
+            \csvreader[head to column names]{./files/rbc_wins_new.csv}{}
+            {\\\index & \exostates & \endostates & \wins & \valid}
+        \end{tabular}
+    \end{table}
 \end{frame}
 
 \section{Why?}
@@ -199,14 +228,24 @@ University of Oxford \\ % Your institution for the title page
 \end{frame}
 
 \begin{frame}
+    \frametitle{Context}
+    "The most important issue holding back DAGs is the lack of convincing empirical applications. History suggests that those are what is driving the adoption of new methodologies in economics and other social sciences, not the mathematical elegance or rhetoric." \\
+    \vskip 1cm
+    "The advantages of the formal methods for deriving identification results with DAGs are most pronounced in complex models with many variables that are not particularly popular in empirical economics." \\
+    \vskip 1cm
+    \rightline{--- \citeauthor{imbens2019potential} (\citeyear{imbens2019potential})}
+\end{frame}
+
+\begin{frame}
     \frametitle{Reduction of problem space}
     \begin{itemize}
-        \item Given a set of observations over $k$ variables there are $3^k$ possible state space representations.
+        \item Given a set of observations over $k$ variables there are $3^k$ possible state-space partitions.
         \begin{itemize}
             \item Choice of model is \textit{trinomial}
         \end{itemize}
-        \item Reducing this to just one is then a huge reduction in the space of models that need to be considered.
-        \item Note that this does not mean that we identify a unique DSGE model --- different microfoundations may give rise to the same state space representation.
+        \item Reduce this to just one (or very small subset).
+        \item Rules out many \textit{invalid} models that the applied macroeconomist would have otherwise considered.
+        \item However, still doesn't reduce to a single DSGE model.
     \end{itemize}
 \end{frame}
 
@@ -215,13 +254,9 @@ University of Oxford \\ % Your institution for the title page
     \begin{itemize}
         \item Assumptions we use are very minimal:
         \begin{itemize}
-            \item The true DGP of the macroeconomy can be modelled as some sort of log-linear DSGE model.
-            \item \textit{Casual Markov Assumption} --- All variables are independent of their non-descendants given their parents \parencite{spirtes2016causal}.
-            \begin{itemize}
-                \item This is the statement that causality is equivalent to conditional independence (as implied by a DAG).
-                \item DSGE models have this property. So while in general this is a separate assumption it is in this case implied by the first condition.
-            \end{itemize}
-            \item \textit{Faithfulness} --- observed conditional indepedence are real features of the DGP. Effects do not cancel out exactly.
+            \item True DGP is a log-linear DSGE model.
+            \item \textit{Casual Markov Assumption} --- All variables are independent of their non-descendants given their parents (in a DAG) \parencite{spirtes2016causal}.
+            \item \textit{Faithfulness} --- observed conditional independence are real features of the DGP.
             \item Linearity, Gaussian shocks --- these can be relaxed.
         \end{itemize}
         \item As a result the solution produced reflects the data to the greatest extent possible.
@@ -231,10 +266,10 @@ University of Oxford \\ % Your institution for the title page
 \begin{frame}
     \frametitle{Inference}
     \begin{itemize}
-        \item We cannot pin down a unique DSGE microfoundation given its state space form. However, we can make statements about certain kinds of assumptions.
-        \item For example, if we find that consumption is predetermined, this is evidence that any sensible model should include habits in consumption (although you could come up with some other explanation).
-        \item If we find that inflation is a endogenous state then we have evidence of persistence in inflation, which might be explained by for example indexing. If it is a control we have evidence that inflation is strictly forward-looking.
-        \item These types of inferences are particularly meaningful in the context of the previous slide.
+        \item Cannot pin down unique DSGE, but can still make some inferences about possible models.
+        \item Is consumption predetermined? If so then habits important to explain behaviour.
+        \item Is inflation predetermined? If so then it is probably not fully rational / forward looking.
+        \item These types of inferences are particularly meaningful because of agnosticism.
     \end{itemize}
 \end{frame}
 
@@ -248,7 +283,7 @@ University of Oxford \\ % Your institution for the title page
 \begin{frame}
     \frametitle{DAGs}
     \begin{itemize}
-        \item We can represent the state space representation as a DAG.
+        \item We can represent the state-space solution as a DAG.
     \end{itemize}
     \begin{figure}
         \centering
@@ -371,7 +406,8 @@ University of Oxford \\ % Your institution for the title page
         z_t \indep z^{\prime}_{t} || \vec{z}_{t-1} & \text{ for all } z_t \not = z^{\prime}_{t} \in \vec{z}_t \label{constraint_test:4}
       \end{align}
     \begin{itemize}
-        \item In the paper I show that under the stated assumptions if all conditional independence relationships are known there is exactly one state-space model that satisfies (\ref{constraint_test:1}), (\ref{constraint_test:3}) and the minimum state variable criterion (MSV) \parencite{mccallum1999role}. I refer to the satisfaction of these criteria as \textit{validity}.
+        \item (\ref{constraint_test:1}), (\ref{constraint_test:3}) and the minimum state variable criterion (MSV) \parencite{mccallum1999role} uniquely identify state-space model. 
+        \item I refer to this as \textit{validity}.
     \end{itemize}
 \end{frame}
 
@@ -379,19 +415,19 @@ University of Oxford \\ % Your institution for the title page
     \frametitle{Conditional Independence (II)}
     \begin{itemize}
         \item In reality conditional independence is not known, so we implement a feasible test.
-        \item Given that we are dealing with Gaussian variables independence is equivalent to zero correlation/covariance, and likewise conditional independence is equivalent to zero correlation/covariance between residuals, having partialed out the conditioning set.
-        \item With some slight modification all 4 conditions can be combined into a single test on a covariance matrix.
+        \item Gaussian variables so conditional independence $\iff$ 0 correlation (of partial residuals).
+        \item Possible to combine the 4 conditions into a single test. 
         \item In particular, test whether $\vec{x}_{t-1}$, $\vec{y}_{t-1}$, $\vec{z}_{t}$, and (optionally) $\vec{z}_{t-2}$ are \textit{completely independent} (covariance matrix is diagonal), conditional on $\vec{x}_{t-2}$ and $\vec{z}_{t-1}$.
-        \item Many statistical tests are available for this purpose, I implement one found in \parencite{srivastava2005some}.
+        \item Use test for this from \citeauthor{srivastava2005some} (\citeyear{srivastava2005some}).
     \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Scoring}
     \begin{itemize}
-        \item In finite samples, it is not uncommon to find that more than one model is \textit{valid}, however, it is usually a small number compared to the search space.
-        \item In order to differentiate between this valid models I maximise a score function, which in most cases is the likelihood function of the model. I also implement penalised scores (AIC/BIC), but these are less useful because the models that survive the CI testing tend to have very similar structures/complexity.
-        \item In general, one can just maximise the score function over the set of all models, however, I argue against this approach because it is not necessarily the case that the model with the best predictive accuracy gives the most reasonable causal explanation.
+        \item In small samples power is limited so more than one model can be \textit{valid}.
+        \item Use score function (Likelihood/AIC/BIC) rank models and pick one.
+        \item Could just maximise score function over all models, but performs worse than combined approach.
     \end{itemize}
 \end{frame}
 
@@ -399,44 +435,13 @@ University of Oxford \\ % Your institution for the title page
     \frametitle{Algorithm}
     \begin{itemize}
         \item To find the valid model(s), iterate over all possible models and apply the test (brute force).
-        \item We can make this less onerous by applying MSV and stopping once we have found a valid model.
         \item If we find more than one valid model choose a winner using the score function.
-        \item This algorithm will consistently identify the unique valid model as $n \rightarrow \infty$ with the number of variables fixed because the power of the CI test to reject incorrect models goes to 1.
+        \item This algorithm will consistently identify the unique valid model as $n \rightarrow \infty$ because the power of the CI test to reject incorrect models goes to 1.
         \begin{itemize}
-            \item We will still have a significance level $\alpha$ probability of rejecting the correct model, and thus finding no solution in the asymptotic case.
-            \item To counter this we can lower $\alpha$ as $n$ increases. 
+            \item We will still have a significance level $\alpha$ probability of rejecting the correct model.
             \item $\alpha$ is the only tuning parameter of this algorithm.
         \end{itemize}
     \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Results (I)}
-    \begin{itemize}
-        \item Baseline RBC model.
-        \item 9 Observables, true partition is $\vec{z} = [g \text{ } z]$, $\vec{x} = [k]$, $\vec{y} = [y \text{ } c \text{ } i \text{ } r \text{ } w \text{ } l]$.
-        \item With full sample of $10^5$ observations the only valid partition is the ground truth.
-        \item 834 models considered (models with $1 \leq$ \# state variables $\leq 3$).
-        \item 19683 possible models reduced to 1.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Results (II)}
-    \begin{itemize}
-        \small
-        \item 1000 iterations, 100 sample size
-        \item Wins = number of times model selected, Valid = number of times model is valid relative to CI test
-    \end{itemize}
-    \begin{table}
-        \centering
-        \tiny
-        \begin{tabular}{|c|c|c|l|l|}
-            \bfseries Index & \bfseries Exogenous States & \bfseries Endogenous States & \bfseries Wins & \bfseries Valid
-            \csvreader[head to column names]{./files/rbc_wins_new.csv}{}
-            {\\\index & \exostates & \endostates & \wins & \valid}
-        \end{tabular}
-    \end{table}
 \end{frame}
 
 \section{Conclusion}
@@ -444,20 +449,9 @@ University of Oxford \\ % Your institution for the title page
 \begin{frame}
     \frametitle{Limitations}
     \begin{itemize}
-        \item Does not solve microeconomic dissonance
-        \begin{itemize}
-            \item Researchers still need to specify a structural model if they wish to make inferences about the counterfactual effects of structural parameter changes.
-        \end{itemize}
-        \item Type II error can be a problem on realistic data sizes
-        \begin{itemize}
-            \item We rely on the rejection of incorrect models to a large degree
-            \item If there are models similar to the true solution and sample sizes are small we can end up with the wrong solution.
-        \end{itemize}
-        \item Computational Complexity
-        \begin{itemize}
-            \item Considering up to $3^k$ models can become very costly as $k$ grows.
-            \item It is unclear the extent to which heuristic algorithms can improve the complexity as the search space is likely quite jagged and also this would threaten the agnosticism of the algorithm which is one of its primary benefits.
-        \end{itemize}
+        \item Does not solve microeconomic dissonance \parencite{levin2008macroeconometric}.
+        \item Type II error can be a problem on realistic data sizes.
+        \item Computational complexity
     \end{itemize}
 \end{frame}
 
