@@ -104,7 +104,7 @@ plot_irfs <- function(irf, model='rbc') {
                  ggplot(irf, aes(x=t, y=r)) + geom_line() + xlab("") + ylab("") + ggtitle("r") + geom_hline(yintercept = 0, color = "red") + dynare_theme,
                  ggplot(irf, aes(x=t, y=w)) + geom_line() + xlab("") + ylab("") + ggtitle("w") + geom_hline(yintercept = 0, color = "red") + dynare_theme,
                  ggplot(irf, aes(x=t, y=i)) + geom_line() + xlab("") + ylab("") + ggtitle("i") + geom_hline(yintercept = 0, color = "red") + dynare_theme,
-                 ggplot(irf, aes(x=t, y=g)) + geom_line() + xlab("") + ylab("") + ggtitle("g") + geom_hline(yintercept = 0, color = "red") + dynare_theme,
+                 # ggplot(irf, aes(x=t, y=g)) + geom_line() + xlab("") + ylab("") + ggtitle("g") + geom_hline(yintercept = 0, color = "red") + dynare_theme,
                  ncol=3)
   } else if (model == 'nk') {
     grid.arrange(ggplot(irf, aes(x=t, y=pi)) + geom_line() + xlab("") + ylab("") + ggtitle("pi") + geom_hline(yintercept = 0, color = "red") + dynare_theme,
@@ -153,12 +153,14 @@ plot_irfs <- function(irf, model='rbc') {
 }
 
 # Import and data cleaning
-data <- read.csv('rbc_100k.csv')
+data <- read.csv('rbc.csv')
 data <- as.data.frame(sapply(data, as.numeric))
 # bl <- c('X', 'log_y', 'log_k', 'log_c', 'log_l', 'log_w', 'log_i', 'eps_z', 'eps_g')
 bl <- c('X', 'eps_z', 'eps_g')
 data <- data[,!(colnames(data) %in% bl)]
-data <- data[1:200,]
+lag2 <- Filter(function(x) grepl("_2", x, fixed=TRUE), names(data))
+data <- data[!names(data) %in% lag2]
+# data <- data[1:200,]
 
 # data <- read.csv('gali.csv')
 # data <- as.data.frame(sapply(data, as.numeric))
@@ -206,6 +208,7 @@ data <- data[2:nrow(data),]
 
 # Set lags as roots
 all_names <- names(data)
+exo_names <- Filter(function(x) grepl("_1", x, fixed=TRUE), all_names)
 endo_names <- all_names[!(all_names %in% exo_names)]
 arc_bl <- tiers2blacklist(list(exo_names, endo_names))
 for (exo in exo_names) {
@@ -224,19 +227,21 @@ names(data[,findCorrelation(cor(data), cutoff = 0.95)])
 
 # Hybrid structure learning
 hybrid_model <- rsmax2(data,
-                       restrict = 'pc.stable', restrict.args = list(NULL, 'cor', 0.25),
+                       restrict = 'pc.stable', restrict.args = list(NULL, 'cor', 0.05),
                        maximize = 'hc', maximize.args = list('loglik-g'), 
                        blacklist = arc_bl)
-for (lag in exo_names) {
-  hybrid_model <- set.arc(hybrid_model, lag, substr(lag, 1, nchar(lag)-2))
-}
+# for (lag in exo_names) {
+#   hybrid_model <- set.arc(hybrid_model, lag, substr(lag, 1, nchar(lag)-2))
+# }
 graph.par(list(nodes=list(fontsize=14)))
 graphviz.plot(hybrid_model)
-# dev.print(png, "../text/latex/empirical/images/rbc_hybrid_dag.png", width=500, height=350)
+dev.print(png, "../text/latex/algo/images/rbc_hybrid_dag.png", width=500, height=350)
 root.nodes(hybrid_model)
 hybrid_fitted <- bn.fit(hybrid_model, data, replace.unidentifiable=T, zero.intercept=T)
-hybrid_irf <- simulate.irf(hybrid_fitted, data, 'z', 0.66, 25)
+hybrid_irf <- simulate.irf(hybrid_fitted, data, 'z', 0.66, 250)
 plot_irfs(hybrid_irf, 'rbc')
+dev.print(png, "../text/latex/algo/images/rbc_hybrid_irf.png", width=1285, height=578)
+
 
 # Grid search to minimize SHD
 results <- data.frame()
@@ -255,18 +260,20 @@ names(results) <- c('alpha', 'shd')
 results
 
 # Constraint based structure learning
-pc_model <- pc.stable(data, blacklist = arc_bl, alpha = 0.1)
-for (lag in exo_names) {
-  pc_model <- set.arc(pc_model, lag, substr(lag, 1, nchar(lag)-2))
-}
+pc_model <- pc.stable(data, blacklist = arc_bl, alpha = 0.05)
+# for (lag in exo_names) {
+#   pc_model <- set.arc(pc_model, lag, substr(lag, 1, nchar(lag)-2))
+# }
 if (!(directed(pc_model))) {
   pc_model <- pdag2dag(pc_model, ordering=names(data))
 }
 graphviz.plot(pc_model)
-# dev.print(png, "../text/latex/empirical/images/rbc_constraint_dag.png", width=500, height=350)
+dev.print(png, "../text/latex/algo/images/rbc_constraint_dag.png", width=500, height=350)
 pc_fitted <- bn.fit(pc_model, data, replace.unidentifiable=T, zero.intercept=T)
 pc_irf <- simulate.irf(pc_fitted, data, "z", 0.66, 250)
 plot_irfs(pc_irf, model='rbc')
+dev.print(png, "../text/latex/algo/images/rbc_constraint_irf.png", width=1285, height=578)
+
 
 # RBC Manual Specification
 true_dag <- empty.graph(names(data))
