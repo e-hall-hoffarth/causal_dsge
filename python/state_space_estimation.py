@@ -94,9 +94,9 @@ else:
     raise ValueError("Source data not supported")
 
 if args.max_states:
-    max_states = min(int(args.max_states) + 1, int(len(data.columns.values)/2) - 1)
+    max_states = min(int(args.max_states) + 1, int(len(data.columns.values)/3) - 1)
 else:
-    max_states = int(len(data.columns.values)/2) - 1
+    max_states = int(len(data.columns.values)/3) - 1
 
 def test(data):
     est = estimation(data)
@@ -124,7 +124,7 @@ if repeat:
     for i in range(repeat):
         print('Iteration {}'.format(i+1))
         if n:
-            sample = data.sample(n, random_state=random_state, replace=True)
+            sample = data.sample(n, random_state=random_state*i, replace=True)
         else:
             sample = data
         result = test(sample)
