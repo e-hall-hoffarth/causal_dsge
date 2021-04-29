@@ -82,6 +82,13 @@
 \usepackage{amsmath}
 \usepackage{tikz}
 \usepackage{csvsimple}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
 \usepackage[
   backend=biber,
   style=apa,
@@ -120,7 +127,7 @@ University of Oxford \\ % Your institution for the title page
     \frametitle{Overview}
     \begin{itemize}
         \item Causal discovery uses algorithms and data to identify causal models.
-        \item Suppose that some observed data can be rationalised by some DSGE model. I use some concepts from this literature to provide a test that can be used a part of an algorithm to identify the log-linear approximation of that model.
+        \item Suppose that some observed data can be rationalised by some DSGE model. I use some concepts from this literature to provide a test and algorithm to identify the log-linear (state-space) approximation of that model.
         \item Test and algorithm are asymptotically consistent for a unique solution.
         \item Performs well in small sample simulations and real data.
     \end{itemize}
@@ -143,7 +150,7 @@ University of Oxford \\ % Your institution for the title page
         \centering
         Firm problem
         \begin{align*}
-            \max \text{ } & P_t f(L_t, ...) - W_t L_t \text{ } \forall t \\
+            \max \text{ } & P_t f(L_t, ...) - W_t L_t - ... \text{ } \forall t \\
         \end{align*}
     \end{minipage}
     \vskip 1cm
@@ -204,7 +211,7 @@ University of Oxford \\ % Your institution for the title page
 \section{Why?}
 
 \begin{frame}
-    \frametitle{Applications}
+    \frametitle{Why is this useful?}
     \begin{itemize}
         \item Reduction in the problem space
         \begin{itemize}
@@ -232,7 +239,15 @@ University of Oxford \\ % Your institution for the title page
 \begin{frame}
     \frametitle{(Massively Oversimplified) Methodology}
     \begin{itemize}
-        \item State-Space model is also a DAG, therefore, it implies a set of conditional independence relationships.
+        \item State-Space model is also a DAG, therefore, it implies a set of conditional independence relationships:
+    \end{itemize}
+    \begin{align}
+        x_t \indep x^{\prime}_{t} \,||\,& [\vec{x}_{t-1},\vec{z}_t] \text{ for all } (x_t, x^{\prime}_{t}) \in [\vec{x}_t, \vec{y}_t] \label{constraint_test:1} \\
+        x_{t-1} \indep z_{t} \,||\,& \vec{z}_{t-1} \text{ for all } x_{t-1} \in \vec{x}_{t-1} \text{ and } z_{t} \in \vec{z}_t \label{constraint_test:3} \\
+        x_t \indep z_{t-1} \,||\,& [\vec{x}_{t-1}, \vec{z}_t] \text{ for all } x_t \in [\vec{x}_t, \vec{y}_t] \text{ and } z_{t-1} \in \vec{z}_{t-1} \label{constraint_test:2} \\
+        z_t \indep z^{\prime}_{t} || \vec{z}_{t-1} & \text{ for all } z_t \not = z^{\prime}_{t} \in \vec{z}_t \label{constraint_test:4}
+    \end{align}
+    \begin{itemize}
         \item We test for these conditional independence relationships in the data.
         \item Iterate over all possible models until we find one that passes these tests.
     \end{itemize}
@@ -282,5 +297,12 @@ University of Oxford \\ % Your institution for the title page
 \end{frame}
 
 \section{Conclusion}
+
+\begin{frame}
+    \frametitle{Github}
+    \begin{center}
+        \url{https://github.com/e-hall-hoffarth/causal_dsge}
+    \end{center}
+\end{frame}
 
 \end{document}
