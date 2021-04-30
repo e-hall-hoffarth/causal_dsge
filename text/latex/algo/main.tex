@@ -10,6 +10,7 @@
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{tikz}
 \usepackage{blkarray}
+\usepackage[section]{placeins}
 \usetikzlibrary{arrows}
 \usepackage[
   backend=biber,
@@ -221,7 +222,7 @@ Fortunately, these two methods can be combined into so called \textit{hybrid} st
 
 \subsection{DSGE Models} \label{dsge}
 
-Suppose a DSGE model is defined over a set of $k$ variables in a vector $\mathbf{w}$. The solution to a log-linearised DSGE model can be written as a state space model \parencite{king1988production} that partitions $\mathbf{w}$ into three mutually exclusive vectors $\mathbf{x}$, $\mathbf{y}$, and $\mathbf{z}$. This state-space model is encapsulated in equations (\ref{ss_solution:x}) - (\ref{ss_solution:z}):
+Suppose a DSGE model is defined over a set of $k$ variables in a vector $\mathbf{w}$. The log-linear approximation to a stationary DSGE model can be written as a state space model \parencite{king1988production} that partitions $\mathbf{w}$ into three mutually exclusive vectors $\mathbf{x}$, $\mathbf{y}$, and $\mathbf{z}$. This state-space model is defined by equations (\ref{ss_solution:x}) - (\ref{ss_solution:z}):
 
 \begin{align}
   \mathbf{y}_t &= \mathbf{A} \mathbf{x}_{t-1} + \mathbf{B} \mathbf{z}_{t} \label{ss_solution:x}\\
@@ -579,7 +580,7 @@ New Keynesian models are extremely popular in modern macroeconomics and are also
   \label{tab3}
 \end{table}
 
-To provide an example of real macroeconomic time-series, quarterly data from the US during the period 1985-2005 were collected from FRED (\citeyear{fred2020data}) for 15 variables outlined in Table \ref{tab3}. All of the variables were detrended and demeaned by taking the residuals of an estimated first order autoregression. Total factor productivity and capital stock were provided on an annual basis and were therefore interpolated quadratically. Full details of data preprocessing are available in the project repository \parencite{hall2020git}.
+To provide an example of real macroeconomic time-series, quarterly data from the US during the period 1985-2005 were collected from FRED (\citeyear{fred2020data}) for 15 variables outlined in Table \ref{tab3}. All of the variables were detrended and demeaned by taking the residuals of an estimated first order autoregression (as opposed to an HP filter). Total factor productivity and capital stock were provided on an annual basis and were therefore interpolated quadratically. Full details of data preprocessing are available in the project repository \parencite{hall2020git}.
 
 Since we assume a log-linear DSGE solution we by implication assume that the data is generated from a stationary distribution with no structural breaks. This particular data set was chosen because during this timeframe that assumption is plausibly valid. In general, structural breaks are important to model correctly, however, at present incorporating these is left as an avenue for future research.
 
@@ -688,6 +689,10 @@ If we are to believe these results, then there are numerous implications for the
 
 Perhaps more difficult to reason about is why output and unemployment enter as exogenous states. But for these too some explaination can be suggested. Exogenous states are the only variables in the model which are directly exposed to shocks. Recall that these shocks are assumed to be structural or orthogonal. Assuming a Cobb-Douglas style production function the three determinants of output are TFP, labour input, and the capital input. Since unemployment (which is inversely proportional to the labour input) and TFP are already included as exogenous states, orthogonal shocks to output must be shocks to the capitial input. For example, a shock to variable capacity utilisation \parencite{driver2000capacity} seems to fit this description. Similarly, unemployment may be subject to orthogonal labor market or other policy shocks. The fact that these variables enter as exogenous states suggests that these shocks are the most important in explaining the dynamics of the macroeconomy.
 
+Figures \ref{us_zu_irfs} and \ref{us_yrm_irfs} in the appendix show IRFs for shocks to the three exogenous states, as well as to the policy rate $rm$, which is an endogenous state in the estimated state-space model and in unconditional VAR(1) model. The VAR IRFs are provided as a basic sanity check --- so that some form of comparison can be made, but there is no reason to believe that these are necessarily a good depiction of reality. Since there is not fundamental ground-truth to compare these IRFs to, much like the choice of state variables they can only be evaluated against common heuristics and \textit{stylised facts} in the literature. For example consider the response to a TFP shock. All of the IRFs from the state-space model match the direction of those from the VAR, except output and unemployment (which are exogenous and thus do not respond in the state-space model), and labour force, which reponds negatively in the state-space IRFs. Regarding the last point however, the state-space model is probably more credible than the VAR, as declining labour input as a response to technology shocks is a well documented empirical fact \parencite{gali2004technology}. Now consider the IRFs generated for a (expansionary) monetary policy shock. Again, the state-space IRFs match the direction of those from the VAR for the non-exogenous variables, except for investment, which is markedly different. The state-space predicts an expansion in investment after the monetary policy shock, whereas the VAR predicts an decrease. Again, the state-space model seems to be in agreement with emperical work in this area such as that of \citeauthor{christiano2005nominal} (\citeyear{christiano2005nominal}).
+
+The purpose of this exercise is not to argue that this is the optimal model for macroeconomic behavior in the United states, but rather, it is to demonstrate that the algorithm provides sensible results when used outside of the laboratory setting provided by the simulated data used in previous sections. Hopefully having convinced the reader of this, I will leave out any deeper analysis of the IRFs produced by this model. It is entirely possible to use this approach to estimate a model that is worthy of this deeper discussion, but this is for now left as an avenue for future research.
+
 \subsection{Alternative Approaches}
 
 This section will briefly present some other strategies suggested by the literature, which I found to be less sucessful in this application, and will briefly discuss some reasons that that was the case. For ease of comparison only results for the RBC model are shown for each approach.
@@ -793,6 +798,8 @@ Much work remains to be done however, as this study has uncovered a number of li
     (\ref{constraint_test:1}) fails because there is a direct path from $a$ to any time $t$ endogenous variable in $g$. Contradiction. 
 \end{proof}
 
+\FloatBarrier
+
 \section{Testing Validation} \label{testing_validation}
 
 \begin{table}
@@ -817,5 +824,71 @@ Much work remains to be done however, as this study has uncovered a number of li
   \caption{empirical validation of power of \citeauthor{srivastava2005some} (\citeyear{srivastava2005some}) test against data generated from a normal distribution where the off-diagonal elements of the covariance matrix all take on the value specified by \textit{correlation}.}
   \label{test_validation_power}
 \end{table}
+
+\FloatBarrier
+
+\section{Real Data IRFs} \label{real_irfs}
+
+\begin{figure}
+  \centering
+  \begin{subfigure}{0.8\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/real_data_z_irf.png} 
+    \caption{TFP (State-Space)}
+    \label{us_z_irf}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.8\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/real_data_z_var_irf.png} 
+    \caption{TFP (VAR)}
+    \label{us_z_var_irf}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.8\textwidth}
+    \includegraphics[width=\linewidth]{images/real_data_u_irf.png}
+    \caption{Unemployment (State-Space)}
+    \label{us_u_irf}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.8\textwidth}
+    \includegraphics[width=\linewidth]{images/real_data_u_var_irf.png}
+    \caption{Unemployment (VAR)}
+    \label{us_u_var_irf}
+  \end{subfigure}
+
+  \caption{IRFs to a standard deviation shock to technology and unemployment in both the estimated state-space model and an unconditional VAR(1) fit to US macroeconomic data for the period 1985-2005.}
+  \label{us_zu_irfs}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \begin{subfigure}{0.8\textwidth}
+    \includegraphics[width=\linewidth]{images/real_data_y_irf.png}
+    \caption{Real Output (State-Space)}
+    \label{us_y_irf}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.8\textwidth}
+    \includegraphics[width=\linewidth]{images/real_data_y_var_irf.png}
+    \caption{Real Output (VAR)}
+    \label{us_y_var_irf}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.8\textwidth}
+    \includegraphics[width=\linewidth]{images/real_data_rm_irf.png}
+    \caption{Federal Funds Rate (State-Space)}
+    \label{us_rm_irf}
+  \end{subfigure}
+  %
+  \begin{subfigure}{0.8\textwidth}
+    \includegraphics[width=\linewidth]{images/real_data_rm_var_irf.png}
+    \caption{Federal Funds Rate (VAR)}
+    \label{us_rm_var_irf}
+  \end{subfigure}
+
+  \caption{IRFs to a standard deviation shock to real output and the policy rate in both the estimated state-space model and an unconditional VAR(1) fit to US macroeconomic data for the period 1985-2005.}
+  \label{us_yrm_irfs}
+\end{figure}
 
 \end{document}
