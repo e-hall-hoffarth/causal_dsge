@@ -105,7 +105,7 @@ def test(data):
         for i in range(min_states, max_states):
             print('Evaluating models with {} states'.format(i))
             results = results.append(est.choose_states(i, method=method, alpha=alpha, tests=['score']), ignore_index=True)
-        results = results.sort_values(by='bic', ascending=True)
+        results = results.sort_values(by='bic', ascending=False)
         return results
     else:
         for i in range(min_states, max_states):
