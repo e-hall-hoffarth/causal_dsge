@@ -30,6 +30,13 @@
 !/text/latex/algo/files/*
 !/text/latex/algo/*.tex
 !/text/latex/algo/*.bib
+/text/latex/pub/*
+!/text/latex/pub/images
+!/text/latex/pub/images/*
+!/text/latex/pub/files
+!/text/latex/pub/files/*
+!/text/latex/pub/*.tex
+!/text/latex/pub/*.bib
 /archive/latex/proposal/*
 !/archive/latex/proposal/images
 !/archive/latex/proposal/images/*

@@ -1,0 +1,16 @@
+index,exostates,endostates,wins,valid
+1,a   nu   z,p,753,999
+2,a   mu   nu,p,90,183
+3,a   nu   w   real,p,72,217
+4,m   real   nu   z,p,20,670
+5,m   real   nu   r   nat,p,18,63
+6,a   nu   r   nat,p,18,966
+7,nu   pi   y,p,14,375
+8,a   r   real   w   real,p,4,6
+9,a   nu   p   z,,3,1000
+10,a   mu   nu   p,,2,181
+11,mu   nu   y,p,2,240
+12,a   n   nu,p,1,183
+13,a   mu   r   real,p,1,2
+14,nu   y   z,p,1,26
+15,i   nu   y,p,1,742

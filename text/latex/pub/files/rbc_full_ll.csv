@@ -1,0 +1,12 @@
+index,endostates,exostates,loglik
+1,,k   g   r,19490138.70
+2,y   c,k   z   g,19477436.32
+3,y   c   z   r,k   g   i,19459969.45
+4,y   l   r   i,k   z   g,19450590.03
+5,i,k   z   g,19448489.62
+6,c   l   z,k   g   i,19447374.64
+7,y   c   l   i,k   z   g,19438489.22
+8,c   z   r   w,k   g   i,19424714.81
+9,y   c   l   r,k   z   g,19416553.82
+10,y   c   r   i,k   z   g,19411841.94
+
